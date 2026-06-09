@@ -1,0 +1,537 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>F8 Design System</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Cormorant+Garamond:wght@300;400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/phosphor-icons@1.4.2/src/css/icons.css">
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <header class="topbar">
+    <div class="brand">
+      <div class="mark">8</div>
+      <div>
+        <div class="brand-name">F8</div>
+        <div class="brand-tag">Design system v2</div>
+      </div>
+    </div>
+    <nav class="nav">
+      <a href="index.html">Home</a>
+      <a href="dashboard.html">Dashboard</a>
+      <a href="features.html">Features</a>
+      <a href="design-system.html">Design System</a>
+    </nav>
+    <button class="ghost-btn" id="toggleTheme">Toggle Mode</button>
+  </header>
+
+  <main class="page-shell">
+
+    <!-- ── Page header ──────────────────────────────── -->
+    <section class="section-head reveal">
+      <p class="eyebrow">Tokens · Icons · Typography</p>
+      <h1>Visual rules for the F8 experience.</h1>
+      <p style="color:var(--text-2);max-width:600px;line-height:1.7;margin-bottom:8px">
+        v2.0 updates the colour palette to differentiate F8 from investment-fund aesthetics
+        and introduce a dual-temperature system: Forest Night for corporate depth,
+        Warm Canvas for MSME warmth. Fonts remain unchanged — Cormorant Garamond for
+        display, Inter for all UI text.
+      </p>
+    </section>
+
+    <!-- ── Primary palette ──────────────────────────── -->
+    <section style="margin-bottom:48px">
+      <p class="eyebrow" style="margin-bottom:16px">Primary palette — v2.0</p>
+
+      <div class="swatch-grid">
+
+        <div class="swatch forest reveal">
+          <span>#0B1F14</span>
+          <div>
+            <strong>Forest Night</strong>
+            <p style="font-size:12px;margin:4px 0 0;opacity:.7">
+              Dark surfaces · card face · navigation bar · corporate depth
+            </p>
+          </div>
+        </div>
+
+        <div class="swatch flame reveal">
+          <span>#E07833</span>
+          <div>
+            <strong>Mara Flame</strong>
+            <p style="font-size:12px;margin:4px 0 0;opacity:.7">
+              Primary CTA · active states · brand mark · limit milestones
+            </p>
+          </div>
+        </div>
+
+        <div class="swatch green reveal">
+          <span>#00966A</span>
+          <div>
+            <strong>Living Green</strong>
+            <p style="font-size:12px;margin:4px 0 0;opacity:.7">
+              Approvals · growth · eTims compliance · positive KPI movement
+            </p>
+          </div>
+        </div>
+
+        <div class="swatch terracotta reveal">
+          <span>#B85C38</span>
+          <div>
+            <strong>Terracotta</strong>
+            <p style="font-size:12px;margin:4px 0 0;opacity:.8">
+              Cultural anchor · alerts · errors · Branch branding
+            </p>
+          </div>
+        </div>
+
+        <div class="swatch canvas reveal">
+          <span>#FAF5EC</span>
+          <div>
+            <strong>Warm Canvas</strong>
+            <p style="font-size:12px;margin:4px 0 0;opacity:.7">
+              MSME light mode base · email body · onboarding screens
+            </p>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ── Supporting tokens ─────────────────────────── -->
+    <section style="margin-bottom:48px">
+      <p class="eyebrow" style="margin-bottom:16px">Supporting tokens</p>
+      <div class="token-grid">
+
+        <article class="panel reveal">
+          <p class="eyebrow" style="margin-bottom:12px">Forest surfaces (dark)</p>
+          <div style="display:flex;flex-direction:column;gap:8px">
+            <div style="display:flex;align-items:center;gap:10px">
+              <div style="width:32px;height:32px;border-radius:8px;background:#0B1F14;border:1px solid #1F4D35;flex-shrink:0"></div>
+              <div><code style="font-size:12px;color:var(--gold)">#0B1F14</code> <span style="font-size:13px;color:var(--text-2)">Forest Night — bg</span></div>
+            </div>
+            <div style="display:flex;align-items:center;gap:10px">
+              <div style="width:32px;height:32px;border-radius:8px;background:#163320;border:1px solid #1F4D35;flex-shrink:0"></div>
+              <div><code style="font-size:12px;color:var(--gold)">#163320</code> <span style="font-size:13px;color:var(--text-2)">Forest Mid — surface</span></div>
+            </div>
+            <div style="display:flex;align-items:center;gap:10px">
+              <div style="width:32px;height:32px;border-radius:8px;background:#1F4D35;flex-shrink:0"></div>
+              <div><code style="font-size:12px;color:var(--gold)">#1F4D35</code> <span style="font-size:13px;color:var(--text-2)">Forest Light — borders</span></div>
+            </div>
+          </div>
+        </article>
+
+        <article class="panel reveal">
+          <p class="eyebrow" style="margin-bottom:12px">Canvas surfaces (light)</p>
+          <div style="display:flex;flex-direction:column;gap:8px">
+            <div style="display:flex;align-items:center;gap:10px">
+              <div style="width:32px;height:32px;border-radius:8px;background:#FAF5EC;border:1px solid #D4BFA4;flex-shrink:0"></div>
+              <div><code style="font-size:12px;color:var(--gold)">#FAF5EC</code> <span style="font-size:13px;color:var(--text-2)">Warm Canvas — bg</span></div>
+            </div>
+            <div style="display:flex;align-items:center;gap:10px">
+              <div style="width:32px;height:32px;border-radius:8px;background:#F0E8D8;border:1px solid #D4BFA4;flex-shrink:0"></div>
+              <div><code style="font-size:12px;color:var(--gold)">#F0E8D8</code> <span style="font-size:13px;color:var(--text-2)">Canvas Mid — surface</span></div>
+            </div>
+            <div style="display:flex;align-items:center;gap:10px">
+              <div style="width:32px;height:32px;border-radius:8px;background:#D4BFA4;flex-shrink:0"></div>
+              <div><code style="font-size:12px;color:var(--gold)">#D4BFA4</code> <span style="font-size:13px;color:var(--text-2)">Warm Sand — borders</span></div>
+            </div>
+          </div>
+        </article>
+
+        <article class="panel reveal">
+          <p class="eyebrow" style="margin-bottom:12px">Text &amp; neutrals</p>
+          <div style="display:flex;flex-direction:column;gap:8px">
+            <div style="display:flex;align-items:center;gap:10px">
+              <div style="width:32px;height:32px;border-radius:8px;background:#FFFFFF;border:1px solid #1F4D35;flex-shrink:0"></div>
+              <div><code style="font-size:12px;color:var(--gold)">#FFFFFF</code> <span style="font-size:13px;color:var(--text-2)">White — primary on dark</span></div>
+            </div>
+            <div style="display:flex;align-items:center;gap:10px">
+              <div style="width:32px;height:32px;border-radius:8px;background:#D4BFA4;flex-shrink:0"></div>
+              <div><code style="font-size:12px;color:var(--gold)">#D4BFA4</code> <span style="font-size:13px;color:var(--text-2)">Warm Sand — secondary text</span></div>
+            </div>
+            <div style="display:flex;align-items:center;gap:10px">
+              <div style="width:32px;height:32px;border-radius:8px;background:#8C7B6E;flex-shrink:0"></div>
+              <div><code style="font-size:12px;color:var(--gold)">#8C7B6E</code> <span style="font-size:13px;color:var(--text-2)">Warm Stone — muted text</span></div>
+            </div>
+            <div style="display:flex;align-items:center;gap:10px">
+              <div style="width:32px;height:32px;border-radius:8px;background:#2C1909;flex-shrink:0"></div>
+              <div><code style="font-size:12px;color:var(--gold)">#2C1909</code> <span style="font-size:13px;color:var(--text-2)">Deep Earth — text on canvas &amp; flame</span></div>
+            </div>
+            <div style="display:flex;align-items:center;gap:10px">
+              <div style="width:32px;height:32px;border-radius:8px;background:#F0C05A;flex-shrink:0"></div>
+              <div><code style="font-size:12px;color:var(--gold)">#F0C05A</code> <span style="font-size:13px;color:var(--text-2)">Harvest Gold — secondary accent</span></div>
+            </div>
+          </div>
+        </article>
+
+      </div>
+    </section>
+
+    <!-- ── Semantic states ───────────────────────────── -->
+    <section style="margin-bottom:48px">
+      <p class="eyebrow" style="margin-bottom:16px">Semantic states</p>
+      <div class="token-grid">
+
+        <article class="panel reveal" style="border-left:3px solid #00966A">
+          <p class="eyebrow" style="color:#00966A;margin-bottom:8px">Success / Growth</p>
+          <p style="font-size:14px;color:var(--text-2);line-height:1.6;margin-bottom:12px">
+            Approvals, credit growth, on-time payment, eTims compliance, positive KPI movement.
+            Living Green on dark — <code style="font-size:12px;color:var(--gold)">#00966A</code>.
+          </p>
+          <span class="status-pill success">Healthy</span>
+        </article>
+
+        <article class="panel reveal" style="border-left:3px solid #E07833">
+          <p class="eyebrow" style="color:#E07833;margin-bottom:8px">Warning / Attention</p>
+          <p style="font-size:14px;color:var(--text-2);line-height:1.6;margin-bottom:12px">
+            Non-blocking: payment due, receipt missing, credit approaching limit, subscription renewal.
+            Mara Flame — <code style="font-size:12px;color:var(--gold)">#E07833</code>.
+          </p>
+          <span class="status-pill" style="background:rgba(224,120,51,.16);color:#F0A878;border-color:rgba(224,120,51,.35)">Due in 3 days</span>
+        </article>
+
+        <article class="panel reveal" style="border-left:3px solid #B85C38">
+          <p class="eyebrow" style="color:#B85C38;margin-bottom:8px">Error / Alert</p>
+          <p style="font-size:14px;color:var(--text-2);line-height:1.6;margin-bottom:12px">
+            Payment failure, card declined, upload failed. Always paired with a next step.
+            Terracotta — <code style="font-size:12px;color:var(--gold)">#B85C38</code>.
+          </p>
+          <span class="status-pill" style="background:rgba(184,92,56,.16);color:#E8906A;border-color:rgba(184,92,56,.35)">Declined</span>
+        </article>
+
+      </div>
+    </section>
+
+    <!-- ── Typography ────────────────────────────────── -->
+    <section style="margin-bottom:48px">
+      <p class="eyebrow" style="margin-bottom:16px">Typography</p>
+      <div class="token-grid">
+
+        <article class="panel reveal" style="grid-column:span 2">
+          <p class="eyebrow" style="margin-bottom:16px">Type scale</p>
+          <div style="display:flex;flex-direction:column;gap:20px">
+
+            <div style="border-bottom:1px solid var(--border);padding-bottom:16px">
+              <p style="font-size:11px;color:var(--muted);text-transform:uppercase;letter-spacing:.08em;margin-bottom:6px">
+                Display — Cormorant Garamond 300 · hero, onboarding, Branch signage
+              </p>
+              <div style="font-family:'Cormorant Garamond',serif;font-weight:300;font-size:clamp(36px,5vw,60px);line-height:1.05;color:var(--text)">
+                Backing Ambition.
+              </div>
+            </div>
+
+            <div style="border-bottom:1px solid var(--border);padding-bottom:16px">
+              <p style="font-size:11px;color:var(--muted);text-transform:uppercase;letter-spacing:.08em;margin-bottom:6px">
+                H1 — Inter 500 · 28–72px · page titles
+              </p>
+              <div style="font-family:'Inter',sans-serif;font-weight:500;font-size:clamp(28px,4vw,48px);line-height:1.15;color:var(--text)">
+                Dashboard
+              </div>
+            </div>
+
+            <div style="border-bottom:1px solid var(--border);padding-bottom:16px">
+              <p style="font-size:11px;color:var(--muted);text-transform:uppercase;letter-spacing:.08em;margin-bottom:6px">
+                H2 — Inter 500 · 22px · section headings
+              </p>
+              <div style="font-family:'Inter',sans-serif;font-weight:500;font-size:22px;line-height:1.3;color:var(--text)">
+                Credit &amp; Working Capital
+              </div>
+            </div>
+
+            <div style="border-bottom:1px solid var(--border);padding-bottom:16px">
+              <p style="font-size:11px;color:var(--muted);text-transform:uppercase;letter-spacing:.08em;margin-bottom:6px">
+                Body large — Inter 400 · 16px · primary reading copy
+              </p>
+              <div style="font-family:'Inter',sans-serif;font-weight:400;font-size:16px;line-height:1.6;color:var(--text-2);max-width:480px">
+                Your revolving facility replenishes automatically as you repay. No reapplication, no paperwork, no branch visit.
+              </div>
+            </div>
+
+            <div style="border-bottom:1px solid var(--border);padding-bottom:16px">
+              <p style="font-size:11px;color:var(--muted);text-transform:uppercase;letter-spacing:.08em;margin-bottom:6px">
+                Body small — Inter 400 · 13px · metadata
+              </p>
+              <div style="font-family:'Inter',sans-serif;font-weight:400;font-size:13px;color:var(--muted)">
+                Transaction recorded · 14 May 2026 · 09:41 AM
+              </div>
+            </div>
+
+            <div>
+              <p style="font-size:11px;color:var(--muted);text-transform:uppercase;letter-spacing:.08em;margin-bottom:6px">
+                Financial figures — Inter 700 · tabular-nums · always with KES prefix
+              </p>
+              <div style="font-family:'Inter',sans-serif;font-weight:700;font-size:32px;line-height:1.1;color:var(--text);font-variant-numeric:tabular-nums">
+                KES 95,000
+              </div>
+            </div>
+
+          </div>
+        </article>
+
+        <article class="panel reveal">
+          <p class="eyebrow" style="margin-bottom:12px">Typeface roles</p>
+
+          <div style="margin-bottom:20px">
+            <p style="font-size:13px;font-weight:600;color:var(--text);margin-bottom:4px">
+              Cormorant Garamond
+            </p>
+            <p style="font-size:13px;color:var(--text-2);line-height:1.6;margin-bottom:8px">
+              Display-only. Hero headlines, onboarding welcome, Society Branch signage, card face brand mark.
+              Weights 300 and 500 only. Never in body copy or UI components.
+            </p>
+            <div style="font-family:'Cormorant Garamond',serif;font-weight:300;font-size:28px;color:var(--gold)">
+              F8 Bank
+            </div>
+          </div>
+
+          <div style="border-top:1px solid var(--border);padding-top:16px">
+            <p style="font-size:13px;font-weight:600;color:var(--text);margin-bottom:4px">Inter</p>
+            <p style="font-size:13px;color:var(--text-2);line-height:1.6;margin-bottom:8px">
+              All UI text. Designed for screen legibility at small sizes.
+              Weights 400, 500, 600, 700. Tabular numerals for all financial data.
+            </p>
+            <div style="display:flex;flex-direction:column;gap:4px">
+              <span style="font-weight:400;font-size:14px;color:var(--text-2)">Regular 400 — body copy</span>
+              <span style="font-weight:500;font-size:14px;color:var(--text)">Medium 500 — labels</span>
+              <span style="font-weight:600;font-size:14px;color:var(--text)">SemiBold 600 — emphasis</span>
+              <span style="font-weight:700;font-size:14px;color:var(--text)">Bold 700 — figures, CTAs</span>
+            </div>
+          </div>
+        </article>
+
+      </div>
+    </section>
+
+    <!-- ── Iconography ───────────────────────────────── -->
+    <section style="margin-bottom:48px">
+      <p class="eyebrow" style="margin-bottom:16px">Iconography</p>
+      <div class="token-grid">
+
+        <article class="panel reveal">
+          <p style="font-size:15px;font-weight:600;color:var(--text);margin-bottom:8px">Library</p>
+          <p style="font-size:13px;color:var(--text-2);line-height:1.6;margin-bottom:16px">
+            Phosphor Icons — Regular weight (1.5px stroke). One library only; no mixing with other icon sets, no emoji in UI.
+          </p>
+          <div style="display:flex;gap:16px;flex-wrap:wrap">
+            <i class="ph ph-credit-card" style="font-size:28px;color:var(--gold)"></i>
+            <i class="ph ph-bank" style="font-size:28px;color:var(--gold)"></i>
+            <i class="ph ph-receipt" style="font-size:28px;color:var(--gold)"></i>
+            <i class="ph ph-shield-check" style="font-size:28px;color:var(--gold)"></i>
+            <i class="ph ph-users-three" style="font-size:28px;color:var(--gold)"></i>
+            <i class="ph ph-chart-line-up" style="font-size:28px;color:var(--gold)"></i>
+            <i class="ph ph-bell-ringing" style="font-size:28px;color:var(--gold)"></i>
+            <i class="ph ph-arrows-clockwise" style="font-size:28px;color:var(--gold)"></i>
+          </div>
+        </article>
+
+        <article class="panel reveal">
+          <p style="font-size:15px;font-weight:600;color:var(--text);margin-bottom:8px">Sizes</p>
+          <div style="display:flex;flex-direction:column;gap:14px">
+            <div style="display:flex;align-items:center;gap:14px">
+              <i class="ph ph-credit-card" style="font-size:16px;color:var(--gold);flex-shrink:0"></i>
+              <span style="font-size:13px;color:var(--text-2)">16px — inline text, metadata</span>
+            </div>
+            <div style="display:flex;align-items:center;gap:14px">
+              <i class="ph ph-credit-card" style="font-size:20px;color:var(--gold);flex-shrink:0"></i>
+              <span style="font-size:13px;color:var(--text-2)">20px — list items, form icons</span>
+            </div>
+            <div style="display:flex;align-items:center;gap:14px">
+              <i class="ph ph-credit-card" style="font-size:24px;color:var(--gold);flex-shrink:0"></i>
+              <span style="font-size:13px;color:var(--text-2)">24px — navigation, primary actions</span>
+            </div>
+            <div style="display:flex;align-items:center;gap:14px">
+              <i class="ph ph-credit-card" style="font-size:32px;color:var(--gold);flex-shrink:0"></i>
+              <span style="font-size:13px;color:var(--text-2)">32px — feature highlights, empty states</span>
+            </div>
+          </div>
+        </article>
+
+        <article class="panel reveal">
+          <p style="font-size:15px;font-weight:600;color:var(--text);margin-bottom:8px">Colour contexts</p>
+          <div style="display:flex;flex-direction:column;gap:12px">
+            <div style="display:flex;align-items:center;gap:12px">
+              <i class="ph ph-check-circle" style="font-size:22px;color:#00966A;flex-shrink:0"></i>
+              <span style="font-size:13px;color:var(--text-2)">Living Green — success / approved</span>
+            </div>
+            <div style="display:flex;align-items:center;gap:12px">
+              <i class="ph ph-warning-circle" style="font-size:22px;color:#E07833;flex-shrink:0"></i>
+              <span style="font-size:13px;color:var(--text-2)">Mara Flame — warning / attention</span>
+            </div>
+            <div style="display:flex;align-items:center;gap:12px">
+              <i class="ph ph-x-circle" style="font-size:22px;color:#B85C38;flex-shrink:0"></i>
+              <span style="font-size:13px;color:var(--text-2)">Terracotta — error / declined</span>
+            </div>
+            <div style="display:flex;align-items:center;gap:12px">
+              <i class="ph ph-clock-countdown" style="font-size:22px;color:var(--muted);flex-shrink:0"></i>
+              <span style="font-size:13px;color:var(--text-2)">Warm Stone — neutral / pending</span>
+            </div>
+          </div>
+        </article>
+
+      </div>
+    </section>
+
+    <!-- ── Motion ────────────────────────────────────── -->
+    <section style="margin-bottom:48px">
+      <p class="eyebrow" style="margin-bottom:16px">Motion</p>
+      <div class="token-grid">
+
+        <article class="panel reveal">
+          <p style="font-size:15px;font-weight:600;color:var(--text);margin-bottom:8px">Reveal</p>
+          <p style="font-size:13px;color:var(--text-2);line-height:1.6">
+            <code style="font-size:12px;color:var(--gold)">.reveal</code> — opacity 0 + translateY(18px) → visible on intersection.
+            Duration 700ms ease. Applied to every card, section, and content block.
+          </p>
+        </article>
+
+        <article class="panel reveal">
+          <p style="font-size:15px;font-weight:600;color:var(--text);margin-bottom:8px">Durations</p>
+          <div style="display:flex;flex-direction:column;gap:8px">
+            <div style="display:flex;justify-content:space-between;font-size:13px">
+              <span style="color:var(--text-2)">Micro (button press)</span>
+              <code style="color:var(--gold)">80ms ease-out</code>
+            </div>
+            <div style="display:flex;justify-content:space-between;font-size:13px">
+              <span style="color:var(--text-2)">Fast (dropdown, tooltip)</span>
+              <code style="color:var(--gold)">150ms ease-in-out</code>
+            </div>
+            <div style="display:flex;justify-content:space-between;font-size:13px">
+              <span style="color:var(--text-2)">Standard (screen, modal)</span>
+              <code style="color:var(--gold)">250ms ease-in-out</code>
+            </div>
+            <div style="display:flex;justify-content:space-between;font-size:13px">
+              <span style="color:var(--text-2)">Reveal (scroll trigger)</span>
+              <code style="color:var(--gold)">700ms ease</code>
+            </div>
+          </div>
+        </article>
+
+        <article class="panel reveal">
+          <p style="font-size:15px;font-weight:600;color:var(--text);margin-bottom:8px">Rules</p>
+          <ul style="padding-left:18px;color:var(--text-2);font-size:13px;line-height:1.9;margin:0">
+            <li>Never animate a transaction amount — show new value instantly</li>
+            <li>No looping animations on financial data screens</li>
+            <li>Always respect <code style="color:var(--gold)">prefers-reduced-motion</code></li>
+            <li>Scroll-progress bar: Flame → Living Green gradient</li>
+          </ul>
+        </article>
+
+      </div>
+    </section>
+
+    <!-- ── Layout ─────────────────────────────────────── -->
+    <section style="margin-bottom:48px">
+      <p class="eyebrow" style="margin-bottom:16px">Layout &amp; spacing</p>
+      <div class="token-grid">
+
+        <article class="panel reveal">
+          <p style="font-size:15px;font-weight:600;color:var(--text);margin-bottom:8px">Grid</p>
+          <p style="font-size:13px;color:var(--text-2);line-height:1.6">
+            Mobile-first. 4-column mobile · 12-column desktop. Max content width 1200px.
+            Outer padding: <code style="color:var(--gold)">clamp(16px, 3vw, 24px)</code>.
+          </p>
+        </article>
+
+        <article class="panel reveal">
+          <p style="font-size:15px;font-weight:600;color:var(--text);margin-bottom:8px">Base unit</p>
+          <p style="font-size:13px;color:var(--text-2);line-height:1.6">
+            4px. All spacing is a multiple of 4: 4, 8, 12, 16, 20, 24, 32, 40, 48, 64, 80.
+            Border radius: <code style="color:var(--gold)">16px</code> cards, <code style="color:var(--gold)">12px</code> list items,
+            <code style="color:var(--gold)">999px</code> pills and buttons.
+          </p>
+        </article>
+
+        <article class="panel reveal">
+          <p style="font-size:15px;font-weight:600;color:var(--text);margin-bottom:8px">Touch targets</p>
+          <p style="font-size:13px;color:var(--text-2);line-height:1.6">
+            Minimum 44×44px for all interactive elements.
+            Financial action buttons minimum 48×48px.
+          </p>
+        </article>
+
+      </div>
+    </section>
+
+    <!-- ── What changed in v2 ─────────────────────────── -->
+    <section style="margin-bottom:48px">
+      <p class="eyebrow" style="margin-bottom:16px">What changed from v1 → v2</p>
+      <div class="token-grid">
+
+        <article class="panel reveal" style="border-left:3px solid #B85C38">
+          <p style="font-size:13px;font-weight:600;color:var(--text);margin-bottom:8px">Retired</p>
+          <div style="display:flex;flex-direction:column;gap:10px">
+            <div style="display:flex;align-items:center;gap:10px">
+              <div style="width:24px;height:24px;border-radius:6px;background:#0D1117;border:1px solid #3D4456;flex-shrink:0"></div>
+              <span style="font-size:13px;color:var(--text-2)">Obsidian <code>#0D1117</code> — too close to Mansa X</span>
+            </div>
+            <div style="display:flex;align-items:center;gap:10px">
+              <div style="width:24px;height:24px;border-radius:6px;background:#C9A84C;flex-shrink:0"></div>
+              <span style="font-size:13px;color:var(--text-2)">F8 Gold <code>#C9A84C</code> — cool metallic gold = investment fund</span>
+            </div>
+            <div style="display:flex;align-items:center;gap:10px">
+              <div style="width:24px;height:24px;border-radius:6px;background:#1A7A5E;flex-shrink:0"></div>
+              <span style="font-size:13px;color:var(--text-2)">Deep Jade <code>#1A7A5E</code> — generic fintech green</span>
+            </div>
+          </div>
+        </article>
+
+        <article class="panel reveal" style="border-left:3px solid #00966A">
+          <p style="font-size:13px;font-weight:600;color:var(--text);margin-bottom:8px">Introduced</p>
+          <div style="display:flex;flex-direction:column;gap:10px">
+            <div style="display:flex;align-items:center;gap:10px">
+              <div style="width:24px;height:24px;border-radius:6px;background:#0B1F14;border:1px solid #1F4D35;flex-shrink:0"></div>
+              <span style="font-size:13px;color:var(--text-2)">Forest Night <code>#0B1F14</code> — green-black, Kenyan landscape</span>
+            </div>
+            <div style="display:flex;align-items:center;gap:10px">
+              <div style="width:24px;height:24px;border-radius:6px;background:#E07833;flex-shrink:0"></div>
+              <span style="font-size:13px;color:var(--text-2)">Mara Flame <code>#E07833</code> — warm amber, Rift Valley sunrise</span>
+            </div>
+            <div style="display:flex;align-items:center;gap:10px">
+              <div style="width:24px;height:24px;border-radius:6px;background:#00966A;flex-shrink:0"></div>
+              <span style="font-size:13px;color:var(--text-2)">Living Green <code>#00966A</code> — digital-native, Silicon Savanna</span>
+            </div>
+            <div style="display:flex;align-items:center;gap:10px">
+              <div style="width:24px;height:24px;border-radius:6px;background:#FAF5EC;border:1px solid #D4BFA4;flex-shrink:0"></div>
+              <span style="font-size:13px;color:var(--text-2)">Warm Canvas <code>#FAF5EC</code> — MSME light mode, new addition</span>
+            </div>
+          </div>
+        </article>
+
+        <article class="panel reveal" style="border-left:3px solid #E07833">
+          <p style="font-size:13px;font-weight:600;color:var(--text);margin-bottom:8px">Unchanged</p>
+          <div style="display:flex;flex-direction:column;gap:10px">
+            <div style="display:flex;align-items:center;gap:10px">
+              <div style="width:24px;height:24px;border-radius:6px;background:#B85C38;flex-shrink:0"></div>
+              <span style="font-size:13px;color:var(--text-2)">Terracotta <code>#B85C38</code> — cultural anchor, Maasai ochre</span>
+            </div>
+            <div style="display:flex;align-items:center;gap:10px">
+              <i class="ph ph-text-aa" style="font-size:22px;color:var(--gold);flex-shrink:0;width:24px"></i>
+              <span style="font-size:13px;color:var(--text-2)">Cormorant Garamond — display typeface</span>
+            </div>
+            <div style="display:flex;align-items:center;gap:10px">
+              <i class="ph ph-text-aa" style="font-size:22px;color:var(--gold);flex-shrink:0;width:24px"></i>
+              <span style="font-size:13px;color:var(--text-2)">Inter — UI typeface (all weights)</span>
+            </div>
+            <div style="display:flex;align-items:center;gap:10px">
+              <i class="ph ph-compass" style="font-size:22px;color:var(--gold);flex-shrink:0;width:24px"></i>
+              <span style="font-size:13px;color:var(--text-2)">Phosphor Icons — icon library</span>
+            </div>
+          </div>
+        </article>
+
+      </div>
+    </section>
+
+  </main>
+
+  <footer class="footer page-shell">
+    <p>F8 Bank — Design System v2.0 · Confidential visual concept for pilot exploration.</p>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>

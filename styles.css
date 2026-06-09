@@ -1,0 +1,390 @@
+/* ─────────────────────────────────────────────────────────
+   F8 Bank — Design Tokens v2.0
+   Palette: Forest Night · Mara Flame · Living Green · Terracotta · Warm Canvas
+   Fonts:   Cormorant Garamond (display) · Inter (UI)  — unchanged from v1
+   ───────────────────────────────────────────────────────── */
+
+:root{
+  /* ── Dark surface (Forest Night) ── */
+  --bg:      #0B1F14;   /* Forest Night  — was Obsidian          */
+  --surface: #163320;   /* Forest Mid    — was Ink                */
+  --text:    #FFFFFF;
+  --text-2:  #D4BFA4;   /* Warm Sand     — was Mist               */
+  --muted:   #8C7B6E;   /* Warm Stone    — was Slate              */
+  --border:  #1F4D35;   /* Forest Light  — was Steel              */
+
+  /* ── Brand accents ── */
+  --gold:       #E07833;  /* Mara Flame    — was F8 Gold            */
+  --jade:       #00966A;  /* Living Green  — was Deep Jade         */
+  --terracotta: #B85C38;  /* Terracotta    — unchanged                     */
+
+  /* ── New v2 tokens ── */
+  --earth:   #2C1909;   /* Deep Earth    — text on Flame / Canvas         */
+  --canvas:  #FAF5EC;   /* Warm Canvas   — MSME light base                */
+  --canvas-mid:#F0E8D8; /* Canvas Mid    — light surface variant          */
+  --sand:    #D4BFA4;   /* Warm Sand     — borders on Canvas              */
+  --stone:   #8C7B6E;   /* Warm Stone    — alias for --muted              */
+  --harvest: #F0C05A;   /* Harvest Gold  — secondary warm accent          */
+  --forest-light:#1F4D35;
+  --flame-lt:#FDEADB;
+  --green-lt:#D4F0E5;
+
+  --max:    1200px;
+  --radius: 16px;
+  --shadow: 0 24px 60px rgba(0,0,0,.35);
+}
+
+/* ─── RESET ──────────────────────────────────────────── */
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+
+body{
+  margin:0;
+  font-family:Inter,system-ui,sans-serif;
+  /* Subtle Mara Flame radial glow at top — replaces old accent gradient*/
+  background:radial-gradient(circle at top, rgba(224,120,51,.06), transparent 26%), var(--bg);
+  color:var(--text);
+  overflow-x:hidden;
+}
+
+/* ── Light mode (Warm Canvas) ───────────────────────── */
+body.light{
+  --bg:     #FAF5EC;   /* Warm Canvas                                     */
+  --surface:#F0E8D8;   /* Canvas Mid                                      */
+  --text:   #2C1909;   /* Deep Earth                                      */
+  --text-2: #8C7B6E;   /* Warm Stone                                      */
+  --muted:  #8C7B6E;
+  --border: #D4BFA4;   /* Warm Sand                                       */
+  background:linear-gradient(180deg, #FAF5EC, #F0E8D8);
+}
+
+/* ─── LAYOUT ─────────────────────────────────────────── */
+.page-shell{max-width:var(--max); margin:0 auto; padding:clamp(16px,3vw,24px)}
+
+/* ─── TOPBAR ─────────────────────────────────────────── */
+.topbar{
+  position:sticky; top:0; z-index:30;
+  backdrop-filter:blur(16px);
+  background:color-mix(in srgb, var(--bg) 82%, transparent);
+  border-bottom:1px solid color-mix(in srgb, var(--border) 80%, transparent);
+  display:flex; align-items:center; justify-content:space-between; gap:16px;
+  padding:14px clamp(16px,3vw,24px);
+}
+
+.brand{display:flex; align-items:center; gap:14px}
+.mark{
+  width:44px; height:44px; border-radius:14px;
+  background:var(--gold);
+  color:var(--earth);          /* Deep Earth on Flame */
+  display:grid; place-items:center; font-weight:800; font-size:24px;
+}
+.brand-name{font-weight:800; letter-spacing:.08em}
+.brand-tag{font-size:12px; color:var(--text-2)}
+
+/* ─── NAVIGATION ─────────────────────────────────────── */
+.nav{display:flex; gap:18px; flex-wrap:wrap}
+.nav a{color:var(--text-2); text-decoration:none; font-size:14px}
+.nav a:hover{color:var(--gold)}
+
+/* ─── BUTTONS ────────────────────────────────────────── */
+.ghost-btn,.primary-btn,.secondary-btn{
+  border:none; cursor:pointer; text-decoration:none;
+  display:inline-flex; align-items:center; justify-content:center;
+  border-radius:999px; padding:12px 18px; font-weight:700;
+}
+.ghost-btn{background:transparent; color:var(--text); border:1px solid var(--border)}
+.primary-btn{
+  background:var(--gold);
+  color:var(--earth);          /* Deep Earth on Flame */
+}
+.secondary-btn{background:transparent; color:var(--text); border:1px solid var(--border)}
+
+/* ─── GRID WRAPPERS ──────────────────────────────────── */
+.hero,.dashboard-grid,.feature-catalog,.token-grid,.pillar-grid,.swatch-grid{
+  display:grid; gap:14px;
+}
+.hero{
+  grid-template-columns:minmax(0,1.1fr) minmax(0,.9fr);
+  align-items:center;
+  padding:clamp(28px,5vw,64px) 0;
+}
+
+/* ─── TYPOGRAPHY ─────────────────────────────────────── */
+.eyebrow{
+  text-transform:uppercase; letter-spacing:.14em; font-size:12px;
+  color:var(--gold); margin:0 0 12px;
+}
+h1,h2,h3,p{margin-top:0}
+h1{
+  font-size:clamp(42px,6vw,72px);
+  line-height:1.02;
+  margin-bottom:18px;
+  font-family:"Cormorant Garamond", serif;
+  font-weight:500;
+}
+
+.hero-text,.pillar p,.feature-card p,.panel p,.muted{
+  color:var(--text-2); line-height:1.7;
+}
+.hero-actions{display:flex; gap:12px; flex-wrap:wrap; margin:28px 0}
+.hero-metrics{
+  display:grid; grid-template-columns:repeat(3,minmax(0,1fr));
+  gap:12px; margin-top:18px;
+}
+
+/* ─── CARDS / SURFACES ───────────────────────────────── */
+.metric-card,.pillar,.feature-card,.panel,.swatch{
+  /* Subtle depth layer — Forest Mid lifts slightly from Forest Night */
+  background:linear-gradient(180deg, rgba(255,255,255,.02), rgba(255,255,255,0)), var(--surface);
+  border:1px solid var(--border);
+  border-radius:var(--radius);
+  box-shadow:var(--shadow);
+}
+.metric-card,.pillar,.feature-card,.panel,.swatch{padding:20px}
+
+.metric-label{
+  display:block; font-size:12px; color:var(--muted);
+  margin:8px 0 6px; text-transform:uppercase; letter-spacing:.08em;
+}
+.metric-value{font-weight:700; line-height:1.35}
+
+/* ─── PANEL INTERNALS ────────────────────────────────── */
+.card-top,.panel-head,.credit-display{
+  display:flex; justify-content:space-between; gap:16px; align-items:flex-start;
+}
+.card-label,.card-sub{
+  color:var(--muted); text-transform:uppercase; font-size:11px; letter-spacing:.12em;
+}
+.mock-card h2,.panel h2{font-size:clamp(26px,4vw,42px); margin:4px 0 0}
+
+/* ─── PROGRESS BAR ───────────────────────────────────── */
+.progress{
+  height:10px; border-radius:999px;
+  background:rgba(255,255,255,.08);
+  margin:18px 0 20px; overflow:hidden;
+}
+.progress-fill{
+  height:100%; width:67%;
+  /* Mara Flame → Harvest Gold — replaces old accent gradient*/
+  background:linear-gradient(90deg, var(--gold), var(--harvest));
+}
+
+.card-grid{display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:14px}
+.card-grid strong{display:block; font-size:18px; margin-top:4px}
+
+/* ─── STATUS PILLS ───────────────────────────────────── */
+.status-pill{
+  padding:8px 12px; border-radius:999px;
+  font-size:12px; font-weight:700;
+  background:rgba(255,255,255,.06);
+  border:1px solid var(--border);
+  color:var(--text);
+}
+/* Living Green success pill — was Deep Jade rgba(26,122,94,…) */
+.status-pill.success{
+  background:rgba(0,150,106,.16);
+  color:#80D4BC;
+  border-color:rgba(0,150,106,.35);
+}
+
+/* ─── STACKED / MINI CARDS ───────────────────────────── */
+.stacked-cards{display:grid; gap:10px}
+.mini-card{
+  padding:16px 18px;
+  background:var(--surface);
+  border:1px solid var(--border);
+  border-radius:var(--radius);
+}
+/* Tinted variants — subtle hue per semantic role */
+.mini-card.gold{
+  background:rgba(224,120,51,.08);
+  border-color:rgba(224,120,51,.25);
+}
+.mini-card.jade{
+  background:rgba(0,150,106,.08);
+  border-color:rgba(0,150,106,.25);
+}
+.mini-card.terracotta{
+  background:rgba(184,92,56,.08);
+  border-color:rgba(184,92,56,.25);
+}
+.mini-card span{display:block; font-size:12px; color:var(--muted); margin-bottom:6px}
+
+/* ─── PILLARS ────────────────────────────────────────── */
+.pillar-grid{grid-template-columns:repeat(4,minmax(0,1fr))}
+.feature-layout,.pillars,.flow-section,.compliance-section,.design-system{
+  padding:22px 0 56px;
+}
+
+/* ─── FEATURE GRID ───────────────────────────────────── */
+.feature-grid{display:grid; grid-template-columns:minmax(0,1.05fr) minmax(0,.95fr); gap:16px}
+.feature-list{display:grid; gap:12px}
+.role-panel{
+  padding:22px; position:sticky; top:92px;
+  background:var(--surface); border:1px solid var(--border); border-radius:var(--radius);
+}
+.role-top h3{
+  margin:12px 0 0; font-size:28px;
+  font-family:"Cormorant Garamond", serif; font-weight:500;
+}
+.role-list{padding-left:18px; color:var(--text-2); line-height:1.8}
+
+/* ─── TABS ───────────────────────────────────────────── */
+.tabs{display:flex; gap:10px; flex-wrap:wrap; margin-bottom:16px}
+.tab{
+  border:1px solid var(--border); background:transparent;
+  color:var(--text); border-radius:999px;
+  padding:10px 14px; cursor:pointer; font-weight:700;
+}
+.tab.active{
+  background:var(--gold);
+  color:var(--earth);          /* Deep Earth on Flame */
+  border-color:var(--gold);
+}
+
+/* ─── FLOW / COMPLIANCE GRIDS ────────────────────────── */
+.flow-grid,.compliance-grid,.dashboard-grid,.feature-catalog,.token-grid{
+  grid-template-columns:repeat(3,minmax(0,1fr));
+}
+/* Swatch grid: 5 primary swatches on desktop */
+.swatch-grid{grid-template-columns:repeat(5,minmax(0,1fr))}
+
+.flow-step{
+  padding:18px; background:var(--surface);
+  border:1px solid var(--border); border-radius:var(--radius);
+}
+.flow-step span{
+  display:inline-flex; width:34px; height:34px; border-radius:10px;
+  align-items:center; justify-content:center;
+  /* Mara Flame tint — was old value */
+  background:rgba(224,120,51,.12);
+  color:var(--gold); font-weight:800; margin-bottom:14px;
+}
+.flow-step strong{display:block; margin-bottom:6px}
+.compliance-card ul{margin:0; padding-left:18px; line-height:1.9; color:var(--text-2)}
+
+/* ─── SWATCHES (design-system page) ─────────────────── */
+.swatch{min-height:140px; display:flex; flex-direction:column; justify-content:space-between}
+.swatch span{font-size:12px; letter-spacing:.12em; text-transform:uppercase; opacity:.85}
+.swatch strong{font-size:20px}
+
+/* v2 palette swatches */
+.swatch.forest  {background:#0B1F14; color:#D4BFA4}
+.swatch.flame   {background:#E07833; color:#2C1909}
+.swatch.green   {background:#00966A; color:#D4F0E5}
+.swatch.terracotta{background:#B85C38; color:#F7E4DC}
+.swatch.canvas  {
+  background:#FAF5EC; color:#2C1909;
+  border:1px solid #D4BFA4;         /* visible on dark page background */
+}
+
+/* Legacy swatch class aliases (keeps any existing HTML classes working) */
+.swatch.obsidian  {background:#0B1F14; color:#D4BFA4}   /* → Forest Night */
+.swatch.gold      {background:#E07833; color:#2C1909}   /* → Mara Flame   */
+.swatch.jade      {background:#00966A; color:#D4F0E5}   /* → Living Green */
+
+/* ─── FOOTER ─────────────────────────────────────────── */
+.footer{
+  padding:24px 0 16px; color:var(--muted);
+  border-top:1px solid var(--border); font-size:13px;
+}
+
+/* ─── SCROLL PROGRESS BAR ────────────────────────────── */
+.scroll-progress{
+  position:fixed; top:0; left:0; width:100%; height:3px;
+  background:rgba(255,255,255,.06); z-index:50;
+}
+/* Flame → Living Green — replaces Gold → Jade */
+.scroll-progress span{
+  display:block; height:100%; width:0%;
+  background:linear-gradient(90deg, var(--gold), var(--jade));
+}
+
+/* ─── REVEAL ANIMATION ───────────────────────────────── */
+.reveal{opacity:0; transform:translateY(18px); transition:opacity .7s ease, transform .7s ease}
+.reveal.visible{opacity:1; transform:translateY(0)}
+
+/* ─── DASHBOARD ──────────────────────────────────────── */
+.dashboard-hero{padding:clamp(28px,5vw,56px) 0 22px}
+.panel{padding:20px}
+.credit-display{align-items:center}
+
+/* Circle meter — uses conic-gradient; --gold auto-updates to Flame */
+.circle-meter{
+  width:120px; height:120px; border-radius:50%;
+  background:conic-gradient(var(--gold) 0 37%, rgba(255,255,255,.08) 37% 100%);
+  position:relative;
+}
+.circle-meter::before{
+  content:""; position:absolute; inset:12px; border-radius:50%;
+  background:var(--surface);
+}
+.circle-center{
+  position:absolute; inset:0; display:grid; place-items:center;
+  font-weight:800; z-index:1;
+}
+.next-step{margin-top:14px; color:var(--gold); font-weight:700}
+
+/* ─── TRANSACTION / APPROVAL ROWS ────────────────────── */
+.transaction-list,.approval-stack{display:grid; gap:12px}
+.tx,.approval-item{
+  display:flex; justify-content:space-between; align-items:center; gap:12px;
+  padding:14px 16px; border-radius:12px;
+  border:1px solid var(--border); background:rgba(255,255,255,.02);
+}
+
+/* ─── FORECAST BARS ──────────────────────────────────── */
+.forecast-bars{
+  height:180px; display:grid;
+  grid-template-columns:repeat(5,1fr); gap:12px; align-items:end;
+}
+.forecast-bars div{display:grid; gap:8px; justify-items:center}
+/* Mara Flame gradient — replaces Gold rgba(201,168,76,…) */
+.forecast-bars span{
+  width:100%; border-radius:12px 12px 4px 4px;
+  background:linear-gradient(180deg, var(--gold), rgba(224,120,51,.4));
+}
+.forecast-bars label{font-size:12px; color:var(--muted)}
+
+/* ─── ICONS ──────────────────────────────────────────── */
+.feature-card i,.pillar i,.metric-card i,.mini-card i{
+  font-size:24px; margin-bottom:8px; color:var(--gold);
+}
+
+/* ─── SECTION HEAD ───────────────────────────────────── */
+.section-head{padding:clamp(28px,5vw,56px) 0 22px}
+
+/* ─── RESPONSIVE ─────────────────────────────────────── */
+@media (max-width:1100px){
+  .hero,.feature-grid,.pillar-grid,.compliance-grid,.flow-grid,
+  .dashboard-grid,.feature-catalog,.token-grid{
+    grid-template-columns:1fr 1fr;
+  }
+  .swatch-grid{grid-template-columns:repeat(3,minmax(0,1fr))}
+  .role-panel{position:static}
+  .dashboard-kpis{grid-template-columns:1fr 1fr}
+}
+
+@media (max-width:760px){
+  .topbar{flex-wrap:wrap; align-items:flex-start}
+  .nav{order:3; width:100%; gap:12px}
+  .hero,.feature-grid,.pillar-grid,.compliance-grid,.flow-grid,
+  .dashboard-grid,.feature-catalog,.token-grid{
+    grid-template-columns:1fr;
+  }
+  .swatch-grid{grid-template-columns:1fr 1fr}
+  .hero-metrics,.dashboard-kpis{grid-template-columns:1fr}
+  .card-grid{grid-template-columns:1fr 1fr}
+  h1{font-size:44px}
+  .hero-actions{flex-direction:column}
+  .hero-actions a,.hero-actions button{width:100%}
+}
+
+@media (max-width:420px){
+  .card-grid,.swatch-grid{grid-template-columns:1fr}
+}
+
+@media (prefers-reduced-motion: reduce){
+  html{scroll-behavior:auto}
+  .reveal{transition:none; transform:none; opacity:1}
+}

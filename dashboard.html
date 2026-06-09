@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>F8 Dashboard</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Cormorant+Garamond:wght@300;400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/phosphor-icons@1.4.2/src/css/icons.css">
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <header class="topbar">
+    <div class="brand">
+      <div class="mark">8</div>
+      <div>
+        <div class="brand-name">F8</div>
+        <div class="brand-tag">Dashboard preview</div>
+      </div>
+    </div>
+    <nav class="nav">
+      <a href="index.html">Home</a>
+      <a href="dashboard.html">Dashboard</a>
+      <a href="features.html">Features</a>
+      <a href="design-system.html">Design System</a>
+    </nav>
+    <button class="ghost-btn" id="toggleTheme">Toggle Mode</button>
+  </header>
+
+  <main class="page-shell">
+    <section class="dashboard-hero reveal">
+      <div>
+        <p class="eyebrow">Finance manager view</p>
+        <h1>See liquidity, approvals, and credit at a glance.</h1>
+      </div>
+      <div class="dashboard-kpis">
+        <div class="metric-card reveal"><span class="metric-label">Cash</span><span class="metric-value">KES 1.24M</span></div>
+        <div class="metric-card reveal"><span class="metric-label">Available credit</span><span class="metric-value">KES 95,000</span></div>
+        <div class="metric-card reveal"><span class="metric-label">Pending approvals</span><span class="metric-value">4</span></div>
+        <div class="metric-card reveal"><span class="metric-label">Reconciled</span><span class="metric-value">91%</span></div>
+      </div>
+    </section>
+
+    <section class="dashboard-grid">
+      <article class="panel reveal">
+        <div class="panel-head">
+          <h2>Credit limit</h2>
+          <span class="status-pill success">Healthy</span>
+        </div>
+        <div class="credit-display">
+          <div>
+            <p class="card-label">Available</p>
+            <h2>KES 95,000</h2>
+            <p class="muted">of KES 150,000 total</p>
+          </div>
+          <div class="circle-meter">
+            <div class="circle-fill"></div>
+            <div class="circle-center">37%</div>
+          </div>
+        </div>
+        <div class="next-step">KES 20,000 to your next limit tier →</div>
+      </article>
+
+      <article class="panel reveal">
+        <div class="panel-head">
+          <h2>Transactions</h2>
+          <i class="ph ph-receipt"></i>
+        </div>
+        <div class="transaction-list">
+          <div class="tx"><span>Cloud & Tech</span><strong>KES 24,000</strong><i class="ph ph-check-circle"></i></div>
+          <div class="tx"><span>Marketing</span><strong>KES 12,400</strong><i class="ph ph-warning-circle"></i></div>
+          <div class="tx"><span>Payroll support</span><strong>KES 48,000</strong><i class="ph ph-clock-countdown"></i></div>
+        </div>
+      </article>
+
+      <article class="panel reveal">
+        <div class="panel-head">
+          <h2>Approvals</h2>
+          <i class="ph ph-funnel"></i>
+        </div>
+        <div class="approval-stack">
+          <div class="approval-item">Office equipment request <span>Pending</span></div>
+          <div class="approval-item">Travel reimbursement <span>Approved</span></div>
+          <div class="approval-item">Subscription renewal <span>Review</span></div>
+        </div>
+      </article>
+
+      <article class="panel reveal">
+        <div class="panel-head">
+          <h2>Cash forecast</h2>
+          <i class="ph ph-chart-line"></i>
+        </div>
+        <div class="forecast-bars">
+          <div><span style="height:62%"></span><label>Mon</label></div>
+          <div><span style="height:70%"></span><label>Tue</label></div>
+          <div><span style="height:51%"></span><label>Wed</label></div>
+          <div><span style="height:76%"></span><label>Thu</label></div>
+          <div><span style="height:44%"></span><label>Fri</label></div>
+        </div>
+      </article>
+    </section>
+  </main>
+
+  <script src="script.js"></script>
+</body>
+</html>
