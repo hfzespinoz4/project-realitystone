@@ -1,0 +1,284 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>F8 — Transactions</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Cormorant+Garamond:wght@300;400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/phosphor-icons@1.4.2/src/css/icons.css">
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <div class="scroll-progress"><span id="scrollBar"></span></div>
+  <header class="topbar">
+    <div class="brand">
+      <div class="mark">8</div>
+      <div><div class="brand-name">F8</div><div class="brand-tag">Transactions</div></div>
+    </div>
+    <nav class="nav">
+      <a href="index.html">Home</a>
+      <a href="dashboard.html">Dashboard</a>
+      <a href="applications.html">Applications</a>
+      <a href="transactions.html">Transactions</a>
+      <a href="members.html">Members</a>
+      <a href="credit-application.html">Credit</a>
+      <a href="onboarding.html">Onboarding</a>
+    </nav>
+    <button class="ghost-btn" id="toggleTheme">Toggle Mode</button>
+  </header>
+
+  <main class="page-shell">
+    <a href="index.html" class="back-link reveal"><i class="ph ph-arrow-left"></i> Control Centre</a>
+
+    <div style="display:flex;justify-content:space-between;align-items:flex-end;margin:18px 0 22px;flex-wrap:wrap;gap:12px;">
+      <div class="reveal">
+        <p class="eyebrow">Statement & reconciliation</p>
+        <h1 style="margin:0;">Transactions</h1>
+      </div>
+      <button class="secondary-btn reveal"><i class="ph ph-download-simple"></i> Export CSV</button>
+    </div>
+
+    <!-- Summary -->
+    <div class="tx-summary reveal">
+      <div class="metric-card">
+        <span class="metric-label">Money in (month)</span>
+        <span class="metric-value" style="color:var(--jade);">KES 95,270</span>
+      </div>
+      <div class="metric-card">
+        <span class="metric-label">Money out (month)</span>
+        <span class="metric-value">KES 48,700</span>
+      </div>
+      <div class="metric-card">
+        <span class="metric-label">Balance</span>
+        <span class="metric-value">KES 1.24M</span>
+      </div>
+      <div class="metric-card">
+        <span class="metric-label">Reconciled</span>
+        <span class="metric-value">91%</span>
+      </div>
+    </div>
+
+    <!-- Spend Analysis charts -->
+    <div class="reports-grid reveal" style="margin-bottom:20px;">
+      <div class="panel">
+        <div class="panel-head"><h2>Spend Analysis</h2>
+          <select style="background:var(--surface-hi);border:1px solid var(--border);color:var(--text);border-radius:8px;padding:6px 10px;font-family:Inter,sans-serif;font-size:13px;">
+            <option>Historical Spend</option><option>This Month</option>
+          </select>
+        </div>
+        <p style="font-size:13px;color:var(--muted);margin:0 0 12px;">Historical spend (KES)</p>
+        <div class="chart-legend" style="margin-bottom:8px;">
+          <span><span class="legend-dot" style="background:var(--gold);"></span>Software</span>
+          <span><span class="legend-dot" style="background:var(--jade);"></span>Others</span>
+          <span><span class="legend-dot" style="background:rgba(255,255,255,.2);border:1px solid var(--border);"></span>Uncategorised</span>
+        </div>
+        <div class="spend-chart-area">
+          <div class="chart-col">
+            <div class="chart-bar-wrap"><div class="chart-bar software" style="height:45%;"></div><div class="chart-bar others" style="height:20%;"></div></div>
+            <div class="chart-label">Jan</div>
+          </div>
+          <div class="chart-col">
+            <div class="chart-bar-wrap"><div class="chart-bar software" style="height:60%;"></div><div class="chart-bar others" style="height:30%;"></div><div class="chart-bar uncategorised" style="height:10%;"></div></div>
+            <div class="chart-label">Feb</div>
+          </div>
+          <div class="chart-col">
+            <div class="chart-bar-wrap"><div class="chart-bar software" style="height:40%;"></div><div class="chart-bar others" style="height:15%;"></div></div>
+            <div class="chart-label">Mar</div>
+          </div>
+          <div class="chart-col">
+            <div class="chart-bar-wrap"><div class="chart-bar software" style="height:75%;"></div><div class="chart-bar others" style="height:20%;"></div><div class="chart-bar uncategorised" style="height:5%;"></div></div>
+            <div class="chart-label">Apr</div>
+          </div>
+          <div class="chart-col">
+            <div class="chart-bar-wrap"><div class="chart-bar software" style="height:55%;"></div><div class="chart-bar others" style="height:10%;"></div></div>
+            <div class="chart-label">May</div>
+          </div>
+          <div class="chart-col">
+            <div class="chart-bar-wrap"><div class="chart-bar software" style="height:50%;"></div><div class="chart-bar others" style="height:12%;"></div></div>
+            <div class="chart-label">Jun</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="panel">
+        <h2 style="margin-bottom:16px;">Spend breakdown</h2>
+        <div style="display:flex;gap:12px;margin-bottom:16px;flex-wrap:wrap;">
+          <button class="tab active">Team</button>
+          <button class="tab">Applications</button>
+        </div>
+        <div class="breakdown-list">
+          <div class="breakdown-row">
+            <div><div class="breakdown-name">Product Dev & Eng</div><div class="breakdown-sub">3 members</div></div>
+            <div class="breakdown-amt">KES 24,400</div>
+          </div>
+          <div class="breakdown-row">
+            <div><div class="breakdown-name">IT Corporate</div><div class="breakdown-sub">2 members</div></div>
+            <div class="breakdown-amt">KES 18,900</div>
+          </div>
+          <div class="breakdown-row">
+            <div><div class="breakdown-name">Finance</div><div class="breakdown-sub">2 members</div></div>
+            <div class="breakdown-amt">KES 3,200</div>
+          </div>
+          <div class="breakdown-row">
+            <div><div class="breakdown-name">Operations</div><div class="breakdown-sub">1 member</div></div>
+            <div class="breakdown-amt">KES 2,200</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Transaction history table -->
+    <div class="table-shell reveal">
+      <div class="table-toolbar">
+        <div class="table-search">
+          <i class="ph ph-magnifying-glass" style="color:var(--muted);"></i>
+          <input type="text" placeholder="Search transactions…" />
+        </div>
+        <button class="filter-btn"><i class="ph ph-calendar"></i> Filter by date range</button>
+        <button class="filter-btn"><i class="ph ph-funnel"></i> Filter results</button>
+      </div>
+
+      <div style="overflow-x:auto;">
+        <table class="data-table">
+          <thead>
+            <tr>
+              <th>Date <i class="ph ph-arrows-down-up" style="font-size:10px;"></i></th>
+              <th>#</th>
+              <th>Description</th>
+              <th>Money in (KES)</th>
+              <th>Money out (KES)</th>
+              <th>Balance (KES)</th>
+              <th>Type</th>
+              <th>Invoice</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td style="font-size:13px;">18/06/2025</td>
+              <td style="font-size:12px;color:var(--muted);">#92048/01</td>
+              <td>
+                <div style="font-weight:600;">Google Cloud Platform</div>
+                <div style="font-size:11px;color:var(--jade);">GOOGLE CLOUD · $10.00 @ 130</div>
+              </td>
+              <td></td>
+              <td style="font-weight:600;">1,300</td>
+              <td>1,238,700</td>
+              <td><i class="ph ph-shield-check" style="color:var(--jade);"></i></td>
+              <td><a href="#" style="color:var(--gold);font-size:13px;text-decoration:none;">View</a></td>
+            </tr>
+            <tr>
+              <td style="font-size:13px;">16/06/2025</td>
+              <td style="font-size:12px;color:var(--muted);">#91918/05</td>
+              <td>
+                <div style="font-weight:600;">GitHub</div>
+                <div style="font-size:11px;color:var(--jade);">GITHUB INC. · $2.14 @ 130</div>
+              </td>
+              <td></td>
+              <td style="font-weight:600;">278</td>
+              <td>1,240,000</td>
+              <td><i class="ph ph-shield-check" style="color:var(--jade);"></i></td>
+              <td><a href="#" style="color:var(--gold);font-size:13px;text-decoration:none;">View</a></td>
+            </tr>
+            <tr>
+              <td style="font-size:13px;">15/06/2025</td>
+              <td style="font-size:12px;color:var(--muted);">#91802/12</td>
+              <td>
+                <div style="font-weight:600;">F8 Rewards credit</div>
+                <div style="font-size:11px;color:var(--jade);">F8 Rewards</div>
+              </td>
+              <td style="font-weight:600;color:var(--jade);">9,527</td>
+              <td></td>
+              <td>1,240,278</td>
+              <td><i class="ph ph-gift" style="color:var(--harvest);"></i></td>
+              <td></td>
+            </tr>
+            <tr>
+              <td style="font-size:13px;">14/06/2025</td>
+              <td style="font-size:12px;color:var(--muted);">#91734/09</td>
+              <td>
+                <div style="font-weight:600;">Slack Business+</div>
+                <div style="font-size:11px;color:var(--jade);">SLACK TECHNOLOGIES</div>
+              </td>
+              <td></td>
+              <td style="font-weight:600;">6,500</td>
+              <td>1,230,751</td>
+              <td><i class="ph ph-shield-check" style="color:var(--jade);"></i></td>
+              <td><a href="#" style="color:var(--gold);font-size:13px;text-decoration:none;">View</a></td>
+            </tr>
+            <tr>
+              <td style="font-size:13px;">13/06/2025</td>
+              <td style="font-size:12px;color:var(--muted);">#91620/03</td>
+              <td>
+                <div style="font-weight:600;">Figma</div>
+                <div style="font-size:11px;color:var(--jade);">FIGMA MONTHLY RENEWAL · $9.00 @ 130</div>
+              </td>
+              <td></td>
+              <td style="font-weight:600;">1,200</td>
+              <td>1,237,251</td>
+              <td><i class="ph ph-shield-check" style="color:var(--jade);"></i></td>
+              <td><a href="#" style="color:var(--gold);font-size:13px;text-decoration:none;">View</a></td>
+            </tr>
+            <tr>
+              <td style="font-size:13px;">10/06/2025</td>
+              <td style="font-size:12px;color:var(--muted);">#91450/07</td>
+              <td>
+                <div style="font-weight:600;">Microsoft 365 Business</div>
+                <div style="font-size:11px;color:var(--jade);">MICROSOFT · $11.54 @ 130</div>
+              </td>
+              <td></td>
+              <td style="font-weight:600;">1,500</td>
+              <td>1,238,451</td>
+              <td><i class="ph ph-shield-check" style="color:var(--jade);"></i></td>
+              <td><a href="#" style="color:var(--gold);font-size:13px;text-decoration:none;">View</a></td>
+            </tr>
+            <tr>
+              <td style="font-size:13px;">10/06/2025</td>
+              <td style="font-size:12px;color:var(--muted);">#91449/02</td>
+              <td>
+                <div style="font-weight:600;">Proton VPN</div>
+                <div style="font-size:11px;color:var(--muted);">PROTON AG · $15.38 @ 130</div>
+              </td>
+              <td></td>
+              <td style="font-weight:600;">2,000</td>
+              <td>1,239,951</td>
+              <td><i class="ph ph-warning-circle" style="color:var(--gold);"></i></td>
+              <td></td>
+            </tr>
+            <tr>
+              <td style="font-size:13px;">05/06/2025</td>
+              <td style="font-size:12px;color:var(--muted);">#91100/01</td>
+              <td>
+                <div style="font-weight:600;">Top up balance</div>
+                <div style="font-size:11px;color:var(--jade);">Credit line drawdown</div>
+              </td>
+              <td style="font-weight:600;color:var(--jade);">50,000</td>
+              <td></td>
+              <td>1,241,951</td>
+              <td><i class="ph ph-bank" style="color:var(--gold);"></i></td>
+              <td></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="table-footer">
+        <span>Showing 8 of 24 transactions · Total out: KES 12,778</span>
+        <div class="pagination">
+          <button class="pg-btn"><i class="ph ph-caret-left"></i></button>
+          <button class="pg-btn active">1</button>
+          <button class="pg-btn">2</button>
+          <button class="pg-btn">3</button>
+          <button class="pg-btn"><i class="ph ph-caret-right"></i></button>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <footer class="footer page-shell">
+    <p>F8 — Confidential visual concept for pilot exploration.</p>
+  </footer>
+  <script src="script.js"></script>
+</body>
+</html>

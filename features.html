@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>F8 Features</title>
+  <title>F8 — Features</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Cormorant+Garamond:wght@300;400;500&display=swap" rel="stylesheet">
@@ -11,42 +11,51 @@
   <link rel="stylesheet" href="styles.css" />
 </head>
 <body>
+  <div class="scroll-progress"><span id="scrollBar"></span></div>
   <header class="topbar">
     <div class="brand">
       <div class="mark">8</div>
-      <div>
-        <div class="brand-name">F8</div>
-        <div class="brand-tag">Pilot features</div>
-      </div>
+      <div><div class="brand-name">F8</div><div class="brand-tag">Features</div></div>
     </div>
     <nav class="nav">
       <a href="index.html">Home</a>
       <a href="dashboard.html">Dashboard</a>
-      <a href="features.html">Features</a>
-      <a href="design-system.html">Design System</a>
+      <a href="applications.html">Applications</a>
+      <a href="transactions.html">Transactions</a>
+      <a href="members.html">Members</a>
+      <a href="credit-application.html">Credit</a>
+      <a href="onboarding.html">Onboarding</a>
     </nav>
     <button class="ghost-btn" id="toggleTheme">Toggle Mode</button>
   </header>
 
   <main class="page-shell">
+    <a href="index.html" class="back-link reveal"><i class="ph ph-arrow-left"></i> Control Centre</a>
+
     <section class="section-head reveal">
       <p class="eyebrow">Modules included in the pilot</p>
       <h1>Feature blocks built around real operational pain.</h1>
     </section>
 
     <section class="feature-catalog">
-      <article class="feature-card reveal"><i class="ph ph-user-switch"></i><h3>Onboarding & Access</h3><p>Identity verification, company setup, team invites, roles, consent, and guided onboarding.</p></article>
-      <article class="feature-card reveal"><i class="ph ph-buildings"></i><h3>Company Structure</h3><p>Entities, tax details, teams, and a clean company profile model.</p></article>
-      <article class="feature-card reveal"><i class="ph ph-wallet"></i><h3>Cash Visibility</h3><p>Current cash position, liquidity summaries, forecasts, and low balance alerts.</p></article>
-      <article class="feature-card reveal"><i class="ph ph-list-checks"></i><h3>Transactions</h3><p>Unified statements, receipt capture, categorisation, and reconciliation support.</p></article>
-      <article class="feature-card reveal"><i class="ph ph-credit-card"></i><h3>Cards & Spend Control</h3><p>Virtual cards, freeze/unfreeze, limits, alerts, and role-based controls.</p></article>
-      <article class="feature-card reveal"><i class="ph ph-bank"></i><h3>Credit & Working Capital</h3><p>Digital applications, pre-approval, status tracking, and limit increase signals.</p></article>
-      <article class="feature-card reveal"><i class="ph ph-bell-ringing"></i><h3>Notifications</h3><p>Email, SMS, push, due date reminders, and pending approval prompts.</p></article>
-      <article class="feature-card reveal"><i class="ph ph-shield-check"></i><h3>Compliance</h3><p>Activity logs, traceability, evidence, consent, and secure role-based access.</p></article>
-      <article class="feature-card reveal"><i class="ph ph-users-three"></i><h3>Community</h3><p>Networking, matching, opportunities, and referral-driven business community.</p></article>
+      <article class="feature-card reveal"><i class="ph ph-user-switch"></i><h3>Onboarding & Access</h3><p>Identity verification, company setup, team invites, roles, KYC/KYB consent, and guided onboarding.</p></article>
+      <article class="feature-card reveal"><i class="ph ph-buildings"></i><h3>Company Structure</h3><p>Entities, tax details, teams, and a clean company profile model aligned to Kenyan regulatory requirements.</p></article>
+      <article class="feature-card reveal"><i class="ph ph-wallet"></i><h3>Cash Visibility</h3><p>Current cash position, liquidity summaries, weekly forecasts, and low balance alerts.</p></article>
+      <article class="feature-card reveal"><i class="ph ph-list-checks"></i><h3>Transactions</h3><p>Unified statements, receipt capture, categorisation, reconciliation support, and spend analysis.</p></article>
+      <article class="feature-card reveal"><i class="ph ph-credit-card"></i><h3>Cards & Spend Control</h3><p>Virtual cards, freeze/unfreeze, limits, alerts, and role-based spend controls.</p></article>
+      <article class="feature-card reveal"><i class="ph ph-bank"></i><h3>Credit & Working Capital</h3><p>Digital applications with full KYC/KYB/PLD-FT compliance, status tracking, and limit increase signals.</p></article>
+      <article class="feature-card reveal"><i class="ph ph-grid-four"></i><h3>SaaS Management</h3><p>Track all software subscriptions, owners, budgets, payment methods, and renewal dates in one table.</p></article>
+      <article class="feature-card reveal"><i class="ph ph-bell-ringing"></i><h3>Notifications</h3><p>Email, SMS, push, due date reminders, approval prompts, and AML alert notifications.</p></article>
+      <article class="feature-card reveal"><i class="ph ph-shield-check"></i><h3>Compliance</h3><p>Activity logs, traceability, AML/PLD-FT evidence, consent management, and secure role-based access.</p></article>
+      <article class="feature-card reveal"><i class="ph ph-users-three"></i><h3>Community</h3><p>Networking, business matching, referral-driven opportunities, and trusted verified business community.</p></article>
+      <article class="feature-card reveal"><i class="ph ph-chart-line-up"></i><h3>Capital Pathways</h3><p>Investment readiness, grant matching, and funding recommendations built on your business data.</p></article>
+      <article class="feature-card reveal"><i class="ph ph-chart-bar"></i><h3>Reports & Analytics</h3><p>Team spend breakdowns, application ROI, historical trends, and export-ready financial reports.</p></article>
     </section>
   </main>
 
+  <footer class="footer page-shell">
+    <p>F8 — Confidential visual concept for pilot exploration.</p>
+  </footer>
   <script src="script.js"></script>
 </body>
 </html>

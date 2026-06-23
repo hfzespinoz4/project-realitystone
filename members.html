@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>F8 — Members & Teams</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Cormorant+Garamond:wght@300;400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/phosphor-icons@1.4.2/src/css/icons.css">
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <div class="scroll-progress"><span id="scrollBar"></span></div>
+  <header class="topbar">
+    <div class="brand">
+      <div class="mark">8</div>
+      <div><div class="brand-name">F8</div><div class="brand-tag">Members & Teams</div></div>
+    </div>
+    <nav class="nav">
+      <a href="index.html">Home</a>
+      <a href="dashboard.html">Dashboard</a>
+      <a href="applications.html">Applications</a>
+      <a href="transactions.html">Transactions</a>
+      <a href="members.html">Members</a>
+      <a href="credit-application.html">Credit</a>
+      <a href="onboarding.html">Onboarding</a>
+    </nav>
+    <button class="ghost-btn" id="toggleTheme">Toggle Mode</button>
+  </header>
+
+  <main class="page-shell">
+    <a href="index.html" class="back-link reveal"><i class="ph ph-arrow-left"></i> Control Centre</a>
+
+    <!-- Members section -->
+    <div style="display:flex;justify-content:space-between;align-items:flex-end;margin:18px 0 22px;flex-wrap:wrap;gap:12px;">
+      <div class="reveal">
+        <p class="eyebrow">Access & governance</p>
+        <h1 style="margin:0;">Members</h1>
+      </div>
+      <button class="invite-btn reveal"><i class="ph ph-user-plus"></i> Invite members</button>
+    </div>
+
+    <div class="table-shell reveal" style="margin-bottom:32px;">
+      <div class="table-toolbar">
+        <div class="table-search">
+          <i class="ph ph-magnifying-glass" style="color:var(--muted);"></i>
+          <input type="text" placeholder="Search by email or name…" />
+        </div>
+        <button class="filter-btn"><i class="ph ph-funnel"></i> Filter results</button>
+      </div>
+
+      <div style="overflow-x:auto;">
+        <table class="data-table">
+          <thead>
+            <tr>
+              <th>User <i class="ph ph-arrows-down-up" style="font-size:10px;"></i></th>
+              <th>Role <i class="ph ph-arrows-down-up" style="font-size:10px;"></i></th>
+              <th>Team(s)</th>
+              <th>Last activity <i class="ph ph-arrows-down-up" style="font-size:10px;"></i></th>
+              <th>Status <i class="ph ph-arrows-down-up" style="font-size:10px;"></i></th>
+              <th></th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>
+                <div class="owner-cell">
+                  <div class="avatar-lg" style="background:rgba(0,150,106,.18);color:var(--jade);">AS</div>
+                  <div>
+                    <div class="member-name">A. Sánchez</div>
+                    <div class="member-email">a.sanchez@f8bank.ke</div>
+                  </div>
+                </div>
+              </td>
+              <td><span style="font-size:13px;font-weight:600;">Finance</span></td>
+              <td><a href="#teams" style="color:var(--jade);font-size:13px;text-decoration:none;font-weight:600;">Finance</a></td>
+              <td style="font-size:13px;color:var(--muted);">7 Jun 2025 8:33am</td>
+              <td><span class="pill-active">Active</span></td>
+              <td><button class="edit-btn"><i class="ph ph-pencil-simple"></i> Edit</button></td>
+            </tr>
+            <tr>
+              <td>
+                <div class="owner-cell">
+                  <div class="avatar-lg" style="background:rgba(224,120,51,.15);color:var(--gold);">BH</div>
+                  <div>
+                    <div class="member-name">B. Hansson</div>
+                    <div class="member-email">b.hansson@f8bank.ke</div>
+                  </div>
+                </div>
+              </td>
+              <td><span style="font-size:13px;font-weight:600;">Finance</span></td>
+              <td><a href="#teams" style="color:var(--jade);font-size:13px;text-decoration:none;font-weight:600;">Finance</a></td>
+              <td style="font-size:13px;color:var(--muted);">30 Apr 2025 8:17am</td>
+              <td><span class="pill-active">Active</span></td>
+              <td><button class="edit-btn"><i class="ph ph-pencil-simple"></i> Edit</button></td>
+            </tr>
+            <tr>
+              <td>
+                <div class="owner-cell">
+                  <div class="avatar-lg" style="background:rgba(240,192,90,.15);color:var(--harvest);">AO</div>
+                  <div>
+                    <div class="member-name" style="display:flex;align-items:center;gap:6px;">Admin Officer <span style="font-size:10px;background:rgba(224,120,51,.15);color:var(--gold);padding:2px 7px;border-radius:999px;font-weight:700;">You</span></div>
+                    <div class="member-email">admin@f8bank.ke</div>
+                  </div>
+                </div>
+              </td>
+              <td>
+                <div>
+                  <div style="font-size:13px;font-weight:700;">Admin</div>
+                  <div style="font-size:11px;color:var(--muted);">Primary contact</div>
+                </div>
+              </td>
+              <td><a href="#teams" style="color:var(--jade);font-size:13px;text-decoration:none;font-weight:600;">IT Corporate</a></td>
+              <td style="font-size:13px;color:var(--muted);">22 Jun 2025 5:40pm</td>
+              <td><span class="pill-active">Active</span></td>
+              <td><button class="edit-btn"><i class="ph ph-pencil-simple"></i> Edit</button></td>
+            </tr>
+            <tr>
+              <td>
+                <div class="owner-cell">
+                  <div class="avatar-lg">M</div>
+                  <div>
+                    <div class="member-name">M. Franquelli</div>
+                    <div class="member-email">m.franquelli@f8bank.ke</div>
+                  </div>
+                </div>
+              </td>
+              <td><span style="font-size:13px;font-weight:600;">User</span></td>
+              <td><span style="font-size:13px;color:var(--muted);">—</span></td>
+              <td style="font-size:13px;color:var(--muted);">Pending</td>
+              <td><span class="pill-pending">Pending</span></td>
+              <td><button class="edit-btn"><i class="ph ph-pencil-simple"></i> Edit</button></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="table-footer">
+        <span>1 – 4 of 4 members</span>
+        <div class="pagination">
+          <button class="pg-btn"><i class="ph ph-caret-left"></i></button>
+          <button class="pg-btn active">1</button>
+          <button class="pg-btn"><i class="ph ph-caret-right"></i></button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Teams section -->
+    <div id="teams" style="margin-bottom:22px;" class="reveal">
+      <p class="eyebrow">Department structure</p>
+      <h2>Teams</h2>
+    </div>
+
+    <div class="teams-grid">
+      <a href="#" class="team-card reveal">
+        <div style="display:flex;justify-content:space-between;align-items:flex-start;">
+          <h3>Finance</h3>
+          <div class="avatar-stack">
+            <div class="avatar-xs" style="background:rgba(0,150,106,.2);color:var(--jade);">BH</div>
+            <div class="avatar-xs" style="background:rgba(0,150,106,.15);color:var(--jade);">AS</div>
+          </div>
+        </div>
+        <div class="team-members-count">2 members</div>
+      </a>
+      <a href="#" class="team-card reveal">
+        <div style="display:flex;justify-content:space-between;align-items:flex-start;">
+          <div>
+            <h3>IT Corporate</h3>
+            <div class="manager-badge">You are the manager</div>
+          </div>
+          <div class="avatar-stack">
+            <div class="avatar-xs">L</div>
+            <div class="avatar-xs" style="background:rgba(240,192,90,.15);color:var(--harvest);">AO</div>
+          </div>
+        </div>
+        <div class="team-members-count">2 members</div>
+      </a>
+      <a href="#" class="team-card reveal">
+        <div style="display:flex;justify-content:space-between;align-items:flex-start;">
+          <h3>Legal</h3>
+          <div class="avatar-stack">
+            <div class="avatar-xs" style="background:rgba(184,92,56,.2);color:var(--terracotta);">JM</div>
+          </div>
+        </div>
+        <div class="team-members-count">1 member</div>
+      </a>
+      <a href="#" class="team-card reveal"><h3>Ads</h3><div class="team-members-count">0 members</div></a>
+      <a href="#" class="team-card reveal"><h3>Content Management</h3><div class="team-members-count">0 members</div></a>
+      <a href="#" class="team-card reveal"><h3>Content Production</h3><div class="team-members-count">0 members</div></a>
+      <a href="#" class="team-card reveal"><h3>Delivery</h3><div class="team-members-count">0 members</div></a>
+      <a href="#" class="team-card reveal"><h3>G&A</h3><div class="team-members-count">0 members</div></a>
+      <a href="#" class="team-card reveal"><h3>Management</h3><div class="team-members-count">0 members</div></a>
+      <a href="#" class="team-card reveal"><h3>Marketing</h3><div class="team-members-count">0 members</div></a>
+      <a href="#" class="team-card reveal"><h3>NOC-TAC-Support</h3><div class="team-members-count">0 members</div></a>
+      <a href="#" class="team-card reveal"><h3>Operations</h3><div class="team-members-count">0 members</div></a>
+      <a href="#" class="team-card reveal"><h3>People & Culture</h3><div class="team-members-count">0 members</div></a>
+      <a href="#" class="team-card reveal"><h3>Presales</h3><div class="team-members-count">0 members</div></a>
+      <a href="#" class="team-card reveal"><h3>Product Design</h3><div class="team-members-count">0 members</div></a>
+      <a href="#" class="team-card reveal"><h3>Product Dev & Eng</h3><div class="team-members-count">0 members</div></a>
+      <a href="#" class="team-card reveal"><h3>Product Management</h3><div class="team-members-count">0 members</div></a>
+      <a href="#" class="team-card reveal"><h3>Sales</h3><div class="team-members-count">0 members</div></a>
+    </div>
+  </main>
+
+  <footer class="footer page-shell">
+    <p>F8 — Confidential visual concept for pilot exploration.</p>
+  </footer>
+  <script src="script.js"></script>
+</body>
+</html>

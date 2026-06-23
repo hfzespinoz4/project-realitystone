@@ -1,0 +1,321 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>F8 — Credit Application</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Cormorant+Garamond:wght@300;400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/phosphor-icons@1.4.2/src/css/icons.css">
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <div class="scroll-progress"><span id="scrollBar"></span></div>
+  <header class="topbar">
+    <div class="brand">
+      <div class="mark">8</div>
+      <div><div class="brand-name">F8</div><div class="brand-tag">Credit Application</div></div>
+    </div>
+    <nav class="nav">
+      <a href="index.html">Home</a>
+      <a href="dashboard.html">Dashboard</a>
+      <a href="applications.html">Applications</a>
+      <a href="transactions.html">Transactions</a>
+      <a href="members.html">Members</a>
+      <a href="credit-application.html">Credit</a>
+      <a href="onboarding.html">Onboarding</a>
+    </nav>
+    <button class="ghost-btn" id="toggleTheme">Toggle Mode</button>
+  </header>
+
+  <main class="page-shell timeline-page">
+    <a href="index.html" class="back-link reveal"><i class="ph ph-arrow-left"></i> Control Centre</a>
+
+    <!-- Header -->
+    <div class="reveal" style="margin:18px 0 0;">
+      <p class="eyebrow">Credit line request · F8 MSME Programme</p>
+      <h1>Credit application status</h1>
+      <p class="hero-text" style="max-width:680px;">
+        Your application follows a fully compliant process aligned with Kenya's PLD/FT regulations, CBK KYC requirements, and F8's internal KYB underwriting policies.
+      </p>
+    </div>
+
+    <!-- Progress timeline bar -->
+    <div class="timeline-status-bar reveal">
+      <!-- Step 1: done -->
+      <div class="tl-step done">
+        <div class="tl-dot"><i class="ph ph-check-fat"></i></div>
+        <div class="tl-label">Pre-qualification</div>
+      </div>
+      <!-- Step 2: done -->
+      <div class="tl-step done">
+        <div class="tl-dot"><i class="ph ph-check-fat"></i></div>
+        <div class="tl-label">KYC<br>Identity</div>
+      </div>
+      <!-- Step 3: active -->
+      <div class="tl-step active">
+        <div class="tl-dot"><i class="ph ph-buildings"></i></div>
+        <div class="tl-label">KYB<br>Business</div>
+      </div>
+      <!-- Step 4: pending -->
+      <div class="tl-step pending">
+        <div class="tl-dot"><i class="ph ph-shield-check"></i></div>
+        <div class="tl-label">PLD/FT<br>Compliance</div>
+      </div>
+      <!-- Step 5: pending -->
+      <div class="tl-step pending">
+        <div class="tl-dot"><i class="ph ph-chart-bar"></i></div>
+        <div class="tl-label">Credit<br>Assessment</div>
+      </div>
+      <!-- Step 6: pending -->
+      <div class="tl-step pending">
+        <div class="tl-dot"><i class="ph ph-seal-check"></i></div>
+        <div class="tl-label">Approval &<br>Disbursement</div>
+      </div>
+    </div>
+
+    <!-- Main layout: stage cards + summary sidebar -->
+    <div class="credit-app-layout reveal">
+
+      <!-- Stage cards -->
+      <div>
+        <div class="stage-cards">
+
+          <!-- Stage 1: Pre-qualification — DONE -->
+          <div class="stage-card done">
+            <div class="stage-num">01</div>
+            <div class="stage-title">Pre-qualification</div>
+            <ul class="stage-items">
+              <li class="check"><i class="ph ph-check-circle"></i> Business eligibility confirmed</li>
+              <li class="check"><i class="ph ph-check-circle"></i> Revenue range declared (KES 500K–5M/mo)</li>
+              <li class="check"><i class="ph ph-check-circle"></i> Minimum 12 months trading history</li>
+              <li class="check"><i class="ph ph-check-circle"></i> F8 pilot criteria met</li>
+            </ul>
+            <div class="stage-date">
+              <i class="ph ph-calendar-check" style="color:var(--jade);"></i>
+              Completed <strong>02 Jun 2025</strong>
+            </div>
+          </div>
+
+          <!-- Stage 2: KYC — DONE -->
+          <div class="stage-card done">
+            <div class="stage-num">02</div>
+            <div class="stage-title">KYC — Identity Verification</div>
+            <ul class="stage-items">
+              <li class="check"><i class="ph ph-check-circle"></i> National ID / Passport verified</li>
+              <li class="check"><i class="ph ph-check-circle"></i> Directors & UBOs identified (≥25% ownership)</li>
+              <li class="check"><i class="ph ph-check-circle"></i> Liveness check (biometric match)</li>
+              <li class="check"><i class="ph ph-check-circle"></i> PEP & sanctions screening passed</li>
+              <li class="check"><i class="ph ph-check-circle"></i> Residence address confirmed</li>
+            </ul>
+            <div class="stage-date">
+              <i class="ph ph-calendar-check" style="color:var(--jade);"></i>
+              Completed <strong>09 Jun 2025</strong>
+            </div>
+          </div>
+
+          <!-- Stage 3: KYB — ACTIVE -->
+          <div class="stage-card active">
+            <div class="stage-num">03</div>
+            <div class="stage-title">KYB — Business Verification</div>
+            <ul class="stage-items">
+              <li class="check"><i class="ph ph-check-circle"></i> Certificate of Incorporation (CAK/eCitizen)</li>
+              <li class="check"><i class="ph ph-check-circle"></i> KRA PIN & Tax Compliance Certificate</li>
+              <li class="check"><i class="ph ph-check-circle"></i> Business Registration (BRS extract)</li>
+              <li class="clock"><i class="ph ph-clock"></i> Audited financials / management accounts</li>
+              <li class="pending-item"><i class="ph ph-circle-dashed"></i> 6-month bank statement (all accounts)</li>
+              <li class="pending-item"><i class="ph ph-circle-dashed"></i> Operating licences (if applicable)</li>
+            </ul>
+            <div class="stage-date">
+              <i class="ph ph-clock" style="color:var(--gold);"></i>
+              In progress · Est. <strong>27 Jun 2025</strong>
+            </div>
+          </div>
+
+          <!-- Stage 4: PLD/FT — PENDING -->
+          <div class="stage-card pending">
+            <div class="stage-num">04</div>
+            <div class="stage-title">PLD/FT Compliance Review</div>
+            <ul class="stage-items">
+              <li class="pending-item"><i class="ph ph-circle-dashed"></i> AML transaction pattern analysis</li>
+              <li class="pending-item"><i class="ph ph-circle-dashed"></i> Source of funds declaration & evidence</li>
+              <li class="pending-item"><i class="ph ph-circle-dashed"></i> Business purpose & industry risk rating</li>
+              <li class="pending-item"><i class="ph ph-circle-dashed"></i> Adverse media & negative news screening</li>
+              <li class="pending-item"><i class="ph ph-circle-dashed"></i> FATF country risk assessment</li>
+              <li class="pending-item"><i class="ph ph-circle-dashed"></i> Enhanced Due Diligence (if high-risk)</li>
+            </ul>
+            <div class="stage-date">
+              <i class="ph ph-circle-dashed" style="color:var(--muted);"></i>
+              Starts after KYB · Est. <strong>02 Jul 2025</strong>
+            </div>
+          </div>
+
+          <!-- Stage 5: Credit Assessment — PENDING -->
+          <div class="stage-card pending">
+            <div class="stage-num">05</div>
+            <div class="stage-title">Credit Assessment</div>
+            <ul class="stage-items">
+              <li class="pending-item"><i class="ph ph-circle-dashed"></i> F8 credit scoring model (cash flow-based)</li>
+              <li class="pending-item"><i class="ph ph-circle-dashed"></i> Debt-service coverage ratio calculation</li>
+              <li class="pending-item"><i class="ph ph-circle-dashed"></i> CRB Kenya credit bureau check</li>
+              <li class="pending-item"><i class="ph ph-circle-dashed"></i> Collateral or guarantee assessment</li>
+              <li class="pending-item"><i class="ph ph-circle-dashed"></i> Limit & pricing determination</li>
+              <li class="pending-item"><i class="ph ph-circle-dashed"></i> Credit committee review (≥KES 500K)</li>
+            </ul>
+            <div class="stage-date">
+              <i class="ph ph-circle-dashed" style="color:var(--muted);"></i>
+              Pending · Est. <strong>07 Jul 2025</strong>
+            </div>
+          </div>
+
+          <!-- Stage 6: Approval & Disbursement — PENDING -->
+          <div class="stage-card pending">
+            <div class="stage-num">06</div>
+            <div class="stage-title">Approval & Disbursement</div>
+            <ul class="stage-items">
+              <li class="pending-item"><i class="ph ph-circle-dashed"></i> Credit offer letter issued</li>
+              <li class="pending-item"><i class="ph ph-circle-dashed"></i> Loan agreement & consent signed (e-sign)</li>
+              <li class="pending-item"><i class="ph ph-circle-dashed"></i> CBK regulatory filing (if required)</li>
+              <li class="pending-item"><i class="ph ph-circle-dashed"></i> Credit line activated on F8 dashboard</li>
+              <li class="pending-item"><i class="ph ph-circle-dashed"></i> First drawdown executed to business account</li>
+              <li class="pending-item"><i class="ph ph-circle-dashed"></i> Ongoing monitoring cadence established</li>
+            </ul>
+            <div class="stage-date">
+              <i class="ph ph-circle-dashed" style="color:var(--muted);"></i>
+              Pending · Est. <strong>11 Jul 2025</strong>
+            </div>
+          </div>
+
+        </div><!-- /stage-cards -->
+
+        <!-- Compliance notice -->
+        <div style="margin-top:20px;padding:16px 20px;border-radius:12px;background:rgba(0,150,106,.07);border:1px solid rgba(0,150,106,.2);" class="reveal">
+          <div style="display:flex;gap:10px;align-items:flex-start;">
+            <i class="ph ph-info" style="font-size:18px;color:var(--jade);flex-shrink:0;margin-top:2px;"></i>
+            <div>
+              <div style="font-weight:700;font-size:14px;margin-bottom:4px;color:var(--jade);">Regulatory compliance</div>
+              <p style="font-size:13px;color:var(--text-2);margin:0;line-height:1.6;">
+                This process complies with <strong style="color:var(--text);">CBK Prudential Guidelines</strong> on credit risk management, Kenya's <strong style="color:var(--text);">Proceeds of Crime & Anti-Money Laundering Act (POCAMLA)</strong>, and the <strong style="color:var(--text);">Prevention of Terrorism Act</strong>. All data is handled under Kenya's <strong style="color:var(--text);">Data Protection Act 2019</strong>.
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Summary sidebar -->
+      <div>
+        <div class="credit-summary-card">
+          <h3>Application summary</h3>
+
+          <div class="app-status-badge">
+            <i class="ph ph-clock-countdown"></i>
+            Stage 3 of 6 — KYB in review
+          </div>
+
+          <div style="margin-top:16px;">
+            <div class="summary-row">
+              <span>Requested limit</span>
+              <strong>KES 500,000</strong>
+            </div>
+            <div class="summary-row">
+              <span>Credit type</span>
+              <strong>Revolving line</strong>
+            </div>
+            <div class="summary-row">
+              <span>Term</span>
+              <strong>12 months</strong>
+            </div>
+            <div class="summary-row">
+              <span>Submitted</span>
+              <strong>02 Jun 2025</strong>
+            </div>
+            <div class="summary-row">
+              <span>Est. decision</span>
+              <strong>11 Jul 2025</strong>
+            </div>
+            <div class="summary-row">
+              <span>Application ref.</span>
+              <strong style="color:var(--gold);">F8-CR-2025-0847</strong>
+            </div>
+          </div>
+
+          <!-- Document progress -->
+          <div style="margin-top:16px;padding-top:14px;border-top:1px solid var(--border);">
+            <div style="font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:var(--muted);margin-bottom:10px;">Document checklist</div>
+            <div style="display:grid;gap:7px;">
+              <div style="display:flex;align-items:center;gap:8px;font-size:13px;">
+                <i class="ph ph-check-circle" style="color:var(--jade);font-size:16px;flex-shrink:0;"></i>National ID verified
+              </div>
+              <div style="display:flex;align-items:center;gap:8px;font-size:13px;">
+                <i class="ph ph-check-circle" style="color:var(--jade);font-size:16px;flex-shrink:0;"></i>Certificate of Incorporation
+              </div>
+              <div style="display:flex;align-items:center;gap:8px;font-size:13px;">
+                <i class="ph ph-check-circle" style="color:var(--jade);font-size:16px;flex-shrink:0;"></i>KRA PIN & Tax Certificate
+              </div>
+              <div style="display:flex;align-items:center;gap:8px;font-size:13px;">
+                <i class="ph ph-clock" style="color:var(--gold);font-size:16px;flex-shrink:0;"></i>Audited financials <span style="color:var(--gold);font-size:11px;">(under review)</span>
+              </div>
+              <div style="display:flex;align-items:center;gap:8px;font-size:13px;color:var(--muted);">
+                <i class="ph ph-circle-dashed" style="font-size:16px;flex-shrink:0;"></i>Bank statements (6 months)
+              </div>
+              <div style="display:flex;align-items:center;gap:8px;font-size:13px;color:var(--muted);">
+                <i class="ph ph-circle-dashed" style="font-size:16px;flex-shrink:0;"></i>Source of funds declaration
+              </div>
+            </div>
+          </div>
+
+          <!-- Progress bar -->
+          <div style="margin-top:16px;padding-top:14px;border-top:1px solid var(--border);">
+            <div style="display:flex;justify-content:space-between;font-size:12px;color:var(--muted);margin-bottom:6px;">
+              <span>Overall progress</span><span style="color:var(--jade);font-weight:700;">50%</span>
+            </div>
+            <div class="progress" style="margin:0;">
+              <div class="progress-fill" style="width:50%;background:linear-gradient(90deg,var(--jade),var(--gold));"></div>
+            </div>
+          </div>
+
+          <div class="summary-cta">
+            <a href="onboarding.html" class="primary-btn" style="width:100%;justify-content:center;">
+              <i class="ph ph-upload-simple"></i> Upload missing docs
+            </a>
+            <button class="secondary-btn" style="width:100%;justify-content:center;">
+              <i class="ph ph-headset"></i> Talk to credit team
+            </button>
+          </div>
+        </div>
+
+        <!-- Timeline box -->
+        <div style="margin-top:14px;background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:18px;">
+          <div style="font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:var(--muted);margin-bottom:12px;">Key dates</div>
+          <div style="display:grid;gap:10px;">
+            <div style="display:flex;justify-content:space-between;font-size:13px;">
+              <span style="color:var(--jade);">✓ Application submitted</span><strong>02 Jun</strong>
+            </div>
+            <div style="display:flex;justify-content:space-between;font-size:13px;">
+              <span style="color:var(--jade);">✓ KYC completed</span><strong>09 Jun</strong>
+            </div>
+            <div style="display:flex;justify-content:space-between;font-size:13px;">
+              <span style="color:var(--gold);">→ KYB deadline</span><strong>27 Jun</strong>
+            </div>
+            <div style="display:flex;justify-content:space-between;font-size:13px;color:var(--muted);">
+              <span>PLD/FT review</span><strong>02 Jul</strong>
+            </div>
+            <div style="display:flex;justify-content:space-between;font-size:13px;color:var(--muted);">
+              <span>Credit assessment</span><strong>07 Jul</strong>
+            </div>
+            <div style="display:flex;justify-content:space-between;font-size:13px;color:var(--muted);">
+              <span>Est. approval</span><strong>11 Jul</strong>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div><!-- /credit-app-layout -->
+  </main>
+
+  <footer class="footer page-shell">
+    <p>F8 — Confidential visual concept for pilot exploration.</p>
+  </footer>
+  <script src="script.js"></script>
+</body>
+</html>
