@@ -1,0 +1,926 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>F8 — Approval Policies</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Cormorant+Garamond:wght@300;400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/phosphor-icons@1.4.2/src/css/icons.css">
+  <link rel="stylesheet" href="styles.css" />
+  <style>
+    /* ── Policy workspace header ── */
+    .policy-workspace-header {
+      background: var(--surface); border: 1px solid var(--border);
+      border-radius: var(--radius); box-shadow: var(--shadow-card);
+      padding: 20px 24px; margin-bottom: 24px;
+    }
+    body.light .policy-workspace-header { background: #fff; }
+    .policy-workspace-title { font-size: 22px; font-weight: 800; margin-bottom: 14px; }
+
+    /* ── Invite link row ── */
+    .invite-link-row {
+      display: flex; align-items: center; gap: 10px; flex-wrap: wrap;
+      padding: 14px 16px; background: var(--surface-hi);
+      border: 1px solid var(--border); border-radius: 10px; margin-bottom: 14px;
+    }
+    body.light .invite-link-row { background: var(--canvas-mid); }
+    .invite-link-row p { font-size: 13px; color: var(--muted); margin-bottom: 6px; }
+    .invite-link-input {
+      flex: 1; min-width: 200px;
+      background: var(--surface); border: 1px solid var(--border);
+      border-radius: 8px; padding: 10px 14px;
+      font-family: Inter, sans-serif; font-size: 13px; color: var(--text);
+      outline: none;
+    }
+    body.light .invite-link-input { background: #fff; }
+    .copy-btn {
+      padding: 10px 16px; border-radius: 8px; border: none;
+      background: var(--jade); color: #fff;
+      font-family: Inter, sans-serif; font-size: 13px; font-weight: 700;
+      cursor: pointer; display: inline-flex; align-items: center; gap: 6px;
+      transition: background .15s;
+    }
+    .copy-btn:hover { background: #007A56; }
+    .pre-approve-row {
+      display: flex; align-items: center; gap: 10px;
+      font-size: 13px; color: var(--text-2);
+    }
+    .toggle-switch {
+      width: 38px; height: 22px; border-radius: 999px;
+      background: var(--jade); position: relative; cursor: pointer;
+      flex-shrink: 0; transition: background .2s;
+    }
+    .toggle-switch::after {
+      content: ""; position: absolute; top: 3px; right: 3px;
+      width: 16px; height: 16px; border-radius: 50%; background: #fff;
+      transition: right .2s;
+    }
+
+    /* ── Member table header actions ── */
+    .member-table-actions {
+      display: flex; align-items: center; gap: 8px; flex-wrap: wrap;
+      margin-bottom: 16px;
+    }
+    .action-btn-green {
+      padding: 9px 18px; border-radius: 999px; border: none;
+      background: var(--jade); color: #fff;
+      font-family: Inter, sans-serif; font-size: 13px; font-weight: 700;
+      cursor: pointer; transition: background .15s;
+    }
+    .action-btn-green:hover { background: #007A56; }
+    .action-btn-red {
+      padding: 9px 18px; border-radius: 999px; border: none;
+      background: var(--terracotta); color: #fff;
+      font-family: Inter, sans-serif; font-size: 13px; font-weight: 700;
+      cursor: pointer; transition: background .15s;
+    }
+    .action-btn-red:hover { background: #8B3820; }
+
+    /* Show filter pills */
+    .show-filters { display: flex; align-items: center; gap: 8px; margin-left: auto; flex-wrap: wrap; }
+    .show-filter-pill {
+      padding: 7px 14px; border-radius: 999px;
+      font-size: 12px; font-weight: 700; cursor: pointer;
+      border: 1px solid var(--border); color: var(--text-2); background: transparent;
+      font-family: Inter, sans-serif; transition: all .15s;
+    }
+    .show-filter-pill.active {
+      background: var(--earth); color: #fff; border-color: var(--earth);
+    }
+    body.light .show-filter-pill.active { background: #1A0D00; }
+    .show-filter-pill:hover:not(.active) { border-color: var(--gold); color: var(--gold); }
+
+    /* ── Member-policy table ── */
+    .policy-member-table { width: 100%; border-collapse: collapse; }
+    .policy-member-table th {
+      text-align: left; padding: 10px 16px;
+      font-size: 10px; font-weight: 700; text-transform: uppercase;
+      letter-spacing: .12em; color: var(--muted);
+      border-bottom: 2px solid var(--border);
+    }
+    .policy-member-table td {
+      padding: 16px 16px; border-bottom: 1px solid var(--border-dim);
+      vertical-align: middle;
+    }
+    .policy-member-table tr:last-child td { border-bottom: none; }
+    .policy-member-table tr:hover td { background: rgba(224,120,51,.03); }
+
+    /* ── User cell ── */
+    .user-cell { display: flex; align-items: center; gap: 12px; }
+    .user-avatar {
+      width: 38px; height: 38px; border-radius: 50%;
+      display: grid; place-items: center;
+      font-weight: 800; font-size: 14px; flex-shrink: 0;
+    }
+    .user-info-name  { font-size: 14px; font-weight: 700; }
+    .user-info-email { font-size: 12px; color: var(--muted); margin-top: 2px; }
+
+    /* ── Submits-to arrow cell ── */
+    .submits-to-cell { display: flex; align-items: center; gap: 10px; }
+    .submits-arrow {
+      width: 28px; height: 28px; border-radius: 50%;
+      background: rgba(224,120,51,.1); color: var(--gold);
+      display: grid; place-items: center; font-size: 14px; flex-shrink: 0;
+    }
+
+    /* ── Role badge ── */
+    .role-badge-wa {
+      display: inline-flex; align-items: center; gap: 5px;
+      padding: 5px 12px; border-radius: 6px;
+      background: var(--gold); color: var(--earth);
+      font-size: 11px; font-weight: 800; letter-spacing: .04em;
+    }
+    .role-badge-none {
+      font-size: 13px; color: var(--muted); font-style: italic;
+    }
+    .role-badge-admin {
+      display: inline-flex; align-items: center; gap: 5px;
+      padding: 5px 12px; border-radius: 6px;
+      background: rgba(0,150,106,.15); color: var(--jade);
+      border: 1px solid rgba(0,150,106,.25);
+      font-size: 11px; font-weight: 800; letter-spacing: .04em;
+    }
+
+    /* ── Settings button ── */
+    .settings-btn {
+      display: inline-flex; align-items: center; gap: 6px;
+      padding: 8px 14px; border-radius: 8px;
+      border: 1px solid var(--border); background: transparent;
+      color: var(--text-2); font-size: 13px; font-weight: 700;
+      font-family: Inter, sans-serif; cursor: pointer;
+      transition: border-color .15s, color .15s;
+    }
+    .settings-btn:hover { border-color: var(--gold); color: var(--gold); }
+
+    /* ── Checkbox ── */
+    .row-check { width: 16px; height: 16px; accent-color: var(--gold); cursor: pointer; }
+
+    /* ── Policy rules sidebar card ── */
+    .policy-rules-sidebar {
+      background: var(--surface); border: 1px solid var(--border);
+      border-radius: var(--radius); box-shadow: var(--shadow-card);
+      padding: 20px; margin-top: 24px;
+    }
+    body.light .policy-rules-sidebar { background: #fff; }
+
+    /* ── Two-col layout for the workspace + sidebar ── */
+    .policy-layout {
+      display: grid; grid-template-columns: 1fr 300px; gap: 20px; align-items: start;
+    }
+    @media (max-width: 900px) {
+      .policy-layout { grid-template-columns: 1fr; }
+    }
+    @media (max-width: 759px) {
+      .member-table-actions { flex-direction: column; align-items: stretch; }
+      .action-btn-green, .action-btn-red { text-align: center; }
+      .show-filters { margin-left: 0; }
+      .submits-to-cell { flex-direction: column; align-items: flex-start; gap: 6px; }
+    }
+
+    /* ── Tab switcher for policy list ── */
+    .policy-tabs {
+      display: flex; gap: 0; border-bottom: 1px solid var(--border); margin-bottom: 20px;
+    }
+    .policy-tab-btn {
+      padding: 10px 20px; font-size: 13px; font-weight: 700;
+      color: var(--muted); border-bottom: 2px solid transparent;
+      cursor: pointer; background: none; border-top: none; border-left: none; border-right: none;
+      font-family: Inter, sans-serif; transition: color .15s, border-color .15s;
+      white-space: nowrap;
+    }
+    .policy-tab-btn:hover { color: var(--text); }
+    .policy-tab-btn.active { color: var(--gold); border-bottom-color: var(--gold); }
+
+    /* Workspace panel */
+    .workspace-panel { display: none; }
+    .workspace-panel.active { display: block; }
+
+    /* ── Overflow for table on mobile ── */
+    .policy-table-wrap { overflow-x: auto; -webkit-overflow-scrolling: touch; }
+  </style>
+</head>
+<body>
+  <div class="scroll-progress"><span id="scrollBar"></span></div>
+  <header class="topbar">
+    <div class="brand">
+      <div class="mark">8</div>
+      <div><div class="brand-name">F8</div><div class="brand-tag">Approval Policies</div></div>
+    </div>
+    <nav class="nav">
+      <a href="index.html">Home</a>
+      <a href="dashboard.html">Dashboard</a>
+      <a href="applications.html">Applications</a>
+      <a href="transactions.html">Transactions</a>
+      <a href="members.html">Members</a>
+      <a href="approval-policies.html">Policies</a>
+      <a href="credit-application.html">Credit</a>
+      <a href="onboarding.html">Onboarding</a>
+      <a href="design-system.html">Style Guide</a>
+      <a href="features.html">Features</a>
+    </nav>
+    <button class="nav-toggle" id="navToggle" aria-label="Open menu"><i class="ph ph-list"></i></button>
+    <button class="ghost-btn" id="toggleTheme">Toggle Mode</button>
+  </header>
+
+  <main class="page-shell">
+    <a href="index.html" class="back-link reveal"><i class="ph ph-arrow-left"></i> Control Centre</a>
+
+    <!-- Page header -->
+    <div style="display:flex;justify-content:space-between;align-items:flex-end;margin:18px 0 22px;flex-wrap:wrap;gap:12px;" class="reveal">
+      <div>
+        <p class="eyebrow">Spend governance</p>
+        <h1 style="margin:0;">Approval policies</h1>
+      </div>
+      <button class="primary-btn" style="font-size:13px;padding:10px 20px;">
+        <i class="ph ph-plus"></i> New policy
+      </button>
+    </div>
+
+    <!-- Summary strip -->
+    <div class="policy-summary-strip reveal">
+      <div class="metric-card">
+        <i class="ph ph-git-branch"></i>
+        <span class="metric-label">Active policies</span>
+        <span class="metric-value">4</span>
+      </div>
+      <div class="metric-card">
+        <i class="ph ph-users"></i>
+        <span class="metric-label">Members covered</span>
+        <span class="metric-value">12</span>
+      </div>
+      <div class="metric-card">
+        <i class="ph ph-clock-countdown"></i>
+        <span class="metric-label">Pending requests</span>
+        <span class="metric-value">3</span>
+      </div>
+      <div class="metric-card">
+        <i class="ph ph-check-circle"></i>
+        <span class="metric-label">Approved this month</span>
+        <span class="metric-value">28</span>
+      </div>
+    </div>
+
+    <!-- Policy tabs -->
+    <div class="policy-tabs reveal">
+      <button class="policy-tab-btn active" onclick="switchPolicy(event,'ws1')">
+        <i class="ph ph-airplane"></i> T&amp;E Policy
+      </button>
+      <button class="policy-tab-btn" onclick="switchPolicy(event,'ws2')">
+        <i class="ph ph-laptop"></i> IT Spend Policy
+      </button>
+      <button class="policy-tab-btn" onclick="switchPolicy(event,'ws3')">
+        <i class="ph ph-gear"></i> Ops Standard
+      </button>
+      <button class="policy-tab-btn" onclick="switchPolicy(event,'ws4')">
+        <i class="ph ph-megaphone"></i> Marketing
+      </button>
+    </div>
+
+    <!-- ═══ WORKSPACE 1: T&E Policy ═══ -->
+    <div class="workspace-panel active reveal" id="ws1">
+      <div class="policy-layout">
+        <!-- Main workspace -->
+        <div>
+          <div class="policy-workspace-header">
+            <div class="policy-workspace-title">Travel &amp; Expenses Policy — F8 Kenya</div>
+
+            <!-- Invite link -->
+            <p style="font-size:13px;color:var(--muted);margin-bottom:8px;">Share this policy with members:</p>
+            <div class="invite-link-row">
+              <input class="invite-link-input" value="https://app.f8bank.ke/policies/te-policy-f8ke" readonly />
+              <button class="copy-btn" onclick="copyLink(this)"><i class="ph ph-link"></i> Copy link</button>
+            </div>
+            <div class="pre-approve-row">
+              <div class="toggle-switch"></div>
+              Pre-approve join requests from verified F8 members
+            </div>
+          </div>
+
+          <!-- Member count + actions -->
+          <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:14px;flex-wrap:wrap;gap:10px;" class="reveal">
+            <div style="font-size:15px;font-weight:700;">
+              Policy members <span style="background:rgba(224,120,51,.15);color:var(--gold);border-radius:999px;padding:3px 10px;font-size:13px;margin-left:6px;">5</span>
+            </div>
+            <div style="display:flex;gap:8px;flex-wrap:wrap;">
+              <button class="secondary-btn" style="font-size:12px;padding:8px 14px;"><i class="ph ph-upload-simple"></i> Import CSV</button>
+              <button class="secondary-btn" style="font-size:12px;padding:8px 14px;"><i class="ph ph-download-simple"></i> Export CSV</button>
+            </div>
+          </div>
+
+          <div class="member-table-actions reveal">
+            <button class="action-btn-green"><i class="ph ph-user-plus"></i> Invite</button>
+            <button class="action-btn-red"><i class="ph ph-user-minus"></i> Remove</button>
+            <div class="show-filters">
+              <span style="font-size:13px;color:var(--muted);font-weight:600;">Show:</span>
+              <button class="show-filter-pill active">All</button>
+              <button class="show-filter-pill">Auditors</button>
+              <button class="show-filter-pill">Approvers</button>
+              <button class="show-filter-pill">Admins</button>
+            </div>
+          </div>
+
+          <!-- Members table -->
+          <div class="table-shell reveal">
+            <div class="policy-table-wrap">
+              <table class="policy-member-table">
+                <thead>
+                  <tr>
+                    <th style="width:32px;"><input type="checkbox" class="row-check" /></th>
+                    <th>User</th>
+                    <th>Submits to</th>
+                    <th>Role</th>
+                    <th></th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <!-- Row 1 -->
+                  <tr>
+                    <td><input type="checkbox" class="row-check" /></td>
+                    <td>
+                      <div class="user-cell">
+                        <div class="user-avatar" style="background:rgba(224,120,51,.18);color:var(--gold);">NK</div>
+                        <div>
+                          <div class="user-info-name">Njeri Kamau</div>
+                          <div class="user-info-email">n.kamau@f8bank.ke</div>
+                        </div>
+                      </div>
+                    </td>
+                    <td>
+                      <div class="submits-to-cell">
+                        <div class="submits-arrow"><i class="ph ph-arrow-right"></i></div>
+                        <div class="user-cell">
+                          <div class="user-avatar" style="background:rgba(0,150,106,.18);color:var(--jade);font-size:12px;">SO</div>
+                          <div>
+                            <div class="user-info-name">S. Ochieng</div>
+                            <div class="user-info-email">s.ochieng@f8bank.ke</div>
+                          </div>
+                        </div>
+                      </div>
+                    </td>
+                    <td><span class="role-badge-wa"><i class="ph ph-shield"></i> Workspace Admin</span></td>
+                    <td><button class="settings-btn"><i class="ph ph-gear"></i> Settings</button></td>
+                  </tr>
+                  <!-- Row 2 -->
+                  <tr>
+                    <td><input type="checkbox" class="row-check" /></td>
+                    <td>
+                      <div class="user-cell">
+                        <div class="user-avatar" style="background:rgba(0,150,106,.15);color:var(--jade);">KM</div>
+                        <div>
+                          <div class="user-info-name">Kofi Mensah</div>
+                          <div class="user-info-email">k.mensah@f8bank.ke</div>
+                        </div>
+                      </div>
+                    </td>
+                    <td>
+                      <div class="submits-to-cell">
+                        <div class="submits-arrow"><i class="ph ph-arrow-right"></i></div>
+                        <div class="user-cell">
+                          <div class="user-avatar" style="background:rgba(240,192,90,.18);color:var(--harvest);font-size:12px;">MA</div>
+                          <div>
+                            <div class="user-info-name">M. Abubakar</div>
+                            <div class="user-info-email">m.abubakar@f8bank.ke</div>
+                          </div>
+                        </div>
+                      </div>
+                    </td>
+                    <td><span class="role-badge-none">None</span></td>
+                    <td><button class="settings-btn"><i class="ph ph-gear"></i> Settings</button></td>
+                  </tr>
+                  <!-- Row 3 -->
+                  <tr>
+                    <td><input type="checkbox" class="row-check" /></td>
+                    <td>
+                      <div class="user-cell">
+                        <div class="user-avatar" style="background:rgba(184,92,56,.15);color:var(--terracotta);">AO</div>
+                        <div>
+                          <div class="user-info-name">Amara Osei</div>
+                          <div class="user-info-email">a.osei@f8bank.ke</div>
+                        </div>
+                      </div>
+                    </td>
+                    <td>
+                      <div class="submits-to-cell">
+                        <div class="submits-arrow"><i class="ph ph-arrow-right"></i></div>
+                        <div class="user-cell">
+                          <div class="user-avatar" style="background:rgba(0,150,106,.18);color:var(--jade);font-size:12px;">SO</div>
+                          <div>
+                            <div class="user-info-name">S. Ochieng</div>
+                            <div class="user-info-email">s.ochieng@f8bank.ke</div>
+                          </div>
+                        </div>
+                      </div>
+                    </td>
+                    <td><span class="role-badge-wa"><i class="ph ph-shield"></i> Workspace Admin</span></td>
+                    <td><button class="settings-btn"><i class="ph ph-gear"></i> Settings</button></td>
+                  </tr>
+                  <!-- Row 4 -->
+                  <tr>
+                    <td><input type="checkbox" class="row-check" /></td>
+                    <td>
+                      <div class="user-cell">
+                        <div class="user-avatar" style="background:rgba(224,120,51,.12);color:var(--gold);">BW</div>
+                        <div>
+                          <div class="user-info-name">Baraka Waweru</div>
+                          <div class="user-info-email">b.waweru@f8bank.ke</div>
+                        </div>
+                      </div>
+                    </td>
+                    <td>
+                      <div class="submits-to-cell">
+                        <div class="submits-arrow"><i class="ph ph-arrow-right"></i></div>
+                        <div class="user-cell">
+                          <div class="user-avatar" style="background:rgba(240,192,90,.18);color:var(--harvest);font-size:12px;">DW</div>
+                          <div>
+                            <div class="user-info-name">D. Waweru</div>
+                            <div class="user-info-email">d.waweru@f8bank.ke</div>
+                          </div>
+                        </div>
+                      </div>
+                    </td>
+                    <td><span class="role-badge-none">None</span></td>
+                    <td><button class="settings-btn"><i class="ph ph-gear"></i> Settings</button></td>
+                  </tr>
+                  <!-- Row 5: approver herself -->
+                  <tr>
+                    <td><input type="checkbox" class="row-check" /></td>
+                    <td>
+                      <div class="user-cell">
+                        <div class="user-avatar" style="background:rgba(0,150,106,.18);color:var(--jade);">SO</div>
+                        <div>
+                          <div class="user-info-name">S. Ochieng <span style="font-size:10px;background:rgba(224,120,51,.15);color:var(--gold);padding:2px 7px;border-radius:999px;margin-left:4px;">You</span></div>
+                          <div class="user-info-email">s.ochieng@f8bank.ke</div>
+                        </div>
+                      </div>
+                    </td>
+                    <td>
+                      <div class="submits-to-cell">
+                        <div class="submits-arrow"><i class="ph ph-arrow-right"></i></div>
+                        <div class="user-cell">
+                          <div class="user-avatar" style="background:rgba(0,150,106,.18);color:var(--jade);font-size:12px;">SO</div>
+                          <div>
+                            <div class="user-info-name">S. Ochieng</div>
+                            <div style="font-size:11px;color:var(--jade);font-weight:700;">Self-approves</div>
+                          </div>
+                        </div>
+                      </div>
+                    </td>
+                    <td><span class="role-badge-admin"><i class="ph ph-crown"></i> Approver</span></td>
+                    <td><button class="settings-btn"><i class="ph ph-gear"></i> Settings</button></td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <div class="table-footer">
+              <span>1 – 5 of 5 members</span>
+              <div class="pagination">
+                <button class="pg-btn"><i class="ph ph-caret-left"></i></button>
+                <button class="pg-btn active">1</button>
+                <button class="pg-btn"><i class="ph ph-caret-right"></i></button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Sidebar: policy rules -->
+        <div>
+          <div class="policy-rules-sidebar">
+            <div style="font-size:15px;font-weight:700;margin-bottom:14px;display:flex;align-items:center;gap:8px;">
+              <i class="ph ph-airplane" style="color:var(--gold);font-size:18px;"></i> T&amp;E Policy rules
+            </div>
+            <div class="policy-rules">
+              <div class="policy-rule">
+                <i class="ph ph-money" style="color:var(--gold);"></i>
+                <span>Auto-approve under</span>
+                <span class="rule-val">KES 5,000</span>
+              </div>
+              <div class="policy-rule">
+                <i class="ph ph-user-check" style="color:var(--jade);"></i>
+                <span>Manager approval</span>
+                <span class="rule-val">KES 5K – 50K</span>
+              </div>
+              <div class="policy-rule">
+                <i class="ph ph-users" style="color:var(--harvest);"></i>
+                <span>Finance + CEO</span>
+                <span class="rule-val">&gt; KES 50,000</span>
+              </div>
+              <div class="policy-rule">
+                <i class="ph ph-paper-clip" style="color:var(--muted);"></i>
+                <span>Receipt required</span>
+                <span class="rule-val">All amounts</span>
+              </div>
+              <div class="policy-rule">
+                <i class="ph ph-clock" style="color:var(--muted);"></i>
+                <span>Submit within</span>
+                <span class="rule-val">5 days</span>
+              </div>
+            </div>
+            <div class="policy-tiers" style="margin-top:14px;">
+              <div class="policy-tier">
+                <span class="tier-range">&lt; KES 5,000</span>
+                <i class="ph ph-arrow-right" style="color:var(--gold);font-size:12px;"></i>
+                <span class="tier-approver">Auto</span>
+              </div>
+              <div class="policy-tier">
+                <span class="tier-range">KES 5K – 20K</span>
+                <i class="ph ph-arrow-right" style="color:var(--gold);font-size:12px;"></i>
+                <span class="tier-approver">S. Ochieng</span>
+              </div>
+              <div class="policy-tier">
+                <span class="tier-range">KES 20K – 50K</span>
+                <i class="ph ph-arrow-right" style="color:var(--gold);font-size:12px;"></i>
+                <span class="tier-approver">M. Abubakar</span>
+              </div>
+              <div class="policy-tier">
+                <span class="tier-range">&gt; KES 50,000</span>
+                <i class="ph ph-arrow-right" style="color:var(--gold);font-size:12px;"></i>
+                <span class="tier-approver">D. Waweru + CFO</span>
+              </div>
+            </div>
+            <div class="policy-stats">
+              <div class="policy-stat">
+                <div class="policy-stat-val" style="color:var(--jade);">18</div>
+                <div class="policy-stat-lbl">Approved</div>
+              </div>
+              <div class="policy-stat">
+                <div class="policy-stat-val" style="color:var(--harvest);">3</div>
+                <div class="policy-stat-lbl">Pending</div>
+              </div>
+              <div class="policy-stat">
+                <div class="policy-stat-val" style="color:var(--terracotta);">2</div>
+                <div class="policy-stat-lbl">Rejected</div>
+              </div>
+            </div>
+            <button class="secondary-btn" style="width:100%;margin-top:14px;font-size:13px;justify-content:center;">
+              <i class="ph ph-pencil-simple"></i> Edit policy rules
+            </button>
+          </div>
+        </div>
+      </div>
+    </div><!-- /ws1 -->
+
+    <!-- ═══ WORKSPACE 2: IT Spend Policy ═══ -->
+    <div class="workspace-panel reveal" id="ws2">
+      <div class="policy-layout">
+        <div>
+          <div class="policy-workspace-header">
+            <div class="policy-workspace-title">IT Spend Policy — F8 Kenya</div>
+            <p style="font-size:13px;color:var(--muted);margin-bottom:8px;">Share this policy with members:</p>
+            <div class="invite-link-row">
+              <input class="invite-link-input" value="https://app.f8bank.ke/policies/it-spend-f8ke" readonly />
+              <button class="copy-btn" onclick="copyLink(this)"><i class="ph ph-link"></i> Copy link</button>
+            </div>
+            <div class="pre-approve-row">
+              <div class="toggle-switch"></div>
+              Pre-approve join requests from verified F8 members
+            </div>
+          </div>
+
+          <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:14px;flex-wrap:wrap;gap:10px;" class="reveal">
+            <div style="font-size:15px;font-weight:700;">Policy members <span style="background:rgba(224,120,51,.15);color:var(--gold);border-radius:999px;padding:3px 10px;font-size:13px;margin-left:6px;">4</span></div>
+            <div style="display:flex;gap:8px;">
+              <button class="secondary-btn" style="font-size:12px;padding:8px 14px;"><i class="ph ph-download-simple"></i> Export CSV</button>
+            </div>
+          </div>
+
+          <div class="member-table-actions reveal">
+            <button class="action-btn-green"><i class="ph ph-user-plus"></i> Invite</button>
+            <button class="action-btn-red"><i class="ph ph-user-minus"></i> Remove</button>
+            <div class="show-filters">
+              <span style="font-size:13px;color:var(--muted);font-weight:600;">Show:</span>
+              <button class="show-filter-pill active">All</button>
+              <button class="show-filter-pill">Approvers</button>
+              <button class="show-filter-pill">Admins</button>
+            </div>
+          </div>
+
+          <div class="table-shell reveal">
+            <div class="policy-table-wrap">
+              <table class="policy-member-table">
+                <thead>
+                  <tr>
+                    <th style="width:32px;"><input type="checkbox" class="row-check" /></th>
+                    <th>User</th>
+                    <th>Submits to</th>
+                    <th>Role</th>
+                    <th></th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td><input type="checkbox" class="row-check" /></td>
+                    <td>
+                      <div class="user-cell">
+                        <div class="user-avatar" style="background:rgba(224,120,51,.18);color:var(--gold);">NK</div>
+                        <div><div class="user-info-name">Njeri Kamau</div><div class="user-info-email">n.kamau@f8bank.ke</div></div>
+                      </div>
+                    </td>
+                    <td>
+                      <div class="submits-to-cell">
+                        <div class="submits-arrow"><i class="ph ph-arrow-right"></i></div>
+                        <div class="user-cell">
+                          <div class="user-avatar" style="background:rgba(0,150,106,.18);color:var(--jade);font-size:12px;">SO</div>
+                          <div><div class="user-info-name">S. Ochieng</div><div class="user-info-email">s.ochieng@f8bank.ke</div></div>
+                        </div>
+                      </div>
+                    </td>
+                    <td><span class="role-badge-none">None</span></td>
+                    <td><button class="settings-btn"><i class="ph ph-gear"></i> Settings</button></td>
+                  </tr>
+                  <tr>
+                    <td><input type="checkbox" class="row-check" /></td>
+                    <td>
+                      <div class="user-cell">
+                        <div class="user-avatar" style="background:rgba(0,150,106,.15);color:var(--jade);">KM</div>
+                        <div><div class="user-info-name">Kofi Mensah</div><div class="user-info-email">k.mensah@f8bank.ke</div></div>
+                      </div>
+                    </td>
+                    <td>
+                      <div class="submits-to-cell">
+                        <div class="submits-arrow"><i class="ph ph-arrow-right"></i></div>
+                        <div class="user-cell">
+                          <div class="user-avatar" style="background:rgba(0,150,106,.18);color:var(--jade);font-size:12px;">SO</div>
+                          <div><div class="user-info-name">S. Ochieng</div><div class="user-info-email">s.ochieng@f8bank.ke</div></div>
+                        </div>
+                      </div>
+                    </td>
+                    <td><span class="role-badge-none">None</span></td>
+                    <td><button class="settings-btn"><i class="ph ph-gear"></i> Settings</button></td>
+                  </tr>
+                  <tr>
+                    <td><input type="checkbox" class="row-check" /></td>
+                    <td>
+                      <div class="user-cell">
+                        <div class="user-avatar" style="background:rgba(184,92,56,.15);color:var(--terracotta);">AO</div>
+                        <div><div class="user-info-name">Amara Osei</div><div class="user-info-email">a.osei@f8bank.ke</div></div>
+                      </div>
+                    </td>
+                    <td>
+                      <div class="submits-to-cell">
+                        <div class="submits-arrow"><i class="ph ph-arrow-right"></i></div>
+                        <div class="user-cell">
+                          <div class="user-avatar" style="background:rgba(240,192,90,.18);color:var(--harvest);font-size:12px;">DW</div>
+                          <div><div class="user-info-name">D. Waweru</div><div class="user-info-email">d.waweru@f8bank.ke</div></div>
+                        </div>
+                      </div>
+                    </td>
+                    <td><span class="role-badge-none">None</span></td>
+                    <td><button class="settings-btn"><i class="ph ph-gear"></i> Settings</button></td>
+                  </tr>
+                  <tr>
+                    <td><input type="checkbox" class="row-check" /></td>
+                    <td>
+                      <div class="user-cell">
+                        <div class="user-avatar" style="background:rgba(0,150,106,.18);color:var(--jade);">SO</div>
+                        <div><div class="user-info-name">S. Ochieng <span style="font-size:10px;background:rgba(224,120,51,.15);color:var(--gold);padding:2px 7px;border-radius:999px;margin-left:4px;">You</span></div><div class="user-info-email">s.ochieng@f8bank.ke</div></div>
+                      </div>
+                    </td>
+                    <td>
+                      <div class="submits-to-cell">
+                        <div class="submits-arrow"><i class="ph ph-arrow-right"></i></div>
+                        <div class="user-cell">
+                          <div class="user-avatar" style="background:rgba(0,150,106,.18);color:var(--jade);font-size:12px;">SO</div>
+                          <div><div class="user-info-name">S. Ochieng</div><div style="font-size:11px;color:var(--jade);font-weight:700;">Self-approves</div></div>
+                        </div>
+                      </div>
+                    </td>
+                    <td><span class="role-badge-admin"><i class="ph ph-crown"></i> Approver</span></td>
+                    <td><button class="settings-btn"><i class="ph ph-gear"></i> Settings</button></td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <div class="table-footer">
+              <span>1 – 4 of 4 members</span>
+              <div class="pagination">
+                <button class="pg-btn"><i class="ph ph-caret-left"></i></button>
+                <button class="pg-btn active">1</button>
+                <button class="pg-btn"><i class="ph ph-caret-right"></i></button>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div>
+          <div class="policy-rules-sidebar">
+            <div style="font-size:15px;font-weight:700;margin-bottom:14px;display:flex;align-items:center;gap:8px;">
+              <i class="ph ph-laptop" style="color:var(--gold);font-size:18px;"></i> IT Spend rules
+            </div>
+            <div class="policy-rules">
+              <div class="policy-rule"><i class="ph ph-money" style="color:var(--gold);"></i><span>Auto-approve under</span><span class="rule-val">KES 1,500</span></div>
+              <div class="policy-rule"><i class="ph ph-user-check" style="color:var(--jade);"></i><span>Manager approval</span><span class="rule-val">KES 1.5K – 30K</span></div>
+              <div class="policy-rule"><i class="ph ph-users" style="color:var(--harvest);"></i><span>Finance approval</span><span class="rule-val">&gt; KES 30,000</span></div>
+              <div class="policy-rule"><i class="ph ph-paper-clip" style="color:var(--muted);"></i><span>Receipt required</span><span class="rule-val">Always</span></div>
+            </div>
+            <div class="policy-stats" style="margin-top:14px;padding-top:14px;border-top:1px solid var(--border);">
+              <div class="policy-stat"><div class="policy-stat-val" style="color:var(--jade);">24</div><div class="policy-stat-lbl">Approved</div></div>
+              <div class="policy-stat"><div class="policy-stat-val" style="color:var(--harvest);">1</div><div class="policy-stat-lbl">Pending</div></div>
+              <div class="policy-stat"><div class="policy-stat-val" style="color:var(--terracotta);">0</div><div class="policy-stat-lbl">Rejected</div></div>
+            </div>
+            <button class="secondary-btn" style="width:100%;margin-top:14px;font-size:13px;justify-content:center;"><i class="ph ph-pencil-simple"></i> Edit policy rules</button>
+          </div>
+        </div>
+      </div>
+    </div><!-- /ws2 -->
+
+    <!-- ═══ WORKSPACE 3: Ops Standard ═══ -->
+    <div class="workspace-panel reveal" id="ws3">
+      <div class="policy-layout">
+        <div>
+          <div class="policy-workspace-header">
+            <div class="policy-workspace-title">Operations Standard Policy — F8 Kenya</div>
+            <p style="font-size:13px;color:var(--muted);margin-bottom:8px;">Share this policy with members:</p>
+            <div class="invite-link-row">
+              <input class="invite-link-input" value="https://app.f8bank.ke/policies/ops-standard-f8ke" readonly />
+              <button class="copy-btn" onclick="copyLink(this)"><i class="ph ph-link"></i> Copy link</button>
+            </div>
+          </div>
+          <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:14px;flex-wrap:wrap;gap:10px;" class="reveal">
+            <div style="font-size:15px;font-weight:700;">Policy members <span style="background:rgba(224,120,51,.15);color:var(--gold);border-radius:999px;padding:3px 10px;font-size:13px;margin-left:6px;">3</span></div>
+          </div>
+          <div class="member-table-actions reveal">
+            <button class="action-btn-green"><i class="ph ph-user-plus"></i> Invite</button>
+            <button class="action-btn-red"><i class="ph ph-user-minus"></i> Remove</button>
+          </div>
+          <div class="table-shell reveal">
+            <div class="policy-table-wrap">
+              <table class="policy-member-table">
+                <thead>
+                  <tr>
+                    <th style="width:32px;"><input type="checkbox" class="row-check" /></th>
+                    <th>User</th><th>Submits to</th><th>Role</th><th></th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td><input type="checkbox" class="row-check" /></td>
+                    <td><div class="user-cell"><div class="user-avatar" style="background:rgba(224,120,51,.18);color:var(--gold);">NK</div><div><div class="user-info-name">Njeri Kamau</div><div class="user-info-email">n.kamau@f8bank.ke</div></div></div></td>
+                    <td><div class="submits-to-cell"><div class="submits-arrow"><i class="ph ph-arrow-right"></i></div><div class="user-cell"><div class="user-avatar" style="background:rgba(240,192,90,.18);color:var(--harvest);font-size:12px;">DW</div><div><div class="user-info-name">D. Waweru</div><div class="user-info-email">d.waweru@f8bank.ke</div></div></div></div></td>
+                    <td><span class="role-badge-none">None</span></td>
+                    <td><button class="settings-btn"><i class="ph ph-gear"></i> Settings</button></td>
+                  </tr>
+                  <tr>
+                    <td><input type="checkbox" class="row-check" /></td>
+                    <td><div class="user-cell"><div class="user-avatar" style="background:rgba(0,150,106,.15);color:var(--jade);">KM</div><div><div class="user-info-name">Kofi Mensah</div><div class="user-info-email">k.mensah@f8bank.ke</div></div></div></td>
+                    <td><div class="submits-to-cell"><div class="submits-arrow"><i class="ph ph-arrow-right"></i></div><div class="user-cell"><div class="user-avatar" style="background:rgba(240,192,90,.18);color:var(--harvest);font-size:12px;">DW</div><div><div class="user-info-name">D. Waweru</div><div class="user-info-email">d.waweru@f8bank.ke</div></div></div></div></td>
+                    <td><span class="role-badge-none">None</span></td>
+                    <td><button class="settings-btn"><i class="ph ph-gear"></i> Settings</button></td>
+                  </tr>
+                  <tr>
+                    <td><input type="checkbox" class="row-check" /></td>
+                    <td><div class="user-cell"><div class="user-avatar" style="background:rgba(240,192,90,.18);color:var(--harvest);">DW</div><div><div class="user-info-name">D. Waweru <span style="font-size:10px;background:rgba(224,120,51,.15);color:var(--gold);padding:2px 7px;border-radius:999px;margin-left:4px;">You</span></div><div class="user-info-email">d.waweru@f8bank.ke</div></div></div></td>
+                    <td><div class="submits-to-cell"><div class="submits-arrow"><i class="ph ph-arrow-right"></i></div><div class="user-cell"><div class="user-avatar" style="background:rgba(240,192,90,.18);color:var(--harvest);font-size:12px;">DW</div><div><div class="user-info-name">D. Waweru</div><div style="font-size:11px;color:var(--jade);font-weight:700;">Self-approves</div></div></div></div></td>
+                    <td><span class="role-badge-admin"><i class="ph ph-crown"></i> Approver</span></td>
+                    <td><button class="settings-btn"><i class="ph ph-gear"></i> Settings</button></td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <div class="table-footer"><span>1 – 3 of 3 members</span></div>
+          </div>
+        </div>
+        <div>
+          <div class="policy-rules-sidebar">
+            <div style="font-size:15px;font-weight:700;margin-bottom:14px;display:flex;align-items:center;gap:8px;"><i class="ph ph-gear" style="color:var(--gold);font-size:18px;"></i> Ops Standard rules</div>
+            <div class="policy-rules">
+              <div class="policy-rule"><i class="ph ph-money" style="color:var(--gold);"></i><span>Auto-approve under</span><span class="rule-val">KES 3,000</span></div>
+              <div class="policy-rule"><i class="ph ph-user-check" style="color:var(--jade);"></i><span>Manager approval</span><span class="rule-val">KES 3K – 25K</span></div>
+              <div class="policy-rule"><i class="ph ph-users" style="color:var(--harvest);"></i><span>Finance + Ops</span><span class="rule-val">&gt; KES 25,000</span></div>
+            </div>
+            <div class="policy-stats" style="margin-top:14px;padding-top:14px;border-top:1px solid var(--border);">
+              <div class="policy-stat"><div class="policy-stat-val" style="color:var(--jade);">9</div><div class="policy-stat-lbl">Approved</div></div>
+              <div class="policy-stat"><div class="policy-stat-val" style="color:var(--harvest);">1</div><div class="policy-stat-lbl">Pending</div></div>
+              <div class="policy-stat"><div class="policy-stat-val" style="color:var(--terracotta);">1</div><div class="policy-stat-lbl">Rejected</div></div>
+            </div>
+            <button class="secondary-btn" style="width:100%;margin-top:14px;font-size:13px;justify-content:center;"><i class="ph ph-pencil-simple"></i> Edit policy rules</button>
+          </div>
+        </div>
+      </div>
+    </div><!-- /ws3 -->
+
+    <!-- ═══ WORKSPACE 4: Marketing ═══ -->
+    <div class="workspace-panel reveal" id="ws4">
+      <div class="policy-layout">
+        <div>
+          <div class="policy-workspace-header">
+            <div class="policy-workspace-title">Marketing Policy — F8 Kenya</div>
+            <p style="font-size:13px;color:var(--muted);margin-bottom:8px;">Share this policy with members:</p>
+            <div class="invite-link-row">
+              <input class="invite-link-input" value="https://app.f8bank.ke/policies/marketing-f8ke" readonly />
+              <button class="copy-btn" onclick="copyLink(this)"><i class="ph ph-link"></i> Copy link</button>
+            </div>
+          </div>
+          <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:14px;flex-wrap:wrap;gap:10px;" class="reveal">
+            <div style="font-size:15px;font-weight:700;">Policy members <span style="background:rgba(224,120,51,.15);color:var(--gold);border-radius:999px;padding:3px 10px;font-size:13px;margin-left:6px;">2</span></div>
+          </div>
+          <div class="member-table-actions reveal">
+            <button class="action-btn-green"><i class="ph ph-user-plus"></i> Invite</button>
+            <button class="action-btn-red"><i class="ph ph-user-minus"></i> Remove</button>
+          </div>
+          <div class="table-shell reveal">
+            <div class="policy-table-wrap">
+              <table class="policy-member-table">
+                <thead>
+                  <tr>
+                    <th style="width:32px;"><input type="checkbox" class="row-check" /></th>
+                    <th>User</th><th>Submits to</th><th>Role</th><th></th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td><input type="checkbox" class="row-check" /></td>
+                    <td><div class="user-cell"><div class="user-avatar" style="background:rgba(184,92,56,.15);color:var(--terracotta);">AO</div><div><div class="user-info-name">Amara Osei</div><div class="user-info-email">a.osei@f8bank.ke</div></div></div></td>
+                    <td><div class="submits-to-cell"><div class="submits-arrow"><i class="ph ph-arrow-right"></i></div><div class="user-cell"><div class="user-avatar" style="background:rgba(240,192,90,.18);color:var(--harvest);font-size:12px;">MA</div><div><div class="user-info-name">M. Abubakar</div><div class="user-info-email">m.abubakar@f8bank.ke</div></div></div></div></td>
+                    <td><span class="role-badge-none">None</span></td>
+                    <td><button class="settings-btn"><i class="ph ph-gear"></i> Settings</button></td>
+                  </tr>
+                  <tr>
+                    <td><input type="checkbox" class="row-check" /></td>
+                    <td><div class="user-cell"><div class="user-avatar" style="background:rgba(240,192,90,.18);color:var(--harvest);">MA</div><div><div class="user-info-name">M. Abubakar</div><div class="user-info-email">m.abubakar@f8bank.ke</div></div></div></td>
+                    <td><div class="submits-to-cell"><div class="submits-arrow"><i class="ph ph-arrow-right"></i></div><div class="user-cell"><div class="user-avatar" style="background:rgba(240,192,90,.18);color:var(--harvest);font-size:12px;">MA</div><div><div class="user-info-name">M. Abubakar</div><div style="font-size:11px;color:var(--jade);font-weight:700;">Self-approves</div></div></div></div></td>
+                    <td><span class="role-badge-admin"><i class="ph ph-crown"></i> Approver</span></td>
+                    <td><button class="settings-btn"><i class="ph ph-gear"></i> Settings</button></td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <div class="table-footer"><span>1 – 2 of 2 members</span></div>
+          </div>
+        </div>
+        <div>
+          <div class="policy-rules-sidebar">
+            <div style="font-size:15px;font-weight:700;margin-bottom:14px;display:flex;align-items:center;gap:8px;"><i class="ph ph-megaphone" style="color:var(--gold);font-size:18px;"></i> Marketing rules</div>
+            <div class="policy-rules">
+              <div class="policy-rule"><i class="ph ph-money" style="color:var(--gold);"></i><span>Auto-approve under</span><span class="rule-val">KES 2,000</span></div>
+              <div class="policy-rule"><i class="ph ph-user-check" style="color:var(--jade);"></i><span>Manager approval</span><span class="rule-val">KES 2K – 40K</span></div>
+              <div class="policy-rule"><i class="ph ph-file-text" style="color:var(--muted);"></i><span>Brief required</span><span class="rule-val">Always</span></div>
+              <div class="policy-rule"><i class="ph ph-paper-clip" style="color:var(--muted);"></i><span>Receipt required</span><span class="rule-val">Always</span></div>
+            </div>
+            <div class="policy-stats" style="margin-top:14px;padding-top:14px;border-top:1px solid var(--border);">
+              <div class="policy-stat"><div class="policy-stat-val" style="color:var(--jade);">4</div><div class="policy-stat-lbl">Approved</div></div>
+              <div class="policy-stat"><div class="policy-stat-val" style="color:var(--harvest);">0</div><div class="policy-stat-lbl">Pending</div></div>
+              <div class="policy-stat"><div class="policy-stat-val" style="color:var(--terracotta);">1</div><div class="policy-stat-lbl">Rejected</div></div>
+            </div>
+            <button class="secondary-btn" style="width:100%;margin-top:14px;font-size:13px;justify-content:center;"><i class="ph ph-pencil-simple"></i> Edit policy rules</button>
+          </div>
+        </div>
+      </div>
+    </div><!-- /ws4 -->
+
+  </main>
+
+  <footer class="footer page-shell">
+    <p>F8 — Confidential visual concept for pilot exploration.</p>
+  </footer>
+
+  <script src="script.js"></script>
+  <script>
+    // Policy tab switcher
+    function switchPolicy(e, id) {
+      document.querySelectorAll('.policy-tab-btn').forEach(b => b.classList.remove('active'));
+      e.target.classList.add('active');
+      document.querySelectorAll('.workspace-panel').forEach(p => p.classList.remove('active'));
+      document.getElementById(id).classList.add('active');
+    }
+
+    // Show filter pills
+    document.querySelectorAll('.show-filter-pill').forEach(function(pill) {
+      pill.addEventListener('click', function() {
+        var parent = this.closest('.show-filters');
+        parent.querySelectorAll('.show-filter-pill').forEach(function(p) { p.classList.remove('active'); });
+        this.classList.add('active');
+      });
+    });
+
+    // Copy link
+    function copyLink(btn) {
+      var input = btn.previousElementSibling;
+      input.select();
+      document.execCommand('copy');
+      var orig = btn.innerHTML;
+      btn.innerHTML = '<i class="ph ph-check"></i> Copied!';
+      setTimeout(function() { btn.innerHTML = orig; }, 2000);
+    }
+
+    // Hamburger
+    (function() {
+      var btn = document.getElementById('navToggle');
+      var nav = document.querySelector('.nav');
+      if (!btn || !nav) return;
+      btn.addEventListener('click', function() {
+        var open = nav.classList.toggle('open');
+        btn.innerHTML = open ? '<i class="ph ph-x"></i>' : '<i class="ph ph-list"></i>';
+        btn.setAttribute('aria-label', open ? 'Close menu' : 'Open menu');
+      });
+      nav.querySelectorAll('a').forEach(function(a) {
+        a.addEventListener('click', function() {
+          nav.classList.remove('open');
+          btn.innerHTML = '<i class="ph ph-list"></i>';
+          btn.setAttribute('aria-label', 'Open menu');
+        });
+      });
+    })();
+  </script>
+</body>
+</html>

@@ -3,19 +3,143 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>F8 — Features</title>
+  <title>F8 — Feature Map</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Cormorant+Garamond:wght@300;400;500&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/phosphor-icons@1.4.2/src/css/icons.css">
   <link rel="stylesheet" href="styles.css" />
+  <style>
+    .module-group { margin-bottom: 56px; }
+    .module-header { display:flex;align-items:center;gap:14px;margin-bottom:20px;padding-bottom:14px;border-bottom:1px solid var(--border); }
+    .module-icon { width:46px;height:46px;border-radius:14px;display:grid;place-items:center;font-size:21px;flex-shrink:0;background:rgba(224,120,51,.12);color:var(--gold);border:1px solid rgba(224,120,51,.2); }
+    .module-icon.jade-i { background:rgba(0,150,106,.12);color:var(--jade);border-color:rgba(0,150,106,.2); }
+    .module-icon.harv-i { background:rgba(240,192,90,.12);color:var(--harvest);border-color:rgba(240,192,90,.22); }
+    .module-icon.terr-i { background:rgba(184,92,56,.12);color:var(--terracotta);border-color:rgba(184,92,56,.2); }
+    .module-icon.purp-i { background:rgba(162,89,255,.1);color:#A259FF;border-color:rgba(162,89,255,.2); }
+    .module-title  { font-size:20px;font-weight:800; }
+    .module-letter { font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.12em;color:var(--muted);background:var(--surface-hi);border:1px solid var(--border);border-radius:6px;padding:3px 8px; }
+    body.light .module-letter { background:var(--canvas-mid); }
+    .module-desc { font-size:13px;color:var(--text-2);margin-top:2px; }
+
+    .feat-card { background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);box-shadow:var(--shadow-sm);overflow:hidden;margin-bottom:14px;transition:border-color .18s; }
+    .feat-card:hover { border-color:rgba(224,120,51,.35); }
+    body.light .feat-card { background:#fff; }
+    .feat-card.live    { border-top:3px solid var(--jade); }
+    .feat-card.concept { border-top:3px solid var(--gold); }
+    .feat-header { display:flex;align-items:flex-start;gap:12px;padding:16px 20px; }
+    .feat-icon { width:36px;height:36px;border-radius:10px;display:grid;place-items:center;font-size:17px;flex-shrink:0;background:rgba(224,120,51,.1);color:var(--gold); }
+    .feat-icon.jade { background:rgba(0,150,106,.1);color:var(--jade); }
+    .feat-icon.harv { background:rgba(240,192,90,.12);color:var(--harvest); }
+    .feat-icon.terr { background:rgba(184,92,56,.1);color:var(--terracotta); }
+    .feat-icon.purp { background:rgba(162,89,255,.1);color:#A259FF; }
+    .feat-meta { flex:1; }
+    .feat-name { font-size:15px;font-weight:800;line-height:1.2;margin-bottom:4px; }
+    .feat-desc { font-size:13px;color:var(--text-2);line-height:1.5; }
+    .feat-badges { display:flex;gap:6px;align-items:flex-start;flex-shrink:0;flex-wrap:wrap;justify-content:flex-end; }
+    .badge-live { display:inline-flex;align-items:center;gap:5px;padding:4px 10px;border-radius:999px;font-size:11px;font-weight:700;background:rgba(0,150,106,.15);color:var(--jade);border:1px solid rgba(0,150,106,.3);white-space:nowrap; }
+    .badge-concept { display:inline-flex;align-items:center;gap:5px;padding:4px 10px;border-radius:999px;font-size:11px;font-weight:700;background:rgba(224,120,51,.12);color:var(--gold);border:1px solid rgba(224,120,51,.25);white-space:nowrap; }
+    .badge-mvp    { background:rgba(0,150,106,.1);color:var(--jade);border:1px solid rgba(0,150,106,.2);border-radius:999px;padding:3px 9px;font-size:10px;font-weight:700;white-space:nowrap; }
+    .badge-p2     { background:rgba(240,192,90,.12);color:var(--harvest);border:1px solid rgba(240,192,90,.25);border-radius:999px;padding:3px 9px;font-size:10px;font-weight:700;white-space:nowrap; }
+    .badge-future { background:rgba(184,92,56,.1);color:var(--terracotta);border:1px solid rgba(184,92,56,.2);border-radius:999px;padding:3px 9px;font-size:10px;font-weight:700;white-space:nowrap; }
+    .view-live-link { display:inline-flex;align-items:center;gap:5px;font-size:12px;font-weight:700;color:var(--jade);text-decoration:none;padding:4px 10px;border:1px solid rgba(0,150,106,.3);border-radius:999px;transition:background .15s; }
+    .view-live-link:hover { background:rgba(0,150,106,.1); }
+
+    .concept-area { border-top:1px solid var(--border);padding:0 20px 20px; }
+    .concept-label { font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:var(--muted);padding:10px 0 12px;display:flex;align-items:center;gap:6px; }
+    .concept-label::before,.concept-label::after { content:"";height:1px;background:var(--muted);opacity:.4; }
+    .concept-label::before { width:24px; }
+    .concept-label::after  { flex:1; }
+
+    .mock-phone { max-width:300px;margin:0 auto;background:var(--surface-hi);border:1px solid var(--border);border-radius:20px;overflow:hidden;box-shadow:0 8px 32px rgba(0,0,0,.3); }
+    body.light .mock-phone { background:var(--canvas-mid); }
+    .mock-phone-bar { height:38px;background:var(--surface);border-bottom:1px solid var(--border);display:flex;align-items:center;padding:0 14px;gap:8px; }
+    body.light .mock-phone-bar { background:#fff; }
+    .mock-phone-title { font-size:12px;font-weight:800;flex:1;text-align:center; }
+    .mock-phone-body  { padding:14px; }
+
+    .mock-notif { border-radius:14px;overflow:hidden;box-shadow:0 4px 20px rgba(0,0,0,.35);margin-bottom:8px; }
+    .mock-notif-bar  { display:flex;align-items:center;gap:8px;padding:8px 12px;font-size:11px;font-weight:700; }
+    .mock-notif-body { padding:10px 12px 12px;background:var(--surface); }
+    body.light .mock-notif-body { background:#fff; }
+    .mock-notif-title { font-size:13px;font-weight:800;margin-bottom:3px; }
+    .mock-notif-text  { font-size:12px;opacity:.75;line-height:1.4; }
+    .mock-notif-actions { display:flex;gap:6px;margin-top:10px; }
+    .mock-notif-btn { flex:1;text-align:center;padding:7px;border-radius:8px;font-size:12px;font-weight:700; }
+    .mock-notif-btn.primary { background:var(--gold);color:var(--earth); }
+    .mock-notif-btn.ghost   { background:rgba(255,255,255,.08);color:var(--text); }
+    body.light .mock-notif-btn.ghost { background:rgba(0,0,0,.06); }
+
+    .mock-panel { background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:14px;margin-bottom:8px; }
+    body.light .mock-panel { background:#fff; }
+    .mock-panel-title { font-size:11px;font-weight:800;text-transform:uppercase;letter-spacing:.08em;color:var(--muted);margin-bottom:10px; }
+    .mock-row-line { display:flex;justify-content:space-between;align-items:center;padding:7px 0;border-bottom:1px solid var(--border-dim);font-size:12px; }
+    .mock-row-line:last-child { border-bottom:none;padding-bottom:0; }
+    .mock-amount { font-weight:800;font-size:13px; }
+    .mock-badge { font-size:10px;font-weight:700;padding:3px 8px;border-radius:999px; }
+    .mock-badge.ok   { background:rgba(0,150,106,.15);color:var(--jade); }
+    .mock-badge.warn { background:rgba(184,92,56,.15);color:var(--terracotta); }
+    .mock-badge.pend { background:rgba(240,192,90,.12);color:var(--harvest); }
+
+    .mock-bars { display:flex;gap:8px;align-items:flex-end;height:80px;margin:8px 0; }
+    .mock-bar-col { flex:1;display:flex;flex-direction:column;align-items:center;gap:4px; }
+    .mock-bar-fill { width:100%;border-radius:5px 5px 2px 2px; }
+    .mock-bar-lbl  { font-size:9px;color:var(--muted); }
+
+    .mock-toggle-row { display:flex;justify-content:space-between;align-items:center;padding:8px 0;border-bottom:1px solid var(--border-dim);font-size:12px; }
+    .mock-toggle-row:last-child { border-bottom:none; }
+    .mock-toggle { width:32px;height:18px;border-radius:999px;position:relative; }
+    .mock-toggle::after { content:"";position:absolute;top:2px;width:14px;height:14px;border-radius:50%;background:#fff; }
+    .mock-toggle.on  { background:var(--jade); }
+    .mock-toggle.on::after  { right:2px; }
+    .mock-toggle.off { background:var(--border); }
+    .mock-toggle.off::after { left:2px; }
+
+    .mock-field { background:var(--surface-hi);border:1px solid var(--border);border-radius:10px;padding:9px 12px;margin-bottom:8px; }
+    body.light .mock-field { background:var(--canvas-mid); }
+    .mock-field-label { font-size:10px;color:var(--muted);text-transform:uppercase;letter-spacing:.06em;margin-bottom:3px; }
+    .mock-field-val   { font-size:13px;font-weight:600; }
+    .mock-field-focus { border-color:var(--gold); }
+
+    .mock-vcard { border-radius:14px;padding:16px;background:linear-gradient(135deg,#163320,#0B1F14);color:#fff;margin-bottom:10px;position:relative;overflow:hidden; }
+    .mock-vcard::before { content:"";position:absolute;top:-20px;right:-20px;width:80px;height:80px;border-radius:50%;background:rgba(255,255,255,.04); }
+    .mock-vcard-chip { width:22px;height:16px;border-radius:3px;background:linear-gradient(135deg,#F0C05A,#C88F2A);margin-bottom:14px; }
+    .mock-vcard-num  { font-size:11px;letter-spacing:.18em;opacity:.7;margin-bottom:8px; }
+    .mock-vcard-row  { display:flex;justify-content:space-between;font-size:10px; }
+    .mock-vcard-name { font-weight:700;opacity:.9; }
+    .mock-vcard-net  { opacity:.5;font-weight:800; }
+
+    .mock-score { width:80px;height:80px;border-radius:50%;background:conic-gradient(var(--jade) 0 72%,var(--track) 72% 100%);position:relative;margin:0 auto 8px; }
+    .mock-score::before { content:"";position:absolute;inset:10px;border-radius:50%;background:var(--surface); }
+    body.light .mock-score::before { background:#fff; }
+    .mock-score-val { position:absolute;inset:0;display:grid;place-items:center;font-size:14px;font-weight:800;z-index:1; }
+
+    .mock-bubble { max-width:80%;padding:9px 13px;border-radius:14px;font-size:12px;line-height:1.4;margin-bottom:6px; }
+    .mock-bubble.sent { background:var(--gold);color:var(--earth);margin-left:auto;border-bottom-right-radius:4px; }
+    .mock-bubble.recv { background:var(--surface-hi);color:var(--text);border-bottom-left-radius:4px; }
+    body.light .mock-bubble.recv { background:var(--canvas-mid); }
+
+    .mock-receipt { background:rgba(255,255,255,.05);border:2px dashed var(--border);border-radius:12px;padding:16px;text-align:center;font-size:12px;color:var(--muted);margin-bottom:8px;position:relative; }
+    body.light .mock-receipt { background:var(--canvas-mid); }
+    .mock-receipt-scan { position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,transparent,var(--gold),transparent);animation:scan 2s linear infinite; }
+    @keyframes scan { 0%{top:0}100%{top:calc(100% - 3px)} }
+    .mock-ocr-field { display:flex;justify-content:space-between;align-items:center;background:rgba(0,150,106,.08);border:1px solid rgba(0,150,106,.2);border-radius:6px;padding:4px 8px;margin-top:6px;font-size:11px; }
+    .mock-ocr-conf { font-size:10px;color:var(--jade);font-weight:700; }
+
+    .module-nav { display:flex;gap:6px;flex-wrap:wrap;margin-bottom:28px;position:sticky;top:71px;z-index:10;background:color-mix(in srgb,var(--bg) 93%,transparent);backdrop-filter:blur(12px);padding:8px 0;border-bottom:1px solid var(--border); }
+    .module-nav a { font-size:11px;font-weight:700;padding:5px 11px;border-radius:999px;border:1px solid var(--border);color:var(--text-2);text-decoration:none;transition:border-color .15s,color .15s;white-space:nowrap; }
+    .module-nav a:hover { border-color:var(--gold);color:var(--gold); }
+
+    .concept-grid { display:grid;grid-template-columns:1fr 1fr;gap:14px; }
+    @media(max-width:759px){ .concept-grid { grid-template-columns:1fr; } .feat-badges { flex-direction:row;justify-content:flex-start;width:100%; } }
+  </style>
 </head>
 <body>
   <div class="scroll-progress"><span id="scrollBar"></span></div>
   <header class="topbar">
     <div class="brand">
       <div class="mark">8</div>
-      <div><div class="brand-name">F8</div><div class="brand-tag">Features</div></div>
+      <div><div class="brand-name">F8</div><div class="brand-tag">Feature Map</div></div>
     </div>
     <nav class="nav">
       <a href="index.html">Home</a>
@@ -23,57 +147,571 @@
       <a href="applications.html">Applications</a>
       <a href="transactions.html">Transactions</a>
       <a href="members.html">Members</a>
+      <a href="approval-policies.html">Policies</a>
       <a href="credit-application.html">Credit</a>
       <a href="onboarding.html">Onboarding</a>
-      <a href="design-system.html">Style Guide</a>
+      <a href="design-system.html">Style Guide</a>      
+      <a href="features.html">Features</a>
     </nav>
     <button class="nav-toggle" id="navToggle" aria-label="Open menu"><i class="ph ph-list"></i></button>
     <button class="ghost-btn" id="toggleTheme">Toggle Mode</button>
   </header>
-
   <main class="page-shell">
     <a href="index.html" class="back-link reveal"><i class="ph ph-arrow-left"></i> Control Centre</a>
-
-    <section class="section-head reveal">
-      <p class="eyebrow">Modules included in the pilot</p>
-      <h1>Feature blocks built around real operational pain.</h1>
+    <section class="reveal" style="padding:16px 0 4px;">
+      <p class="eyebrow">Product scope · 13 modules · 90+ features</p>
+      <h1 style="margin:0 0 8px;">Feature map</h1>
+      <p style="font-size:15px;color:var(--text-2);max-width:620px;margin:0 0 14px;">Features already live in this prototype are marked <span class="badge-live" style="display:inline-flex;"><i class="ph ph-check-circle"></i> Live</span> with a link to the real page. Features not yet built show a <span class="badge-concept" style="display:inline-flex;"><i class="ph ph-eye"></i> Concept</span> visual mockup showing how they will look.</p>
+      <div style="display:flex;gap:12px;flex-wrap:wrap;font-size:12px;font-weight:700;">
+        <span><span style="width:8px;height:8px;border-radius:50%;background:var(--jade);display:inline-block;margin-right:4px;"></span>MVP</span>
+        <span><span style="width:8px;height:8px;border-radius:50%;background:var(--harvest);display:inline-block;margin-right:4px;"></span>Phase 2</span>
+        <span><span style="width:8px;height:8px;border-radius:50%;background:var(--terracotta);display:inline-block;margin-right:4px;"></span>Future</span>
+      </div>
     </section>
+    <nav class="module-nav reveal">
+      <a href="#mod-a">A · Onboarding</a><a href="#mod-b">B · Company</a><a href="#mod-c">C · Cash</a>
+      <a href="#mod-d">D · Expenses</a><a href="#mod-e">E · Cards</a><a href="#mod-f">F · Credit</a>
+      <a href="#mod-g">G · Alerts</a><a href="#mod-h">H · Approvals</a><a href="#mod-i">I · Reports</a>
+      <a href="#mod-j">J · Admin</a><a href="#mod-k">K · Compliance</a><a href="#mod-l">L · Community</a>
+      <a href="#mod-m">M · Investors</a>
+    </nav>
 
-    <section class="feature-catalog">
-      <article class="feature-card reveal"><i class="ph ph-user-switch"></i><h3>Onboarding & Access</h3><p>Identity verification, company setup, team invites, roles, KYC/KYB consent, and guided onboarding.</p></article>
-      <article class="feature-card reveal"><i class="ph ph-buildings"></i><h3>Company Structure</h3><p>Entities, tax details, teams, and a clean company profile model aligned to Kenyan regulatory requirements.</p></article>
-      <article class="feature-card reveal"><i class="ph ph-wallet"></i><h3>Cash Visibility</h3><p>Current cash position, liquidity summaries, weekly forecasts, and low balance alerts.</p></article>
-      <article class="feature-card reveal"><i class="ph ph-list-checks"></i><h3>Transactions</h3><p>Unified statements, receipt capture, categorisation, reconciliation support, and spend analysis.</p></article>
-      <article class="feature-card reveal"><i class="ph ph-credit-card"></i><h3>Cards & Spend Control</h3><p>Virtual cards, freeze/unfreeze, limits, alerts, and role-based spend controls.</p></article>
-      <article class="feature-card reveal"><i class="ph ph-bank"></i><h3>Credit & Working Capital</h3><p>Digital applications with full KYC/KYB/PLD-FT compliance, status tracking, and limit increase signals.</p></article>
-      <article class="feature-card reveal"><i class="ph ph-grid-four"></i><h3>SaaS Management</h3><p>Track all software subscriptions, owners, budgets, payment methods, and renewal dates in one table.</p></article>
-      <article class="feature-card reveal"><i class="ph ph-bell-ringing"></i><h3>Notifications</h3><p>Email, SMS, push, due date reminders, approval prompts, and AML alert notifications.</p></article>
-      <article class="feature-card reveal"><i class="ph ph-shield-check"></i><h3>Compliance</h3><p>Activity logs, traceability, AML/PLD-FT evidence, consent management, and secure role-based access.</p></article>
-      <article class="feature-card reveal"><i class="ph ph-users-three"></i><h3>Community</h3><p>Networking, business matching, referral-driven opportunities, and trusted verified business community.</p></article>
-      <article class="feature-card reveal"><i class="ph ph-chart-line-up"></i><h3>Capital Pathways</h3><p>Investment readiness, grant matching, and funding recommendations built on your business data.</p></article>
-      <article class="feature-card reveal"><i class="ph ph-chart-bar"></i><h3>Reports & Analytics</h3><p>Team spend breakdowns, application ROI, historical trends, and export-ready financial reports.</p></article>
-    </section>
+    <!-- ══ A. ONBOARDING ══ -->
+    <div class="module-group reveal" id="mod-a">
+      <div class="module-header">
+        <div class="module-icon"><i class="ph ph-user-circle-check"></i></div>
+        <div><div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap;"><span class="module-title">Onboarding &amp; Access</span><span class="module-letter">A</span></div><div class="module-desc">Identity, activation, access control and guided setup.</div></div>
+      </div>
+      <!-- LIVE: KYC -->
+      <div class="feat-card live reveal">
+        <div class="feat-header"><div class="feat-icon"><i class="ph ph-fingerprint"></i></div><div class="feat-meta"><div class="feat-name">User KYC verification</div><div class="feat-desc">National ID, liveness check, PEP/sanctions screening and CBK-compliant document capture before platform access.</div></div><div class="feat-badges"><span class="badge-live"><i class="ph ph-check-circle"></i> Live</span><span class="badge-mvp">MVP</span><a href="onboarding.html" class="view-live-link"><i class="ph ph-arrow-right"></i> View</a></div></div>
+      </div>
+      <!-- LIVE: Registration -->
+      <div class="feat-card live reveal">
+        <div class="feat-header"><div class="feat-icon"><i class="ph ph-card-holder"></i></div><div class="feat-meta"><div class="feat-name">User registration &amp; card activation</div><div class="feat-desc">Account creation, KYB consent, first card activation and company association — core platform entry.</div></div><div class="feat-badges"><span class="badge-live"><i class="ph ph-check-circle"></i> Live</span><span class="badge-mvp">MVP</span><a href="onboarding.html" class="view-live-link"><i class="ph ph-arrow-right"></i> View</a></div></div>
+      </div>
+      <!-- CONCEPT: Login -->
+      <div class="feat-card concept reveal">
+        <div class="feat-header"><div class="feat-icon"><i class="ph ph-at"></i></div><div class="feat-meta"><div class="feat-name">Email / phone login</div><div class="feat-desc">Sign in via email or Kenyan mobile number. OTP verification links the user to their registered company automatically.</div></div><div class="feat-badges"><span class="badge-concept"><i class="ph ph-eye"></i> Concept</span><span class="badge-mvp">MVP</span></div></div>
+        <div class="concept-area"><div class="concept-label">Visual concept</div>
+          <div class="mock-phone">
+            <div class="mock-phone-bar"><div class="mock-phone-title">Sign in to F8</div></div>
+            <div class="mock-phone-body">
+              <div style="text-align:center;margin-bottom:14px;"><div style="width:40px;height:40px;border-radius:12px;background:var(--gold);color:var(--earth);display:grid;place-items:center;font-weight:800;font-size:18px;margin:0 auto 6px;">8</div><div style="font-size:13px;font-weight:800;">Welcome back</div></div>
+              <div class="mock-field mock-field-focus"><div class="mock-field-label">Email or phone</div><div class="mock-field-val">n.kamau@f8bank.ke</div></div>
+              <div class="mock-field"><div class="mock-field-label">Password</div><div class="mock-field-val">••••••••••</div></div>
+              <div style="background:var(--gold);color:var(--earth);border-radius:999px;padding:10px;text-align:center;font-weight:800;font-size:13px;margin-top:8px;">Sign in</div>
+              <div style="text-align:center;font-size:11px;color:var(--gold);margin-top:8px;font-weight:700;">Sign in with M-Pesa OTP →</div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- LIVE: Guided onboarding -->
+      <div class="feat-card live reveal">
+        <div class="feat-header"><div class="feat-icon"><i class="ph ph-path"></i></div><div class="feat-meta"><div class="feat-name">Guided onboarding walkthrough</div><div class="feat-desc">Step-by-step sidebar with document upload, UBO declaration, consent and KYB completion — progress tracked visually.</div></div><div class="feat-badges"><span class="badge-live"><i class="ph ph-check-circle"></i> Live</span><span class="badge-mvp">MVP</span><a href="onboarding.html" class="view-live-link"><i class="ph ph-arrow-right"></i> View</a></div></div>
+      </div>
+      <!-- CONCEPT: Password recovery -->
+      <div class="feat-card concept reveal">
+        <div class="feat-header"><div class="feat-icon"><i class="ph ph-lock-key"></i></div><div class="feat-meta"><div class="feat-name">Password recovery</div><div class="feat-desc">Reset via email link or M-Pesa OTP. Minimum steps to prevent lockout — critical for MSME users without IT support.</div></div><div class="feat-badges"><span class="badge-concept"><i class="ph ph-eye"></i> Concept</span><span class="badge-mvp">MVP</span></div></div>
+        <div class="concept-area"><div class="concept-label">Visual concept</div>
+          <div class="mock-phone">
+            <div class="mock-phone-bar"><div class="mock-phone-title">Reset password</div></div>
+            <div class="mock-phone-body">
+              <div style="background:rgba(0,150,106,.08);border:1px solid rgba(0,150,106,.2);border-radius:10px;padding:10px;font-size:12px;color:var(--jade);margin-bottom:12px;"><i class="ph ph-check-circle"></i> OTP sent to +254 7•• ••• 891</div>
+              <div class="mock-field"><div class="mock-field-label">6-digit OTP</div><div class="mock-field-val" style="letter-spacing:.3em;font-size:18px;font-weight:800;">4 8 2 _</div></div>
+              <div style="font-size:11px;color:var(--muted);text-align:center;margin:4px 0 10px;">Resend in 0:42</div>
+              <div class="mock-field mock-field-focus"><div class="mock-field-label">New password</div><div class="mock-field-val">••••••••</div></div>
+              <div style="background:var(--gold);color:var(--earth);border-radius:999px;padding:10px;text-align:center;font-weight:800;font-size:13px;margin-top:8px;">Set new password</div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- LIVE: Terms -->
+      <div class="feat-card live reveal">
+        <div class="feat-header"><div class="feat-icon"><i class="ph ph-file-text"></i></div><div class="feat-meta"><div class="feat-name">Terms &amp; consent acceptance</div><div class="feat-desc">POCAMLA, CBK, Data Protection Act 2019 consent with explicit checkboxes, CRB authorisation and privacy declaration.</div></div><div class="feat-badges"><span class="badge-live"><i class="ph ph-check-circle"></i> Live</span><span class="badge-mvp">MVP</span><a href="onboarding.html" class="view-live-link"><i class="ph ph-arrow-right"></i> View</a></div></div>
+      </div>
+    </div>
+
+    <!-- ══ B. COMPANY ══ -->
+    <div class="module-group reveal" id="mod-b">
+      <div class="module-header">
+        <div class="module-icon jade-i"><i class="ph ph-buildings"></i></div>
+        <div><div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap;"><span class="module-title">Company Profile &amp; Structure</span><span class="module-letter">B</span></div><div class="module-desc">Entity setup, legal data, team hierarchy and cost centres.</div></div>
+      </div>
+      <div class="feat-card live reveal"><div class="feat-header"><div class="feat-icon jade"><i class="ph ph-identification-badge"></i></div><div class="feat-meta"><div class="feat-name">Company profile</div><div class="feat-desc">Basic company data, contact info, registered address and business type — core entity record.</div></div><div class="feat-badges"><span class="badge-live"><i class="ph ph-check-circle"></i> Live</span><span class="badge-mvp">MVP</span><a href="members.html" class="view-live-link"><i class="ph ph-arrow-right"></i> View</a></div></div></div>
+      <div class="feat-card live reveal"><div class="feat-header"><div class="feat-icon jade"><i class="ph ph-receipt"></i></div><div class="feat-meta"><div class="feat-name">Legal &amp; tax information</div><div class="feat-desc">KRA PIN, CAK registration, tax compliance certificate and audit-ready legal records.</div></div><div class="feat-badges"><span class="badge-live"><i class="ph ph-check-circle"></i> Live</span><span class="badge-mvp">MVP</span><a href="onboarding.html" class="view-live-link"><i class="ph ph-arrow-right"></i> View</a></div></div></div>
+      <div class="feat-card live reveal"><div class="feat-header"><div class="feat-icon jade"><i class="ph ph-tree-structure"></i></div><div class="feat-meta"><div class="feat-name">Team structure</div><div class="feat-desc">18 departments, member assignment, manager designation and role-based access control.</div></div><div class="feat-badges"><span class="badge-live"><i class="ph ph-check-circle"></i> Live</span><span class="badge-mvp">MVP</span><a href="members.html" class="view-live-link"><i class="ph ph-arrow-right"></i> View</a></div></div></div>
+      <!-- CONCEPT: Cost centres -->
+      <div class="feat-card concept reveal">
+        <div class="feat-header"><div class="feat-icon jade"><i class="ph ph-funnel"></i></div><div class="feat-meta"><div class="feat-name">Cost centres / sub-units</div><div class="feat-desc">Allocate budgets and track spend per cost centre — Projects, Regions or Business Units with per-centre summaries.</div></div><div class="feat-badges"><span class="badge-concept"><i class="ph ph-eye"></i> Concept</span><span class="badge-p2">Phase 2</span></div></div>
+        <div class="concept-area"><div class="concept-label">Visual concept</div>
+          <div class="concept-grid">
+            <div class="mock-panel">
+              <div class="mock-panel-title">Cost centres</div>
+              <div class="mock-row-line"><span>Nairobi HQ</span><span class="mock-amount">KES 284,000</span></div>
+              <div class="mock-row-line"><span>Mombasa Branch</span><span class="mock-amount">KES 91,400</span></div>
+              <div class="mock-row-line"><span>Project Simba</span><span class="mock-amount">KES 47,000</span></div>
+              <div class="mock-row-line"><span>Marketing Fund</span><span class="mock-amount">KES 32,600</span></div>
+            </div>
+            <div class="mock-panel">
+              <div class="mock-panel-title">Nairobi HQ · budget</div>
+              <div style="margin-bottom:8px;"><div style="display:flex;justify-content:space-between;font-size:11px;color:var(--muted);margin-bottom:4px;"><span>Spent</span><span style="font-weight:800;color:var(--text);">KES 284K / 400K</span></div><div style="height:8px;border-radius:999px;background:var(--track);overflow:hidden;"><div style="width:71%;height:100%;background:linear-gradient(90deg,var(--gold),var(--harvest));border-radius:999px;"></div></div></div>
+              <div class="mock-row-line"><span>Members</span><span class="mock-badge ok">8 active</span></div>
+              <div class="mock-row-line"><span>Cards issued</span><span class="mock-amount">5</span></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══ C. CASH ══ -->
+    <div class="module-group reveal" id="mod-c">
+      <div class="module-header">
+        <div class="module-icon harv-i"><i class="ph ph-chart-line-up"></i></div>
+        <div><div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap;"><span class="module-title">Cash &amp; Financial Visibility</span><span class="module-letter">C</span></div><div class="module-desc">Real-time cash, credit utilisation, forecasts and liquidity KPIs.</div></div>
+      </div>
+      <div class="feat-card live reveal"><div class="feat-header"><div class="feat-icon harv"><i class="ph ph-gauge"></i></div><div class="feat-meta"><div class="feat-name">Current cash dashboard</div><div class="feat-desc">Real-time cash position, pending approvals, reconciliation rate and KPI strip — Finance Manager view.</div></div><div class="feat-badges"><span class="badge-live"><i class="ph ph-check-circle"></i> Live</span><span class="badge-mvp">MVP</span><a href="dashboard.html" class="view-live-link"><i class="ph ph-arrow-right"></i> View</a></div></div></div>
+      <div class="feat-card live reveal"><div class="feat-header"><div class="feat-icon harv"><i class="ph ph-credit-card"></i></div><div class="feat-meta"><div class="feat-name">Real-time credit utilisation</div><div class="feat-desc">Live progress meters for Working Capital Line and Corporate Card — utilised vs available per product.</div></div><div class="feat-badges"><span class="badge-live"><i class="ph ph-check-circle"></i> Live</span><span class="badge-mvp">MVP</span><a href="dashboard.html" class="view-live-link"><i class="ph ph-arrow-right"></i> View</a></div></div></div>
+      <div class="feat-card live reveal"><div class="feat-header"><div class="feat-icon harv"><i class="ph ph-calendar-blank"></i></div><div class="feat-meta"><div class="feat-name">Cash forecast &amp; liquidity summary</div><div class="feat-desc">Weekly bar chart forecast with projected end-of-week balance including subscription deductions.</div></div><div class="feat-badges"><span class="badge-live"><i class="ph ph-check-circle"></i> Live</span><span class="badge-mvp">MVP</span><a href="dashboard.html" class="view-live-link"><i class="ph ph-arrow-right"></i> View</a></div></div></div>
+      <!-- CONCEPT: Low limit alert -->
+      <div class="feat-card concept reveal">
+        <div class="feat-header"><div class="feat-icon harv"><i class="ph ph-bell-ringing"></i></div><div class="feat-meta"><div class="feat-name">Low limit alerts</div><div class="feat-desc">Push, SMS and in-app notification when credit line or cash drops below a configurable threshold. Finance managers and cardholders notified simultaneously.</div></div><div class="feat-badges"><span class="badge-concept"><i class="ph ph-eye"></i> Concept</span><span class="badge-mvp">MVP</span></div></div>
+        <div class="concept-area"><div class="concept-label">Visual concept</div>
+          <div class="concept-grid">
+            <div>
+              <div class="mock-notif" style="background:var(--surface);">
+                <div class="mock-notif-bar" style="background:rgba(184,92,56,.15);color:var(--terracotta);"><i class="ph ph-warning-circle" style="font-size:14px;"></i> F8 Bank · Low Credit Alert</div>
+                <div class="mock-notif-body"><div class="mock-notif-title">Credit line below threshold</div><div class="mock-notif-text">Your Working Capital Line is at KES 18,000 — below your KES 25,000 alert. Take action to avoid disruption.</div><div class="mock-notif-actions"><div class="mock-notif-btn primary">Top up</div><div class="mock-notif-btn ghost">Dismiss</div></div></div>
+              </div>
+            </div>
+            <div class="mock-panel">
+              <div class="mock-panel-title">Alert thresholds</div>
+              <div class="mock-toggle-row"><span>Working capital</span><div style="font-size:11px;color:var(--muted);">Alert at KES 25,000</div></div>
+              <div class="mock-toggle-row"><span>Corporate card</span><div style="font-size:11px;color:var(--muted);">Alert at KES 10,000</div></div>
+              <div class="mock-toggle-row"><span>Cash position</span><div style="font-size:11px;color:var(--muted);">Alert at KES 200,000</div></div>
+              <div style="margin-top:10px;background:var(--gold);color:var(--earth);border-radius:8px;padding:8px;text-align:center;font-size:12px;font-weight:800;">Save thresholds</div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- CONCEPT: Actual vs projected -->
+      <div class="feat-card concept reveal">
+        <div class="feat-header"><div class="feat-icon harv"><i class="ph ph-chart-bar"></i></div><div class="feat-meta"><div class="feat-name">Actual vs projected comparison</div><div class="feat-desc">Variance analysis between planned spend and actuals — by team and category. Highlights overspend before month-end.</div></div><div class="feat-badges"><span class="badge-concept"><i class="ph ph-eye"></i> Concept</span><span class="badge-p2">Phase 2</span></div></div>
+        <div class="concept-area"><div class="concept-label">Visual concept</div>
+          <div class="mock-panel">
+            <div class="mock-panel-title">Jun 2025 · Actual vs Budget</div>
+            <div class="mock-bars">
+              <div class="mock-bar-col"><div class="mock-bar-fill" style="height:72%;background:var(--gold);"></div><div class="mock-bar-fill" style="height:85%;background:rgba(240,192,90,.3);margin-top:2px;"></div><div class="mock-bar-lbl">Tech</div></div>
+              <div class="mock-bar-col"><div class="mock-bar-fill" style="height:55%;background:var(--gold);"></div><div class="mock-bar-fill" style="height:60%;background:rgba(240,192,90,.3);margin-top:2px;"></div><div class="mock-bar-lbl">Travel</div></div>
+              <div class="mock-bar-col"><div class="mock-bar-fill" style="height:95%;background:var(--terracotta);"></div><div class="mock-bar-fill" style="height:70%;background:rgba(240,192,90,.3);margin-top:2px;"></div><div class="mock-bar-lbl">Mktg</div></div>
+              <div class="mock-bar-col"><div class="mock-bar-fill" style="height:40%;background:var(--gold);"></div><div class="mock-bar-fill" style="height:50%;background:rgba(240,192,90,.3);margin-top:2px;"></div><div class="mock-bar-lbl">Ops</div></div>
+            </div>
+            <div style="display:flex;gap:12px;font-size:10px;font-weight:700;"><span><span style="display:inline-block;width:10px;height:10px;border-radius:2px;background:var(--gold);margin-right:4px;"></span>Actual</span><span><span style="display:inline-block;width:10px;height:10px;border-radius:2px;background:rgba(240,192,90,.3);border:1px solid var(--harvest);margin-right:4px;"></span>Budget</span><span style="color:var(--terracotta);margin-left:auto;"><i class="ph ph-warning-circle"></i> Marketing +36%</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══ D. EXPENSES ══ -->
+    <div class="module-group reveal" id="mod-d">
+      <div class="module-header">
+        <div class="module-icon"><i class="ph ph-receipt"></i></div>
+        <div><div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap;"><span class="module-title">Expenses &amp; Transactions</span><span class="module-letter">D</span></div><div class="module-desc">Recording, reconciliation, receipt capture, ERP sync and payment flows.</div></div>
+      </div>
+      <div class="feat-card live reveal"><div class="feat-header"><div class="feat-icon"><i class="ph ph-list-bullets"></i></div><div class="feat-meta"><div class="feat-name">Transaction log &amp; statement</div><div class="feat-desc">Full statement with merchant, category, cardholder, amount and reconciliation status. Expandable rows with policy reference.</div></div><div class="feat-badges"><span class="badge-live"><i class="ph ph-check-circle"></i> Live</span><span class="badge-mvp">MVP</span><a href="transactions.html" class="view-live-link"><i class="ph ph-arrow-right"></i> View</a></div></div></div>
+      <div class="feat-card live reveal"><div class="feat-header"><div class="feat-icon"><i class="ph ph-tag"></i></div><div class="feat-meta"><div class="feat-name">Automated spend categorisation</div><div class="feat-desc">SaaS, Cloud, Travel, Meals, Other — category pills on every transaction with editable override.</div></div><div class="feat-badges"><span class="badge-live"><i class="ph ph-check-circle"></i> Live</span><span class="badge-mvp">MVP</span><a href="transactions.html" class="view-live-link"><i class="ph ph-arrow-right"></i> View</a></div></div></div>
+      <!-- CONCEPT: Missing receipt alert -->
+      <div class="feat-card concept reveal">
+        <div class="feat-header"><div class="feat-icon"><i class="ph ph-warning-circle"></i></div><div class="feat-meta"><div class="feat-name">Missing receipt alert</div><div class="feat-desc">Push and in-app alert 24h after a transaction if no receipt is attached. Warning icon on the row. Countdown shows days left before policy deadline (5 days).</div></div><div class="feat-badges"><span class="badge-concept"><i class="ph ph-eye"></i> Concept</span><span class="badge-mvp">MVP</span></div></div>
+        <div class="concept-area"><div class="concept-label">Visual concept</div>
+          <div class="concept-grid">
+            <div>
+              <div class="mock-notif" style="background:var(--surface);">
+                <div class="mock-notif-bar" style="background:rgba(240,192,90,.12);color:var(--harvest);"><i class="ph ph-paper-clip" style="font-size:14px;"></i> F8 Bank · Receipt required</div>
+                <div class="mock-notif-body"><div class="mock-notif-title">Akinyi Kitchen — KES 12,400</div><div class="mock-notif-text">You have 3 days to upload a receipt for this transaction per T&amp;E Policy.</div><div class="mock-notif-actions"><div class="mock-notif-btn primary"><i class="ph ph-camera"></i> Upload now</div><div class="mock-notif-btn ghost">Later</div></div></div>
+              </div>
+            </div>
+            <div class="mock-panel">
+              <div class="mock-panel-title">2 receipts missing</div>
+              <div class="mock-row-line"><div><div style="font-size:12px;font-weight:700;">Akinyi Kitchen</div><div style="font-size:10px;color:var(--muted);">12 Jun · Meals</div></div><div style="text-align:right;"><div class="mock-amount">KES 12,400</div><span class="mock-badge warn"><i class="ph ph-warning-circle"></i> Missing</span></div></div>
+              <div class="mock-row-line"><div><div style="font-size:12px;font-weight:700;">Proton VPN</div><div style="font-size:10px;color:var(--muted);">10 Jun · SaaS</div></div><div style="text-align:right;"><div class="mock-amount">KES 2,000</div><span class="mock-badge warn"><i class="ph ph-warning-circle"></i> Missing</span></div></div>
+              <div style="background:rgba(184,92,56,.1);border:1px solid rgba(184,92,56,.2);border-radius:8px;padding:8px;font-size:11px;color:var(--terracotta);margin-top:8px;font-weight:700;"><i class="ph ph-clock-countdown"></i> 3 days remaining — upload to stay compliant</div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- CONCEPT: OCR -->
+      <div class="feat-card concept reveal">
+        <div class="feat-header"><div class="feat-icon"><i class="ph ph-scan"></i></div><div class="feat-meta"><div class="feat-name">Automatic invoice capture (OCR + AI)</div><div class="feat-desc">Photo or file upload triggers OCR — vendor, amount, date, VAT and eTIMS PIN auto-filled. Confidence score shown per field.</div></div><div class="feat-badges"><span class="badge-concept"><i class="ph ph-eye"></i> Concept</span><span class="badge-p2">Phase 2</span></div></div>
+        <div class="concept-area"><div class="concept-label">Visual concept</div>
+          <div class="mock-panel">
+            <div class="mock-panel-title">Scanning receipt…</div>
+            <div class="mock-receipt">
+              <div class="mock-receipt-scan"></div>
+              <i class="ph ph-receipt" style="font-size:32px;color:var(--muted);margin-bottom:6px;display:block;"></i>
+              <div style="font-size:11px;">Drop receipt or tap to photograph</div>
+              <div class="mock-ocr-field"><span>Vendor</span><span style="font-weight:700;">Akinyi Kitchen Ltd</span><span class="mock-ocr-conf">98%</span></div>
+              <div class="mock-ocr-field"><span>Amount</span><span style="font-weight:700;">KES 12,400</span><span class="mock-ocr-conf">100%</span></div>
+              <div class="mock-ocr-field"><span>VAT</span><span style="font-weight:700;">KES 1,617</span><span class="mock-ocr-conf">94%</span></div>
+            </div>
+            <div style="background:var(--jade);color:#fff;border-radius:8px;padding:8px;text-align:center;font-size:12px;font-weight:800;margin-top:8px;">Confirm &amp; attach to transaction</div>
+          </div>
+        </div>
+      </div>
+      <!-- CONCEPT: M-Pesa payment -->
+      <div class="feat-card concept reveal">
+        <div class="feat-header"><div class="feat-icon"><i class="ph ph-device-mobile"></i></div><div class="feat-meta"><div class="feat-name">Card bill payment via M-Pesa, Direct Debit &amp; PesaLink</div><div class="feat-desc">Pay your F8 card bill directly in-app using Kenya's core payment rails — no bank branch needed.</div></div><div class="feat-badges"><span class="badge-concept"><i class="ph ph-eye"></i> Concept</span><span class="badge-mvp">MVP</span></div></div>
+        <div class="concept-area"><div class="concept-label">Visual concept</div>
+          <div class="mock-phone">
+            <div class="mock-phone-bar"><div class="mock-phone-title">Pay card balance</div></div>
+            <div class="mock-phone-body">
+              <div class="mock-panel" style="margin-bottom:10px;"><div style="font-size:11px;color:var(--muted);">Amount due · Jul 01</div><div style="font-size:22px;font-weight:800;margin:2px 0 4px;">KES 95,400</div><div style="font-size:11px;color:var(--jade);">Full balance · 0% interest if paid today</div></div>
+              <div class="mock-field" style="border-color:var(--gold);"><div class="mock-field-label">Pay via</div><div style="display:flex;gap:6px;margin-top:6px;"><div style="flex:1;padding:8px;border-radius:8px;background:var(--gold);color:var(--earth);font-size:11px;font-weight:800;text-align:center;">M-Pesa</div><div style="flex:1;padding:8px;border-radius:8px;background:var(--surface-hi);color:var(--muted);font-size:11px;font-weight:700;text-align:center;border:1px solid var(--border);">PesaLink</div><div style="flex:1;padding:8px;border-radius:8px;background:var(--surface-hi);color:var(--muted);font-size:11px;font-weight:700;text-align:center;border:1px solid var(--border);">Direct Debit</div></div></div>
+              <div style="background:var(--gold);color:var(--earth);border-radius:999px;padding:10px;text-align:center;font-weight:800;font-size:13px;margin-top:8px;">Pay with M-Pesa →</div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- CONCEPT: ERP -->
+      <div class="feat-card concept reveal">
+        <div class="feat-header"><div class="feat-icon"><i class="ph ph-plugs-connected"></i></div><div class="feat-meta"><div class="feat-name">ERP integration — Zoho, Odoo, TallyPrime, ERPNext, QuickBooks</div><div class="feat-desc">One-click sync of all categorised transactions to connected accounting software. Downloadable monthly registry as fallback.</div></div><div class="feat-badges"><span class="badge-concept"><i class="ph ph-eye"></i> Concept</span><span class="badge-p2">Phase 2</span></div></div>
+        <div class="concept-area"><div class="concept-label">Visual concept</div>
+          <div class="concept-grid">
+            <div class="mock-panel">
+              <div class="mock-panel-title">Connected ERP</div>
+              <div class="mock-row-line"><div style="display:flex;align-items:center;gap:8px;"><div style="width:28px;height:28px;border-radius:7px;background:#E85D26;display:grid;place-items:center;font-size:11px;font-weight:800;color:#fff;">Z</div><span>Zoho Books</span></div><span class="mock-badge ok">Connected</span></div>
+              <div class="mock-row-line"><div style="display:flex;align-items:center;gap:8px;"><div style="width:28px;height:28px;border-radius:7px;background:#714B67;display:grid;place-items:center;font-size:11px;font-weight:800;color:#fff;">O</div><span>Odoo</span></div><span class="mock-badge pend">Connect</span></div>
+              <div class="mock-row-line"><div style="display:flex;align-items:center;gap:8px;"><div style="width:28px;height:28px;border-radius:7px;background:#2CA01C;display:grid;place-items:center;font-size:11px;font-weight:800;color:#fff;">Q</div><span>QuickBooks</span></div><span class="mock-badge pend">Connect</span></div>
+            </div>
+            <div class="mock-panel">
+              <div class="mock-panel-title">Last sync · Zoho</div>
+              <div class="mock-row-line"><span>Transactions</span><span class="mock-amount">24</span></div>
+              <div class="mock-row-line"><span>Last sync</span><span style="font-size:11px;color:var(--muted);">Today 09:14</span></div>
+              <div class="mock-row-line"><span>Status</span><span class="mock-badge ok">All matched</span></div>
+              <div style="margin-top:10px;border:1px solid var(--border);border-radius:8px;padding:8px;text-align:center;font-size:12px;font-weight:700;cursor:pointer;"><i class="ph ph-download-simple"></i> Download Jun 2025 registry</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══ E. CARDS ══ -->
+    <div class="module-group reveal" id="mod-e">
+      <div class="module-header">
+        <div class="module-icon jade-i"><i class="ph ph-credit-card"></i></div>
+        <div><div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap;"><span class="module-title">Cards &amp; Spend Control</span><span class="module-letter">E</span></div><div class="module-desc">Virtual cards, role-based limits, freeze controls and multi-card management.</div></div>
+      </div>
+      <div class="feat-card live reveal"><div class="feat-header"><div class="feat-icon jade"><i class="ph ph-squares-four"></i></div><div class="feat-meta"><div class="feat-name">Unified multi-card dashboard</div><div class="feat-desc">Card selector with 3 virtual cardholders, per-card spend stats, category pills and expandable transaction table.</div></div><div class="feat-badges"><span class="badge-live"><i class="ph ph-check-circle"></i> Live</span><span class="badge-mvp">MVP</span><a href="transactions.html" class="view-live-link"><i class="ph ph-arrow-right"></i> View</a></div></div></div>
+      <div class="feat-card live reveal"><div class="feat-header"><div class="feat-icon jade"><i class="ph ph-sliders-horizontal"></i></div><div class="feat-meta"><div class="feat-name">Role-based card controls &amp; spend limits</div><div class="feat-desc">Approval policies link spend tiers to approvers per role — auto-approve under threshold, manager above, finance director above that.</div></div><div class="feat-badges"><span class="badge-live"><i class="ph ph-check-circle"></i> Live</span><span class="badge-mvp">MVP</span><a href="approval-policies.html" class="view-live-link"><i class="ph ph-arrow-right"></i> View</a></div></div></div>
+      <div class="feat-card live reveal"><div class="feat-header"><div class="feat-icon jade"><i class="ph ph-clock-countdown"></i></div><div class="feat-meta"><div class="feat-name">Subscription &amp; recurring charge tracker</div><div class="feat-desc">Figma, Microsoft 365 and Proton VPN listed with renewal date, budget and projected weekly deductions in the dashboard.</div></div><div class="feat-badges"><span class="badge-live"><i class="ph ph-check-circle"></i> Live</span><span class="badge-mvp">MVP</span><a href="dashboard.html" class="view-live-link"><i class="ph ph-arrow-right"></i> View</a></div></div></div>
+      <!-- CONCEPT: Freeze -->
+      <div class="feat-card concept reveal">
+        <div class="feat-header"><div class="feat-icon jade"><i class="ph ph-snowflake"></i></div><div class="feat-meta"><div class="feat-name">Card freeze / unfreeze</div><div class="feat-desc">Instantly freeze any virtual card — blocks all new charges within seconds. Admin can freeze on behalf of any cardholder.</div></div><div class="feat-badges"><span class="badge-concept"><i class="ph ph-eye"></i> Concept</span><span class="badge-mvp">MVP</span></div></div>
+        <div class="concept-area"><div class="concept-label">Visual concept</div>
+          <div class="mock-phone">
+            <div class="mock-phone-bar"><div class="mock-phone-title">Card ••4821</div></div>
+            <div class="mock-phone-body">
+              <div class="mock-vcard" style="opacity:.5;filter:grayscale(.6);position:relative;">
+                <div class="mock-vcard-chip"></div>
+                <div style="position:absolute;inset:0;display:grid;place-items:center;z-index:2;"><div style="text-align:center;"><i class="ph ph-snowflake" style="font-size:32px;color:#fff;opacity:.9;"></i><div style="font-size:12px;font-weight:800;color:#fff;margin-top:4px;">FROZEN</div></div></div>
+                <div class="mock-vcard-num">•••• •••• •••• 4821</div>
+                <div class="mock-vcard-row"><span class="mock-vcard-name">NJERI KAMAU</span><span class="mock-vcard-net">VISA</span></div>
+              </div>
+              <div style="background:rgba(45,140,255,.12);border:1px solid rgba(45,140,255,.25);border-radius:10px;padding:10px;font-size:12px;color:#5BA3FF;margin-bottom:10px;text-align:center;"><i class="ph ph-info"></i> All transactions blocked since 14:32</div>
+              <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;">
+                <div style="background:var(--jade);color:#fff;border-radius:10px;padding:10px;text-align:center;font-size:12px;font-weight:800;"><i class="ph ph-play"></i> Unfreeze</div>
+                <div style="background:var(--terracotta);color:#fff;border-radius:10px;padding:10px;text-align:center;font-size:12px;font-weight:800;"><i class="ph ph-x"></i> Cancel card</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- CONCEPT: Add to wallet -->
+      <div class="feat-card concept reveal">
+        <div class="feat-header"><div class="feat-icon jade"><i class="ph ph-device-mobile-camera"></i></div><div class="feat-meta"><div class="feat-name">Virtual, tokenised &amp; wallet-enabled cards</div><div class="feat-desc">Add the F8 virtual card to Apple Pay or Google Pay. Tokenised card number keeps PAN hidden during contactless payments.</div></div><div class="feat-badges"><span class="badge-concept"><i class="ph ph-eye"></i> Concept</span><span class="badge-p2">Phase 2</span></div></div>
+        <div class="concept-area"><div class="concept-label">Visual concept</div>
+          <div class="mock-phone">
+            <div class="mock-phone-bar"><div class="mock-phone-title">Add to wallet</div></div>
+            <div class="mock-phone-body">
+              <div class="mock-vcard" style="margin-bottom:12px;"><div class="mock-vcard-chip"></div><div class="mock-vcard-num">•••• •••• •••• 4821</div><div class="mock-vcard-row"><span class="mock-vcard-name">NJERI KAMAU</span><span class="mock-vcard-net">VISA</span></div></div>
+              <div style="display:grid;gap:8px;">
+                <div style="display:flex;align-items:center;gap:10px;padding:12px;background:var(--surface-hi);border:1px solid var(--border);border-radius:10px;font-size:13px;font-weight:700;"><span style="font-size:20px;">🍎</span> Add to Apple Pay</div>
+                <div style="display:flex;align-items:center;gap:10px;padding:12px;background:var(--surface-hi);border:1px solid var(--border);border-radius:10px;font-size:13px;font-weight:700;"><span style="font-size:20px;">🟢</span> Add to Google Pay</div>
+              </div>
+              <div style="font-size:10px;color:var(--muted);text-align:center;margin-top:10px;">Tokenised — your full card number stays secure</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══ F. CREDIT ══ -->
+    <div class="module-group reveal" id="mod-f">
+      <div class="module-header">
+        <div class="module-icon harv-i"><i class="ph ph-bank"></i></div>
+        <div><div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap;"><span class="module-title">Credit &amp; Working Capital</span><span class="module-letter">F</span></div><div class="module-desc">Dual product lines, application flow, limit management and repayment planning.</div></div>
+      </div>
+      <div class="feat-card live reveal"><div class="feat-header"><div class="feat-icon harv"><i class="ph ph-arrows-clockwise"></i></div><div class="feat-meta"><div class="feat-name">Dual credit products — revolving line &amp; corporate card</div><div class="feat-desc">Working Capital Line (KES 360K revolving) and F8 Visa Business Card (KES 140K) displayed side by side with utilisation meters and payment dates.</div></div><div class="feat-badges"><span class="badge-live"><i class="ph ph-check-circle"></i> Live</span><span class="badge-mvp">MVP</span><a href="dashboard.html" class="view-live-link"><i class="ph ph-arrow-right"></i> View</a></div></div></div>
+      <div class="feat-card live reveal"><div class="feat-header"><div class="feat-icon harv"><i class="ph ph-clipboard-text"></i></div><div class="feat-meta"><div class="feat-name">On-screen credit application status</div><div class="feat-desc">6-stage KYC/KYB/PLD-FT timeline with live indicator, document checklist, key dates and sidebar summary. Application F8-CR-2025-0847 currently at Stage 3.</div></div><div class="feat-badges"><span class="badge-live"><i class="ph ph-check-circle"></i> Live</span><span class="badge-mvp">MVP</span><a href="credit-application.html" class="view-live-link"><i class="ph ph-arrow-right"></i> View</a></div></div></div>
+      <!-- CONCEPT: Calculator -->
+      <div class="feat-card concept reveal">
+        <div class="feat-header"><div class="feat-icon harv"><i class="ph ph-calculator"></i></div><div class="feat-meta"><div class="feat-name">Real cost &amp; interest calculator</div><div class="feat-desc">Slider-based tool — adjust drawdown amount and repayment period to see monthly payment, total interest and effective rate before committing.</div></div><div class="feat-badges"><span class="badge-concept"><i class="ph ph-eye"></i> Concept</span><span class="badge-mvp">MVP</span></div></div>
+        <div class="concept-area"><div class="concept-label">Visual concept</div>
+          <div class="mock-panel">
+            <div class="mock-panel-title">Credit cost calculator</div>
+            <div style="margin-bottom:10px;"><div style="display:flex;justify-content:space-between;font-size:11px;color:var(--muted);margin-bottom:6px;"><span>Draw amount</span><span style="font-weight:800;color:var(--text);">KES 150,000</span></div><div style="height:6px;border-radius:999px;background:var(--track);overflow:hidden;"><div style="width:42%;height:100%;background:var(--gold);border-radius:999px;"></div></div></div>
+            <div style="margin-bottom:10px;"><div style="display:flex;justify-content:space-between;font-size:11px;color:var(--muted);margin-bottom:6px;"><span>Repayment period</span><span style="font-weight:800;color:var(--text);">6 months</span></div><div style="height:6px;border-radius:999px;background:var(--track);overflow:hidden;"><div style="width:50%;height:100%;background:var(--harvest);border-radius:999px;"></div></div></div>
+            <div style="background:var(--surface-hi);border:1px solid var(--border);border-radius:10px;padding:12px;display:grid;gap:8px;">
+              <div class="mock-row-line"><span>Monthly payment</span><span class="mock-amount">KES 27,000</span></div>
+              <div class="mock-row-line"><span>Total interest</span><span class="mock-amount" style="color:var(--terracotta);">KES 12,000</span></div>
+              <div class="mock-row-line"><span>Effective rate</span><span class="mock-amount">21.6% p.a.</span></div>
+              <div class="mock-row-line"><span>Total repayment</span><span class="mock-amount" style="color:var(--jade);">KES 162,000</span></div>
+            </div>
+            <div style="background:var(--gold);color:var(--earth);border-radius:8px;padding:9px;text-align:center;font-size:12px;font-weight:800;margin-top:10px;">Apply for KES 150,000 →</div>
+          </div>
+        </div>
+      </div>
+      <!-- CONCEPT: Repayment schedule -->
+      <div class="feat-card concept reveal">
+        <div class="feat-header"><div class="feat-icon harv"><i class="ph ph-calendar-check"></i></div><div class="feat-meta"><div class="feat-name">Repayment schedule</div><div class="feat-desc">Amortisation table with due dates, principal, interest and running balance. Countdown badge and auto-pay toggle.</div></div><div class="feat-badges"><span class="badge-concept"><i class="ph ph-eye"></i> Concept</span><span class="badge-mvp">MVP</span></div></div>
+        <div class="concept-area"><div class="concept-label">Visual concept</div>
+          <div class="mock-panel">
+            <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;"><div class="mock-panel-title" style="margin:0;">Repayment schedule</div><span class="mock-badge warn"><i class="ph ph-clock-countdown"></i> 8 days</span></div>
+            <div class="mock-row-line" style="font-size:11px;color:var(--muted);font-weight:700;"><span>Date</span><span>Principal</span><span>Interest</span><span>Balance</span></div>
+            <div class="mock-row-line"><span style="font-size:12px;color:var(--terracotta);font-weight:700;">01 Jul ←</span><span class="mock-amount" style="font-size:12px;">24,300</span><span style="font-size:12px;color:var(--muted);">2,700</span><span class="mock-amount" style="font-size:12px;">125,700</span></div>
+            <div class="mock-row-line"><span style="font-size:12px;">01 Aug</span><span class="mock-amount" style="font-size:12px;">24,700</span><span style="font-size:12px;color:var(--muted);">2,300</span><span class="mock-amount" style="font-size:12px;">101,000</span></div>
+            <div style="margin-top:10px;border:1px solid var(--jade);border-radius:8px;padding:8px;display:flex;justify-content:space-between;align-items:center;"><span style="font-size:12px;color:var(--jade);font-weight:700;">Auto-pay · M-Pesa</span><span style="font-size:11px;color:var(--muted);">1st of month</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══ G. NOTIFICATIONS ══ -->
+    <div class="module-group reveal" id="mod-g">
+      <div class="module-header">
+        <div class="module-icon terr-i"><i class="ph ph-bell-ringing"></i></div>
+        <div><div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap;"><span class="module-title">Notifications &amp; Alerts</span><span class="module-letter">G</span></div><div class="module-desc">Real-time push, SMS, email and in-app alerts for all critical financial events.</div></div>
+      </div>
+      <!-- CONCEPT: Card alert -->
+      <div class="feat-card concept reveal">
+        <div class="feat-header"><div class="feat-icon terr"><i class="ph ph-credit-card"></i></div><div class="feat-meta"><div class="feat-name">Real-time card transaction alert</div><div class="feat-desc">Push notification within 2 seconds of every card charge — merchant, amount, card and remaining balance shown immediately with receipt prompt.</div></div><div class="feat-badges"><span class="badge-concept"><i class="ph ph-eye"></i> Concept</span><span class="badge-mvp">MVP</span></div></div>
+        <div class="concept-area"><div class="concept-label">Visual concept</div>
+          <div class="mock-notif" style="background:var(--surface);">
+            <div class="mock-notif-bar" style="background:rgba(0,150,106,.12);color:var(--jade);"><i class="ph ph-credit-card" style="font-size:14px;"></i> F8 Bank · Card ••4821 · just now</div>
+            <div class="mock-notif-body"><div class="mock-notif-title">Paid · Akinyi Kitchen · KES 12,400</div><div class="mock-notif-text">Meals · Njeri Kamau · Remaining card balance: KES 32,200</div><div class="mock-notif-actions"><div class="mock-notif-btn primary">Attach receipt</div><div class="mock-notif-btn ghost">View transaction</div></div></div>
+          </div>
+        </div>
+      </div>
+      <!-- CONCEPT: Preferences -->
+      <div class="feat-card concept reveal">
+        <div class="feat-header"><div class="feat-icon terr"><i class="ph ph-sliders"></i></div><div class="feat-meta"><div class="feat-name">Notification preferences</div><div class="feat-desc">Per-event toggle for push, SMS and email — users control which events trigger which channel with no notification fatigue.</div></div><div class="feat-badges"><span class="badge-concept"><i class="ph ph-eye"></i> Concept</span><span class="badge-mvp">MVP</span></div></div>
+        <div class="concept-area"><div class="concept-label">Visual concept</div>
+          <div class="mock-panel">
+            <div class="mock-panel-title">Notification settings</div>
+            <div style="display:grid;grid-template-columns:1fr auto auto auto;gap:6px;align-items:center;font-size:11px;margin-bottom:6px;"><span style="color:var(--muted);font-weight:700;">Event</span><span style="color:var(--muted);font-weight:700;text-align:center;">Push</span><span style="color:var(--muted);font-weight:700;text-align:center;">SMS</span><span style="color:var(--muted);font-weight:700;text-align:center;">Email</span></div>
+            <div style="display:grid;grid-template-columns:1fr auto auto auto;gap:8px;align-items:center;font-size:11px;padding:7px 0;border-bottom:1px solid var(--border-dim);"><span>Card charge</span><div class="mock-toggle on"></div><div class="mock-toggle on"></div><div class="mock-toggle off"></div></div>
+            <div style="display:grid;grid-template-columns:1fr auto auto auto;gap:8px;align-items:center;font-size:11px;padding:7px 0;border-bottom:1px solid var(--border-dim);"><span>Approval needed</span><div class="mock-toggle on"></div><div class="mock-toggle off"></div><div class="mock-toggle on"></div></div>
+            <div style="display:grid;grid-template-columns:1fr auto auto auto;gap:8px;align-items:center;font-size:11px;padding:7px 0;"><span>Payment due</span><div class="mock-toggle on"></div><div class="mock-toggle on"></div><div class="mock-toggle on"></div></div>
+          </div>
+        </div>
+      </div>
+      <!-- CONCEPT: Unusual spending -->
+      <div class="feat-card concept reveal">
+        <div class="feat-header"><div class="feat-icon terr"><i class="ph ph-shield-warning"></i></div><div class="feat-meta"><div class="feat-name">Unusual spending alert</div><div class="feat-desc">Anomaly detection flags transactions outside normal patterns — late-night charges, new merchant categories, or amounts far above average spend.</div></div><div class="feat-badges"><span class="badge-concept"><i class="ph ph-eye"></i> Concept</span><span class="badge-mvp">MVP</span></div></div>
+        <div class="concept-area"><div class="concept-label">Visual concept</div>
+          <div class="mock-notif" style="background:var(--surface);">
+            <div class="mock-notif-bar" style="background:rgba(184,92,56,.15);color:var(--terracotta);"><i class="ph ph-shield-warning" style="font-size:14px;"></i> F8 Security · Unusual activity</div>
+            <div class="mock-notif-body"><div class="mock-notif-title">Unusual transaction detected</div><div class="mock-notif-text">KES 48,000 at Electronics Mart — 3× above your average in this category. Card ••7293 · Kofi Mensah. Was this you?</div><div class="mock-notif-actions"><div class="mock-notif-btn primary" style="background:var(--jade);">Yes, it's mine</div><div class="mock-notif-btn ghost" style="background:rgba(184,92,56,.2);color:var(--terracotta);">Freeze &amp; report</div></div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══ H. APPROVALS ══ -->
+    <div class="module-group reveal" id="mod-h">
+      <div class="module-header">
+        <div class="module-icon"><i class="ph ph-flow-arrow"></i></div>
+        <div><div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap;"><span class="module-title">Approvals &amp; Workflow</span><span class="module-letter">H</span></div><div class="module-desc">Request routing, submits-to chains, rejection feedback and status tracking.</div></div>
+      </div>
+      <div class="feat-card live reveal"><div class="feat-header"><div class="feat-icon"><i class="ph ph-git-branch"></i></div><div class="feat-meta"><div class="feat-name">Approval workflows — submits-to chain</div><div class="feat-desc">Per-policy member table showing User → Submits To → Approver. Four policies with tier rules and manager assignment per workspace.</div></div><div class="feat-badges"><span class="badge-live"><i class="ph ph-check-circle"></i> Live</span><span class="badge-mvp">MVP</span><a href="approval-policies.html" class="view-live-link"><i class="ph ph-arrow-right"></i> View</a></div></div></div>
+      <div class="feat-card live reveal"><div class="feat-header"><div class="feat-icon"><i class="ph ph-clock"></i></div><div class="feat-meta"><div class="feat-name">Request status tracking — All / Pending / Approved / Rejected</div><div class="feat-desc">Tabbed expense panel on the dashboard with Njeri Kamau's 8 requests — status, amount, approver name and rejection reason.</div></div><div class="feat-badges"><span class="badge-live"><i class="ph ph-check-circle"></i> Live</span><span class="badge-mvp">MVP</span><a href="dashboard.html" class="view-live-link"><i class="ph ph-arrow-right"></i> View</a></div></div></div>
+      <!-- CONCEPT: Extra amount -->
+      <div class="feat-card concept reveal">
+        <div class="feat-header"><div class="feat-icon"><i class="ph ph-plus-circle"></i></div><div class="feat-meta"><div class="feat-name">Request extra amount (over-limit flow)</div><div class="feat-desc">When a request exceeds the card limit, a justification form allows a one-time increase — routed to finance manager for approval.</div></div><div class="feat-badges"><span class="badge-concept"><i class="ph ph-eye"></i> Concept</span><span class="badge-mvp">MVP</span></div></div>
+        <div class="concept-area"><div class="concept-label">Visual concept</div>
+          <div class="mock-phone">
+            <div class="mock-phone-bar"><div class="mock-phone-title">Extra spend request</div></div>
+            <div class="mock-phone-body">
+              <div style="background:rgba(240,192,90,.1);border:1px solid rgba(240,192,90,.25);border-radius:10px;padding:10px;font-size:12px;color:var(--harvest);margin-bottom:12px;"><i class="ph ph-warning"></i> Your card limit is KES 5,000. You're requesting KES 32,000.</div>
+              <div class="mock-field"><div class="mock-field-label">Extra amount needed</div><div class="mock-field-val">KES 27,000</div></div>
+              <div class="mock-field mock-field-focus"><div class="mock-field-label">Business justification</div><div class="mock-field-val" style="font-size:12px;color:var(--text-2);">AWS annual plan — essential for production infrastructure uptime</div></div>
+              <div class="mock-field"><div class="mock-field-label">Approver</div><div class="mock-field-val" style="display:flex;align-items:center;gap:8px;"><div style="width:22px;height:22px;border-radius:50%;background:rgba(0,150,106,.2);color:var(--jade);display:grid;place-items:center;font-size:10px;font-weight:800;">SO</div> S. Ochieng</div></div>
+              <div style="background:var(--gold);color:var(--earth);border-radius:999px;padding:10px;text-align:center;font-weight:800;font-size:13px;margin-top:8px;">Send for approval</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══ I. REPORTS ══ -->
+    <div class="module-group reveal" id="mod-i">
+      <div class="module-header">
+        <div class="module-icon jade-i"><i class="ph ph-chart-bar"></i></div>
+        <div><div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap;"><span class="module-title">Reporting &amp; Intelligence</span><span class="module-letter">I</span></div><div class="module-desc">Spend analytics, category insights, exportable reports and KPIs.</div></div>
+      </div>
+      <div class="feat-card live reveal"><div class="feat-header"><div class="feat-icon jade"><i class="ph ph-chart-pie"></i></div><div class="feat-meta"><div class="feat-name">Spend analysis &amp; team breakdown</div><div class="feat-desc">Historical bar chart by category, team breakdown — Product Dev, IT Corporate, Finance, Operations with spend amounts.</div></div><div class="feat-badges"><span class="badge-live"><i class="ph ph-check-circle"></i> Live</span><span class="badge-mvp">MVP</span><a href="transactions.html" class="view-live-link"><i class="ph ph-arrow-right"></i> View</a></div></div></div>
+      <!-- CONCEPT: KPIs -->
+      <div class="feat-card concept reveal">
+        <div class="feat-header"><div class="feat-icon jade"><i class="ph ph-gauge"></i></div><div class="feat-meta"><div class="feat-name">Financial KPIs &amp; F8 Score</div><div class="feat-desc">Key metrics — credit utilisation rate, reconciliation rate, on-time payment ratio, average approval time. Ranked against other F8 businesses.</div></div><div class="feat-badges"><span class="badge-concept"><i class="ph ph-eye"></i> Concept</span><span class="badge-mvp">MVP</span></div></div>
+        <div class="concept-area"><div class="concept-label">Visual concept</div>
+          <div class="concept-grid">
+            <div class="mock-panel">
+              <div class="mock-panel-title">Key metrics · Jun 2025</div>
+              <div class="mock-row-line"><span>Reconciliation rate</span><span class="mock-amount" style="color:var(--jade);">91%</span></div>
+              <div class="mock-row-line"><span>On-time payment</span><span class="mock-amount" style="color:var(--jade);">100%</span></div>
+              <div class="mock-row-line"><span>Credit utilisation</span><span class="mock-amount" style="color:var(--harvest);">68%</span></div>
+              <div class="mock-row-line"><span>Avg approval time</span><span class="mock-amount">4.2 hrs</span></div>
+            </div>
+            <div class="mock-panel" style="text-align:center;">
+              <div class="mock-panel-title">F8 Quality Score</div>
+              <div class="mock-score"><div class="mock-score-val">72</div></div>
+              <div style="font-size:12px;font-weight:800;color:var(--jade);">Good standing</div>
+              <div style="font-size:11px;color:var(--muted);margin-top:4px;">Top 28% of F8 businesses</div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- CONCEPT: Export -->
+      <div class="feat-card concept reveal">
+        <div class="feat-header"><div class="feat-icon jade"><i class="ph ph-download-simple"></i></div><div class="feat-meta"><div class="feat-name">Exportable reports by business category</div><div class="feat-desc">CSV and PDF exports filtered by team, category and date. Formatted for accountant review with KRA-compatible layout.</div></div><div class="feat-badges"><span class="badge-concept"><i class="ph ph-eye"></i> Concept</span><span class="badge-mvp">MVP</span></div></div>
+        <div class="concept-area"><div class="concept-label">Visual concept</div>
+          <div class="mock-panel">
+            <div class="mock-panel-title">Export report</div>
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:10px;"><div class="mock-field" style="margin:0;"><div class="mock-field-label">Period</div><div class="mock-field-val" style="font-size:12px;">Jun 2025</div></div><div class="mock-field" style="margin:0;"><div class="mock-field-label">Team</div><div class="mock-field-val" style="font-size:12px;">All teams</div></div></div>
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;">
+              <div style="padding:12px;border:1px solid var(--border);border-radius:10px;text-align:center;cursor:pointer;"><i class="ph ph-file-csv" style="font-size:22px;color:var(--jade);display:block;margin-bottom:4px;"></i><div style="font-size:12px;font-weight:700;">Export CSV</div><div style="font-size:10px;color:var(--muted);">For ERP import</div></div>
+              <div style="padding:12px;border:1px solid var(--border);border-radius:10px;text-align:center;cursor:pointer;"><i class="ph ph-file-pdf" style="font-size:22px;color:var(--terracotta);display:block;margin-bottom:4px;"></i><div style="font-size:12px;font-weight:700;">Export PDF</div><div style="font-size:10px;color:var(--muted);">KRA-formatted</div></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══ J. ADMIN ══ -->
+    <div class="module-group reveal" id="mod-j">
+      <div class="module-header">
+        <div class="module-icon terr-i"><i class="ph ph-gear"></i></div>
+        <div><div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap;"><span class="module-title">Admin &amp; Configuration</span><span class="module-letter">J</span></div><div class="module-desc">Company preferences, role management, contextual help and system parameters.</div></div>
+      </div>
+      <div class="feat-card live reveal"><div class="feat-header"><div class="feat-icon terr"><i class="ph ph-shield-check"></i></div><div class="feat-meta"><div class="feat-name">Role and permission assignment</div><div class="feat-desc">Members table with role column (Admin, Finance, User), team assignment, edit controls and policy tier linking.</div></div><div class="feat-badges"><span class="badge-live"><i class="ph ph-check-circle"></i> Live</span><span class="badge-mvp">MVP</span><a href="members.html" class="view-live-link"><i class="ph ph-arrow-right"></i> View</a></div></div></div>
+      <div class="feat-card live reveal"><div class="feat-header"><div class="feat-icon terr"><i class="ph ph-user-plus"></i></div><div class="feat-meta"><div class="feat-name">Team member invitation</div><div class="feat-desc">Invite by email, assign role and team — shareable invite link per policy workspace with pre-approve toggle.</div></div><div class="feat-badges"><span class="badge-live"><i class="ph ph-check-circle"></i> Live</span><span class="badge-mvp">MVP</span><a href="approval-policies.html" class="view-live-link"><i class="ph ph-arrow-right"></i> View</a></div></div></div>
+      <!-- CONCEPT: Custom categories -->
+      <div class="feat-card concept reveal">
+        <div class="feat-header"><div class="feat-icon terr"><i class="ph ph-tag-chevron"></i></div><div class="feat-meta"><div class="feat-name">Custom category creation &amp; labelling</div><div class="feat-desc">Create spend categories specific to the business — rename, assign colour, set budget, enable per team or card.</div></div><div class="feat-badges"><span class="badge-concept"><i class="ph ph-eye"></i> Concept</span><span class="badge-p2">Phase 2</span></div></div>
+        <div class="concept-area"><div class="concept-label">Visual concept</div>
+          <div class="mock-panel">
+            <div class="mock-panel-title">Spend categories</div>
+            <div style="display:flex;gap:6px;flex-wrap:wrap;margin-bottom:10px;"><span style="padding:5px 10px;border-radius:999px;font-size:11px;font-weight:700;background:rgba(0,150,106,.15);color:var(--jade);border:1px solid rgba(0,150,106,.25);">SaaS</span><span style="padding:5px 10px;border-radius:999px;font-size:11px;font-weight:700;background:rgba(45,140,255,.12);color:#2D8CFF;border:1px solid rgba(45,140,255,.25);">Cloud</span><span style="padding:5px 10px;border-radius:999px;font-size:11px;font-weight:700;background:rgba(240,192,90,.12);color:var(--harvest);border:1px solid rgba(240,192,90,.25);">Meals</span><span style="padding:5px 10px;border-radius:999px;font-size:11px;font-weight:700;background:rgba(224,120,51,.12);color:var(--gold);border:1px solid rgba(224,120,51,.25);">Field ops</span><span style="padding:5px 10px;border-radius:999px;font-size:11px;font-weight:700;background:var(--surface-hi);color:var(--muted);border:1px solid var(--border);cursor:pointer;"><i class="ph ph-plus"></i> Add</span></div>
+            <div class="mock-field mock-field-focus" style="margin-bottom:6px;"><div class="mock-field-label">New category name</div><div class="mock-field-val">Field operations</div></div>
+            <div style="display:flex;gap:6px;"><div style="width:28px;height:28px;border-radius:8px;background:#E07833;"></div><div style="width:28px;height:28px;border-radius:8px;background:#00966A;"></div><div style="width:28px;height:28px;border-radius:8px;background:#2D8CFF;"></div><div style="width:28px;height:28px;border-radius:8px;background:#A259FF;"></div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══ K. COMPLIANCE ══ -->
+    <div class="module-group reveal" id="mod-k">
+      <div class="module-header">
+        <div class="module-icon jade-i"><i class="ph ph-shield-check"></i></div>
+        <div><div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap;"><span class="module-title">Compliance, Audit &amp; Security</span><span class="module-letter">K</span></div><div class="module-desc">Activity logs, traceability, due diligence vault and end-to-end auditability.</div></div>
+      </div>
+      <div class="feat-card live reveal"><div class="feat-header"><div class="feat-icon jade"><i class="ph ph-path"></i></div><div class="feat-meta"><div class="feat-name">Approval &amp; transaction traceability</div><div class="feat-desc">Every approval records who approved, when, at what amount tier and under which policy — visible in expandable transaction rows.</div></div><div class="feat-badges"><span class="badge-live"><i class="ph ph-check-circle"></i> Live</span><span class="badge-mvp">MVP</span><a href="transactions.html" class="view-live-link"><i class="ph ph-arrow-right"></i> View</a></div></div></div>
+      <!-- CONCEPT: Audit logs -->
+      <div class="feat-card concept reveal">
+        <div class="feat-header"><div class="feat-icon jade"><i class="ph ph-vault"></i></div><div class="feat-meta"><div class="feat-name">Change audit logs — Due Diligence Vault</div><div class="feat-desc">Immutable record of all configuration changes with actor, timestamp and reason. Investor-ready document vault for fundraising.</div></div><div class="feat-badges"><span class="badge-concept"><i class="ph ph-eye"></i> Concept</span><span class="badge-p2">Phase 2</span></div></div>
+        <div class="concept-area"><div class="concept-label">Visual concept</div>
+          <div class="mock-panel">
+            <div class="mock-panel-title">Audit log · last 7 days</div>
+            <div class="mock-row-line"><div><div style="font-size:12px;font-weight:700;">Policy limit changed</div><div style="font-size:10px;color:var(--muted);">S. Ochieng · T&amp;E · KES 5K → KES 8K</div></div><span style="font-size:10px;color:var(--muted);">Today 11:02</span></div>
+            <div class="mock-row-line"><div><div style="font-size:12px;font-weight:700;">Member role updated</div><div style="font-size:10px;color:var(--muted);">Admin Officer · K. Mensah: User → Finance</div></div><span style="font-size:10px;color:var(--muted);">Yesterday</span></div>
+            <div class="mock-row-line"><div><div style="font-size:12px;font-weight:700;">Credit limit increased</div><div style="font-size:10px;color:var(--muted);">F8 System · KES 300K → KES 360K</div></div><span style="font-size:10px;color:var(--muted);">15 Jun</span></div>
+            <div style="margin-top:10px;text-align:center;"><a href="#" style="font-size:12px;color:var(--gold);text-decoration:none;font-weight:700;">View full audit trail →</a></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══ L. COMMUNITY ══ -->
+    <div class="module-group reveal" id="mod-l">
+      <div class="module-header">
+        <div class="module-icon purp-i"><i class="ph ph-users-three"></i></div>
+        <div><div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap;"><span class="module-title">Networking &amp; Community</span><span class="module-letter">L</span></div><div class="module-desc">F8 Society — verified marketplace, chapters, messaging and referral programme.</div></div>
+      </div>
+      <div class="feat-card concept reveal">
+        <div class="feat-header"><div class="feat-icon purp"><i class="ph ph-storefront"></i></div><div class="feat-meta"><div class="feat-name">Verified business marketplace</div><div class="feat-desc">Discover verified F8 member businesses as clients, suppliers or partners. Reputation score, sector tags and direct message on each profile.</div></div><div class="feat-badges"><span class="badge-concept"><i class="ph ph-eye"></i> Concept</span><span class="badge-p2">Phase 2</span></div></div>
+        <div class="concept-area"><div class="concept-label">Visual concept</div>
+          <div class="concept-grid">
+            <div class="mock-panel">
+              <div class="mock-panel-title">F8 Community · Nairobi</div>
+              <div style="display:grid;gap:8px;">
+                <div style="display:flex;align-items:center;gap:10px;padding:8px;background:var(--surface-hi);border-radius:10px;border:1px solid var(--border);"><div style="width:36px;height:36px;border-radius:10px;background:rgba(0,150,106,.2);display:grid;place-items:center;font-weight:800;font-size:13px;color:var(--jade);">JT</div><div style="flex:1;"><div style="font-size:12px;font-weight:700;">Jambo Tech Ltd</div><div style="font-size:10px;color:var(--muted);">IT Services · <span style="color:var(--jade);">★ 4.8</span></div></div><span style="font-size:10px;background:rgba(0,150,106,.12);color:var(--jade);padding:3px 7px;border-radius:999px;font-weight:700;">Verified</span></div>
+                <div style="display:flex;align-items:center;gap:10px;padding:8px;background:var(--surface-hi);border-radius:10px;border:1px solid var(--border);"><div style="width:36px;height:36px;border-radius:10px;background:rgba(224,120,51,.15);display:grid;place-items:center;font-weight:800;font-size:13px;color:var(--gold);">SF</div><div style="flex:1;"><div style="font-size:12px;font-weight:700;">Savanna Fresh</div><div style="font-size:10px;color:var(--muted);">Food &amp; Beverage · <span style="color:var(--jade);">★ 4.6</span></div></div><span style="font-size:10px;background:rgba(0,150,106,.12);color:var(--jade);padding:3px 7px;border-radius:999px;font-weight:700;">Verified</span></div>
+              </div>
+            </div>
+            <div class="mock-panel">
+              <div class="mock-panel-title">Direct message</div>
+              <div class="mock-bubble recv">Saw your profile — interested in a supplier partnership?</div>
+              <div class="mock-bubble sent">Absolutely, let's connect this week.</div>
+              <div class="mock-field" style="margin-top:8px;"><div class="mock-field-val" style="color:var(--muted);font-size:12px;">Type a message…</div></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══ M. INVESTORS ══ -->
+    <div class="module-group reveal" id="mod-m">
+      <div class="module-header">
+        <div class="module-icon harv-i"><i class="ph ph-trend-up"></i></div>
+        <div><div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap;"><span class="module-title">Investors &amp; Capital Access</span><span class="module-letter">M</span></div><div class="module-desc">Investment readiness, due diligence vault, grant matching and F8 Quality Score.</div></div>
+      </div>
+      <div class="feat-card concept reveal">
+        <div class="feat-header"><div class="feat-icon harv"><i class="ph ph-medal"></i></div><div class="feat-meta"><div class="feat-name">F8 Investment Quality Score</div><div class="feat-desc">F8 ranks businesses on 5 signals — credit behaviour, ERP data, goal achievement, vault completeness and community engagement.</div></div><div class="feat-badges"><span class="badge-concept"><i class="ph ph-eye"></i> Concept</span><span class="badge-p2">Phase 2</span></div></div>
+        <div class="concept-area"><div class="concept-label">Visual concept</div>
+          <div class="concept-grid">
+            <div class="mock-panel" style="text-align:center;"><div class="mock-panel-title">F8 Quality Score</div><div class="mock-score" style="width:100px;height:100px;margin:0 auto 10px;background:conic-gradient(var(--jade) 0 72%,rgba(0,150,106,.15) 72% 100%);"><div class="mock-score-val" style="font-size:18px;">72</div></div><div style="font-size:14px;font-weight:800;color:var(--jade);">Good standing</div><div style="font-size:11px;color:var(--muted);margin-top:4px;">Top 28% · 6 months history</div></div>
+            <div class="mock-panel"><div class="mock-panel-title">Score signals</div><div class="mock-row-line"><span>Credit behaviour</span><span class="mock-amount" style="color:var(--jade);">18 / 20</span></div><div class="mock-row-line"><span>ERP data quality</span><span class="mock-amount" style="color:var(--jade);">16 / 20</span></div><div class="mock-row-line"><span>Goal achievement</span><span class="mock-amount" style="color:var(--harvest);">12 / 20</span></div><div class="mock-row-line"><span>Vault completeness</span><span class="mock-amount" style="color:var(--harvest);">14 / 20</span></div><div class="mock-row-line"><span>Community</span><span class="mock-amount" style="color:var(--muted);">12 / 20</span></div></div>
+          </div>
+        </div>
+      </div>
+      <div class="feat-card concept reveal">
+        <div class="feat-header"><div class="feat-icon harv"><i class="ph ph-hand-coins"></i></div><div class="feat-meta"><div class="feat-name">Grant matching service</div><div class="feat-desc">F8 matches your business profile to active grants, DFI funding windows and government programmes filtered by sector and stage.</div></div><div class="feat-badges"><span class="badge-concept"><i class="ph ph-eye"></i> Concept</span><span class="badge-p2">Phase 2</span></div></div>
+        <div class="concept-area"><div class="concept-label">Visual concept</div>
+          <div class="mock-panel">
+            <div class="mock-panel-title">Matched grants · 2 opportunities</div>
+            <div style="display:grid;gap:8px;">
+              <div style="padding:10px;background:var(--surface-hi);border-radius:10px;border:1px solid rgba(0,150,106,.2);"><div style="font-size:12px;font-weight:700;">Kenya SME Finance Facility</div><div style="font-size:10px;color:var(--muted);margin:2px 0 6px;">IFC · Up to USD 100,000 · Fintech / MSME</div><div style="display:flex;justify-content:space-between;"><span class="mock-badge ok">92% match</span><span style="font-size:11px;color:var(--gold);font-weight:700;cursor:pointer;">Apply →</span></div></div>
+              <div style="padding:10px;background:var(--surface-hi);border-radius:10px;border:1px solid rgba(240,192,90,.2);"><div style="font-size:12px;font-weight:700;">Kenya Digital Economy Fund</div><div style="font-size:10px;color:var(--muted);margin:2px 0 6px;">Government · Up to KES 5M · Tech startups</div><div style="display:flex;justify-content:space-between;"><span class="mock-badge pend">78% match</span><span style="font-size:11px;color:var(--gold);font-weight:700;cursor:pointer;">Apply →</span></div></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
   </main>
-
   <footer class="footer page-shell">
-    <p>F8 — Confidential visual concept for pilot exploration.</p>
+    <p>F8 — Confidential visual concept · 13 modules · Live + Concept mockups.</p>
   </footer>
   <script src="script.js"></script>
-
   <script>
-    // Hamburger nav toggle
     (function() {
       var btn = document.getElementById('navToggle');
       var nav = document.querySelector('.nav');
       if (!btn || !nav) return;
       btn.addEventListener('click', function() {
         var open = nav.classList.toggle('open');
-        btn.innerHTML = open
-          ? '<i class="ph ph-x"></i>'
-          : '<i class="ph ph-list"></i>';
+        btn.innerHTML = open ? '<i class="ph ph-x"></i>' : '<i class="ph ph-list"></i>';
         btn.setAttribute('aria-label', open ? 'Close menu' : 'Open menu');
       });
-      // Close on link click (SPA feel)
       nav.querySelectorAll('a').forEach(function(a) {
         a.addEventListener('click', function() {
           nav.classList.remove('open');
