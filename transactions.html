@@ -3,19 +3,49 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>F8 — Transactions</title>
+  <title>F8 — Card Statement</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Cormorant+Garamond:wght@300;400;500&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/phosphor-icons@1.4.2/src/css/icons.css">
   <link rel="stylesheet" href="styles.css" />
+  <style>
+    /* Category tag */
+    .cat-tag {
+      display:inline-flex; align-items:center; gap:4px;
+      padding:3px 9px; border-radius:999px;
+      font-size:11px; font-weight:700;
+      background:rgba(224,120,51,.1); color:var(--gold);
+      border:1px solid rgba(224,120,51,.2);
+    }
+    .cat-tag.saas    { background:rgba(162,89,255,.12); color:#A259FF; border-color:rgba(162,89,255,.25); }
+    .cat-tag.travel  { background:rgba(0,150,106,.12);  color:var(--jade); border-color:rgba(0,150,106,.25); }
+    .cat-tag.meals   { background:rgba(240,192,90,.12); color:var(--harvest); border-color:rgba(240,192,90,.28); }
+    .cat-tag.infra   { background:rgba(45,140,255,.12); color:#2D8CFF; border-color:rgba(45,140,255,.25); }
+    .cat-tag.other   { background:rgba(255,255,255,.07); color:var(--muted); border-color:var(--border); }
+
+    /* merchant icon */
+    .merchant-icon {
+      width:36px; height:36px; border-radius:10px;
+      display:grid; place-items:center;
+      font-size:15px; font-weight:800; flex-shrink:0;
+    }
+    .tx-row-expand { display:none; background:var(--surface-hi); }
+    body.light .tx-row-expand { background:var(--canvas-mid); }
+    .tx-row-expand td { padding:10px 16px 14px 68px; font-size:13px; color:var(--text-2); border-bottom:1px solid var(--border); }
+    .tx-row.open + .tx-row-expand { display:table-row; }
+    tr.tx-row { cursor:pointer; }
+
+    /* card switcher scroll on mobile */
+    .card-selector-row { overflow-x: auto; padding-bottom: 4px; }
+  </style>
 </head>
 <body>
   <div class="scroll-progress"><span id="scrollBar"></span></div>
   <header class="topbar">
     <div class="brand">
       <div class="mark">8</div>
-      <div><div class="brand-name">F8</div><div class="brand-tag">Transactions</div></div>
+      <div><div class="brand-name">F8</div><div class="brand-tag">Card Statement</div></div>
     </div>
     <nav class="nav">
       <a href="index.html">Home</a>
@@ -23,8 +53,10 @@
       <a href="applications.html">Applications</a>
       <a href="transactions.html">Transactions</a>
       <a href="members.html">Members</a>
+      <a href="approval-policies.html">Policies</a>
       <a href="credit-application.html">Credit</a>
       <a href="onboarding.html">Onboarding</a>
+      <a href="design-system.html">Style Guide</a>
     </nav>
     <button class="ghost-btn" id="toggleTheme">Toggle Mode</button>
   </header>
@@ -32,239 +64,304 @@
   <main class="page-shell">
     <a href="index.html" class="back-link reveal"><i class="ph ph-arrow-left"></i> Control Centre</a>
 
-    <div style="display:flex;justify-content:space-between;align-items:flex-end;margin:18px 0 22px;flex-wrap:wrap;gap:12px;">
-      <div class="reveal">
-        <p class="eyebrow">Statement & reconciliation</p>
-        <h1 style="margin:0;">Transactions</h1>
-      </div>
-      <button class="secondary-btn reveal"><i class="ph ph-download-simple"></i> Export CSV</button>
+    <div style="margin:18px 0 20px;" class="reveal">
+      <p class="eyebrow">Statement & reconciliation</p>
+      <h1 style="margin:0;">Card transactions</h1>
     </div>
 
-    <!-- Summary -->
-    <div class="tx-summary reveal">
-      <div class="metric-card">
-        <span class="metric-label">Money in (month)</span>
-        <span class="metric-value" style="color:var(--jade);">KES 95,270</span>
-      </div>
-      <div class="metric-card">
-        <span class="metric-label">Money out (month)</span>
-        <span class="metric-value">KES 48,700</span>
-      </div>
-      <div class="metric-card">
-        <span class="metric-label">Balance</span>
-        <span class="metric-value">KES 1.24M</span>
-      </div>
-      <div class="metric-card">
-        <span class="metric-label">Reconciled</span>
-        <span class="metric-value">91%</span>
-      </div>
-    </div>
+    <!-- ── Card selector ── -->
+    <div class="card-selector-row reveal">
 
-    <!-- Spend Analysis charts -->
-    <div class="reports-grid reveal" style="margin-bottom:20px;">
-      <div class="panel">
-        <div class="panel-head"><h2>Spend Analysis</h2>
-          <select style="background:var(--surface-hi);border:1px solid var(--border);color:var(--text);border-radius:8px;padding:6px 10px;font-family:Inter,sans-serif;font-size:13px;">
-            <option>Historical Spend</option><option>This Month</option>
-          </select>
-        </div>
-        <p style="font-size:13px;color:var(--muted);margin:0 0 12px;">Historical spend (KES)</p>
-        <div class="chart-legend" style="margin-bottom:8px;">
-          <span><span class="legend-dot" style="background:var(--gold);"></span>Software</span>
-          <span><span class="legend-dot" style="background:var(--jade);"></span>Others</span>
-          <span><span class="legend-dot" style="background:rgba(255,255,255,.2);border:1px solid var(--border);"></span>Uncategorised</span>
-        </div>
-        <div class="spend-chart-area">
-          <div class="chart-col">
-            <div class="chart-bar-wrap"><div class="chart-bar software" style="height:45%;"></div><div class="chart-bar others" style="height:20%;"></div></div>
-            <div class="chart-label">Jan</div>
-          </div>
-          <div class="chart-col">
-            <div class="chart-bar-wrap"><div class="chart-bar software" style="height:60%;"></div><div class="chart-bar others" style="height:30%;"></div><div class="chart-bar uncategorised" style="height:10%;"></div></div>
-            <div class="chart-label">Feb</div>
-          </div>
-          <div class="chart-col">
-            <div class="chart-bar-wrap"><div class="chart-bar software" style="height:40%;"></div><div class="chart-bar others" style="height:15%;"></div></div>
-            <div class="chart-label">Mar</div>
-          </div>
-          <div class="chart-col">
-            <div class="chart-bar-wrap"><div class="chart-bar software" style="height:75%;"></div><div class="chart-bar others" style="height:20%;"></div><div class="chart-bar uncategorised" style="height:5%;"></div></div>
-            <div class="chart-label">Apr</div>
-          </div>
-          <div class="chart-col">
-            <div class="chart-bar-wrap"><div class="chart-bar software" style="height:55%;"></div><div class="chart-bar others" style="height:10%;"></div></div>
-            <div class="chart-label">May</div>
-          </div>
-          <div class="chart-col">
-            <div class="chart-bar-wrap"><div class="chart-bar software" style="height:50%;"></div><div class="chart-bar others" style="height:12%;"></div></div>
-            <div class="chart-label">Jun</div>
-          </div>
+      <!-- Card 1 — active -->
+      <div class="vcard-thumb active" onclick="selectCard(this,'card1')">
+        <div class="vcard-network">VISA</div>
+        <div class="vcard-chip"></div>
+        <div class="vcard-number">•••• •••• •••• 4821</div>
+        <div class="vcard-holder">Njeri Kamau</div>
+        <div style="margin-top:10px;">
+          <div class="vcard-label">Spent this cycle</div>
+          <div class="vcard-balance">KES 95,400</div>
+          <div style="font-size:10px;opacity:.55;margin-top:2px;"><span class="vcard-status-dot"></span>Active · Limit KES 140K</div>
         </div>
       </div>
 
-      <div class="panel">
-        <h2 style="margin-bottom:16px;">Spend breakdown</h2>
-        <div style="display:flex;gap:12px;margin-bottom:16px;flex-wrap:wrap;">
-          <button class="tab active">Team</button>
-          <button class="tab">Applications</button>
+      <!-- Card 2 -->
+      <div class="vcard-thumb jade-card" onclick="selectCard(this,'card2')">
+        <div class="vcard-network">VISA</div>
+        <div class="vcard-chip"></div>
+        <div class="vcard-number">•••• •••• •••• 7293</div>
+        <div class="vcard-holder">Kofi Mensah</div>
+        <div style="margin-top:10px;">
+          <div class="vcard-label">Spent this cycle</div>
+          <div class="vcard-balance">KES 31,200</div>
+          <div style="font-size:10px;opacity:.55;margin-top:2px;"><span class="vcard-status-dot"></span>Active · Limit KES 80K</div>
         </div>
-        <div class="breakdown-list">
-          <div class="breakdown-row">
-            <div><div class="breakdown-name">Product Dev & Eng</div><div class="breakdown-sub">3 members</div></div>
-            <div class="breakdown-amt">KES 24,400</div>
-          </div>
-          <div class="breakdown-row">
-            <div><div class="breakdown-name">IT Corporate</div><div class="breakdown-sub">2 members</div></div>
-            <div class="breakdown-amt">KES 18,900</div>
-          </div>
-          <div class="breakdown-row">
-            <div><div class="breakdown-name">Finance</div><div class="breakdown-sub">2 members</div></div>
-            <div class="breakdown-amt">KES 3,200</div>
-          </div>
-          <div class="breakdown-row">
-            <div><div class="breakdown-name">Operations</div><div class="breakdown-sub">1 member</div></div>
-            <div class="breakdown-amt">KES 2,200</div>
-          </div>
+      </div>
+
+      <!-- Card 3 -->
+      <div class="vcard-thumb gold-card" onclick="selectCard(this,'card3')">
+        <div class="vcard-network">VISA</div>
+        <div class="vcard-chip"></div>
+        <div class="vcard-number">•••• •••• •••• 5504</div>
+        <div class="vcard-holder">Amara Osei</div>
+        <div style="margin-top:10px;">
+          <div class="vcard-label">Spent this cycle</div>
+          <div class="vcard-balance">KES 18,750</div>
+          <div style="font-size:10px;opacity:.55;margin-top:2px;"><span class="vcard-status-dot" style="background:var(--harvest);"></span>Near limit · KES 60K</div>
         </div>
+      </div>
+
+      <!-- Add card slot -->
+      <div style="width:160px;flex-shrink:0;border-radius:16px;border:2px dashed var(--border);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;cursor:pointer;color:var(--muted);transition:border-color .2s,color .2s;padding:20px;" onmouseover="this.style.borderColor='var(--gold)';this.style.color='var(--gold)';" onmouseout="this.style.borderColor='var(--border)';this.style.color='var(--muted)';">
+        <i class="ph ph-plus-circle" style="font-size:28px;"></i>
+        <span style="font-size:12px;font-weight:700;">Issue card</span>
       </div>
     </div>
 
-    <!-- Transaction history table -->
+    <!-- ── Card detail hero ── -->
+    <div class="card-hero reveal">
+      <!-- Full card visual -->
+      <div class="card-full" id="cardVisual">
+        <div class="card-full-network">VISA</div>
+        <div class="card-full-chip"></div>
+        <div class="card-full-number">4821 •••• •••• ••••</div>
+        <div class="card-full-row">
+          <div>
+            <div class="card-full-holder">Njeri Kamau</div>
+            <div class="card-full-expiry">Expires 09/28</div>
+          </div>
+          <div style="text-align:right;opacity:.7;">
+            <div style="font-size:10px;letter-spacing:.08em;text-transform:uppercase;">F8 Business</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Card stats -->
+      <div>
+        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:14px;flex-wrap:wrap;gap:8px;">
+          <div>
+            <div style="font-size:18px;font-weight:700;" id="cardName">Njeri Kamau — Card ••4821</div>
+            <div style="font-size:13px;color:var(--muted);">Finance Manager · IT Corporate</div>
+          </div>
+          <div style="display:flex;gap:8px;">
+            <button class="secondary-btn" style="font-size:13px;padding:8px 14px;"><i class="ph ph-snowflake"></i> Freeze card</button>
+            <button class="secondary-btn" style="font-size:13px;padding:8px 14px;"><i class="ph ph-download-simple"></i> Export</button>
+          </div>
+        </div>
+
+        <div class="card-stats-grid">
+          <div class="card-stat">
+            <div class="card-stat-label">Spent this cycle</div>
+            <div class="card-stat-value" id="cardSpent">KES 95,400</div>
+            <div class="card-stat-sub" id="cardLimit">of KES 140,000 limit</div>
+          </div>
+          <div class="card-stat">
+            <div class="card-stat-label">Available</div>
+            <div class="card-stat-value" style="color:var(--jade);" id="cardAvail">KES 44,600</div>
+            <div class="card-stat-sub">32% remaining</div>
+          </div>
+          <div class="card-stat">
+            <div class="card-stat-label">Statement due</div>
+            <div class="card-stat-value" style="color:var(--terracotta);">Jul 01</div>
+            <div class="card-stat-sub">8 days remaining</div>
+          </div>
+          <div class="card-stat">
+            <div class="card-stat-label">Transactions</div>
+            <div class="card-stat-value" id="cardTxCount">24</div>
+            <div class="card-stat-sub">this cycle</div>
+          </div>
+        </div>
+
+        <!-- Spend by category pills -->
+        <div style="margin-top:14px;padding:14px;background:var(--surface-hi);border:1px solid var(--border);border-radius:12px;">
+          <div style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:var(--muted);margin-bottom:10px;">Spend by category</div>
+          <div style="display:flex;gap:8px;flex-wrap:wrap;">
+            <span class="cat-tag saas"><i class="ph ph-grid-four"></i> SaaS KES 24,200</span>
+            <span class="cat-tag infra"><i class="ph ph-cloud"></i> Cloud KES 18,600</span>
+            <span class="cat-tag travel"><i class="ph ph-airplane"></i> Travel KES 22,800</span>
+            <span class="cat-tag meals"><i class="ph ph-fork-knife"></i> Meals KES 12,400</span>
+            <span class="cat-tag other"><i class="ph ph-dots-three"></i> Other KES 17,400</span>
+          </div>
+        </div>
+      </div>
+    </div><!-- /card-hero -->
+
+    <!-- ── Transaction table ── -->
     <div class="table-shell reveal">
       <div class="table-toolbar">
         <div class="table-search">
           <i class="ph ph-magnifying-glass" style="color:var(--muted);"></i>
-          <input type="text" placeholder="Search transactions…" />
+          <input type="text" id="txSearch" placeholder="Search merchant, category, amount…" oninput="filterTx()" />
         </div>
-        <button class="filter-btn"><i class="ph ph-calendar"></i> Filter by date range</button>
-        <button class="filter-btn"><i class="ph ph-funnel"></i> Filter results</button>
+        <button class="filter-btn"><i class="ph ph-calendar"></i> Date range</button>
+        <select class="filter-btn" style="font-family:Inter,sans-serif;cursor:pointer;" onchange="filterTx()">
+          <option value="">All categories</option>
+          <option value="SaaS">SaaS</option>
+          <option value="Cloud">Cloud</option>
+          <option value="Travel">Travel</option>
+          <option value="Meals">Meals</option>
+          <option value="Other">Other</option>
+        </select>
+        <button class="secondary-btn" style="font-size:13px;padding:8px 14px;"><i class="ph ph-download-simple"></i> Export CSV</button>
       </div>
 
       <div style="overflow-x:auto;">
-        <table class="data-table">
+        <table class="data-table" id="txTable">
           <thead>
             <tr>
+              <th style="width:40px;"></th>
               <th>Date <i class="ph ph-arrows-down-up" style="font-size:10px;"></i></th>
               <th>#</th>
-              <th>Description</th>
-              <th>Money in (KES)</th>
-              <th>Money out (KES)</th>
-              <th>Balance (KES)</th>
-              <th>Type</th>
-              <th>Invoice</th>
+              <th>Merchant</th>
+              <th>Category</th>
+              <th>Cardholder</th>
+              <th>Amount (KES)</th>
+              <th>Status</th>
+              <th>Receipt</th>
             </tr>
           </thead>
-          <tbody>
-            <tr>
-              <td style="font-size:13px;">18/06/2025</td>
-              <td style="font-size:12px;color:var(--muted);">#92048/01</td>
-              <td>
-                <div style="font-weight:600;">Google Cloud Platform</div>
-                <div style="font-size:11px;color:var(--jade);">GOOGLE CLOUD · $10.00 @ 130</div>
-              </td>
-              <td></td>
-              <td style="font-weight:600;">1,300</td>
-              <td>1,238,700</td>
-              <td><i class="ph ph-shield-check" style="color:var(--jade);"></i></td>
+          <tbody id="txBody">
+
+            <tr class="tx-row" onclick="toggleRow(this)">
+              <td><i class="ph ph-caret-right" style="color:var(--muted);font-size:12px;" id="caret_1"></i></td>
+              <td style="font-size:13px;white-space:nowrap;">20 Jun 2025</td>
+              <td style="font-size:12px;color:var(--muted);">#93012</td>
+              <td><div style="display:flex;align-items:center;gap:10px;"><div class="merchant-icon" style="background:#EA4335;color:#fff;">G</div><div><div style="font-weight:600;">Google Workspace</div><div style="font-size:11px;color:var(--muted);">GOOGLE · $20.00 @ 130</div></div></div></td>
+              <td><span class="cat-tag saas">SaaS</span></td>
+              <td><div style="display:flex;align-items:center;gap:6px;"><div class="avatar-sm">NK</div><span style="font-size:13px;">Njeri Kamau</span></div></td>
+              <td style="font-weight:700;">2,600</td>
+              <td><i class="ph ph-shield-check" style="color:var(--jade);font-size:16px;"></i></td>
               <td><a href="#" style="color:var(--gold);font-size:13px;text-decoration:none;">View</a></td>
             </tr>
-            <tr>
-              <td style="font-size:13px;">16/06/2025</td>
-              <td style="font-size:12px;color:var(--muted);">#91918/05</td>
-              <td>
-                <div style="font-weight:600;">GitHub</div>
-                <div style="font-size:11px;color:var(--jade);">GITHUB INC. · $2.14 @ 130</div>
-              </td>
-              <td></td>
-              <td style="font-weight:600;">278</td>
-              <td>1,240,000</td>
-              <td><i class="ph ph-shield-check" style="color:var(--jade);"></i></td>
+            <tr class="tx-row-expand"><td colspan="9">Transaction · Ref GCWS-20250620-4821 · Charged to card ••4821 · Approved automatically (under KES 5,000 threshold) · Policy: IT Spend Policy</td></tr>
+
+            <tr class="tx-row" onclick="toggleRow(this)">
+              <td><i class="ph ph-caret-right" style="color:var(--muted);font-size:12px;"></i></td>
+              <td style="font-size:13px;white-space:nowrap;">18 Jun 2025</td>
+              <td style="font-size:12px;color:var(--muted);">#92048</td>
+              <td><div style="display:flex;align-items:center;gap:10px;"><div class="merchant-icon" style="background:#EA4335;color:#fff;">G</div><div><div style="font-weight:600;">Google Cloud Platform</div><div style="font-size:11px;color:var(--muted);">GCP · $10.00 @ 130</div></div></div></td>
+              <td><span class="cat-tag infra">Cloud</span></td>
+              <td><div style="display:flex;align-items:center;gap:6px;"><div class="avatar-sm">NK</div><span style="font-size:13px;">Njeri Kamau</span></div></td>
+              <td style="font-weight:700;">1,300</td>
+              <td><i class="ph ph-shield-check" style="color:var(--jade);font-size:16px;"></i></td>
               <td><a href="#" style="color:var(--gold);font-size:13px;text-decoration:none;">View</a></td>
             </tr>
-            <tr>
-              <td style="font-size:13px;">15/06/2025</td>
-              <td style="font-size:12px;color:var(--muted);">#91802/12</td>
-              <td>
-                <div style="font-weight:600;">F8 Rewards credit</div>
-                <div style="font-size:11px;color:var(--jade);">F8 Rewards</div>
-              </td>
-              <td style="font-weight:600;color:var(--jade);">9,527</td>
-              <td></td>
-              <td>1,240,278</td>
-              <td><i class="ph ph-gift" style="color:var(--harvest);"></i></td>
-              <td></td>
-            </tr>
-            <tr>
-              <td style="font-size:13px;">14/06/2025</td>
-              <td style="font-size:12px;color:var(--muted);">#91734/09</td>
-              <td>
-                <div style="font-weight:600;">Slack Business+</div>
-                <div style="font-size:11px;color:var(--jade);">SLACK TECHNOLOGIES</div>
-              </td>
-              <td></td>
-              <td style="font-weight:600;">6,500</td>
-              <td>1,230,751</td>
-              <td><i class="ph ph-shield-check" style="color:var(--jade);"></i></td>
+            <tr class="tx-row-expand"><td colspan="9">Transaction · Ref GCP-20250618-4821 · Cloud infrastructure spend · Policy: IT Spend Policy</td></tr>
+
+            <tr class="tx-row" onclick="toggleRow(this)">
+              <td><i class="ph ph-caret-right" style="color:var(--muted);font-size:12px;"></i></td>
+              <td style="font-size:13px;white-space:nowrap;">16 Jun 2025</td>
+              <td style="font-size:12px;color:var(--muted);">#91918</td>
+              <td><div style="display:flex;align-items:center;gap:10px;"><div class="merchant-icon" style="background:#F4A400;color:#1A0D00;">U</div><div><div style="font-weight:600;">Uber Business</div><div style="font-size:11px;color:var(--muted);">UBER BV</div></div></div></td>
+              <td><span class="cat-tag travel">Travel</span></td>
+              <td><div style="display:flex;align-items:center;gap:6px;"><div class="avatar-sm">NK</div><span style="font-size:13px;">Njeri Kamau</span></div></td>
+              <td style="font-weight:700;">3,400</td>
+              <td><i class="ph ph-shield-check" style="color:var(--jade);font-size:16px;"></i></td>
               <td><a href="#" style="color:var(--gold);font-size:13px;text-decoration:none;">View</a></td>
             </tr>
-            <tr>
-              <td style="font-size:13px;">13/06/2025</td>
-              <td style="font-size:12px;color:var(--muted);">#91620/03</td>
-              <td>
-                <div style="font-weight:600;">Figma</div>
-                <div style="font-size:11px;color:var(--jade);">FIGMA MONTHLY RENEWAL · $9.00 @ 130</div>
-              </td>
-              <td></td>
-              <td style="font-weight:600;">1,200</td>
-              <td>1,237,251</td>
-              <td><i class="ph ph-shield-check" style="color:var(--jade);"></i></td>
+            <tr class="tx-row-expand"><td colspan="9">Transport · Airport transfer Nairobi → Westlands · Receipt attached · Policy: T&E Policy</td></tr>
+
+            <tr class="tx-row" onclick="toggleRow(this)">
+              <td><i class="ph ph-caret-right" style="color:var(--muted);font-size:12px;"></i></td>
+              <td style="font-size:13px;white-space:nowrap;">15 Jun 2025</td>
+              <td style="font-size:12px;color:var(--muted);">#91802</td>
+              <td><div style="display:flex;align-items:center;gap:10px;"><div class="merchant-icon" style="background:#24292F;color:#fff;">Gh</div><div><div style="font-weight:600;">GitHub</div><div style="font-size:11px;color:var(--muted);">GITHUB INC. · $2.14 @ 130</div></div></div></td>
+              <td><span class="cat-tag saas">SaaS</span></td>
+              <td><div style="display:flex;align-items:center;gap:6px;"><div class="avatar-sm">NK</div><span style="font-size:13px;">Njeri Kamau</span></div></td>
+              <td style="font-weight:700;">278</td>
+              <td><i class="ph ph-shield-check" style="color:var(--jade);font-size:16px;"></i></td>
               <td><a href="#" style="color:var(--gold);font-size:13px;text-decoration:none;">View</a></td>
             </tr>
-            <tr>
-              <td style="font-size:13px;">10/06/2025</td>
-              <td style="font-size:12px;color:var(--muted);">#91450/07</td>
-              <td>
-                <div style="font-weight:600;">Microsoft 365 Business</div>
-                <div style="font-size:11px;color:var(--jade);">MICROSOFT · $11.54 @ 130</div>
-              </td>
-              <td></td>
-              <td style="font-weight:600;">1,500</td>
-              <td>1,238,451</td>
-              <td><i class="ph ph-shield-check" style="color:var(--jade);"></i></td>
+            <tr class="tx-row-expand"><td colspan="9">Dev tools subscription · Auto-approved under KES 1,000 threshold · Policy: IT Spend Policy</td></tr>
+
+            <tr class="tx-row" onclick="toggleRow(this)">
+              <td><i class="ph ph-caret-right" style="color:var(--muted);font-size:12px;"></i></td>
+              <td style="font-size:13px;white-space:nowrap;">14 Jun 2025</td>
+              <td style="font-size:12px;color:var(--muted);">#91734</td>
+              <td><div style="display:flex;align-items:center;gap:10px;"><div class="merchant-icon" style="background:#4A154B;color:#E01E5A;">Sl</div><div><div style="font-weight:600;">Slack Business+</div><div style="font-size:11px;color:var(--muted);">SLACK TECHNOLOGIES</div></div></div></td>
+              <td><span class="cat-tag saas">SaaS</span></td>
+              <td><div style="display:flex;align-items:center;gap:6px;"><div class="avatar-sm">NK</div><span style="font-size:13px;">Njeri Kamau</span></div></td>
+              <td style="font-weight:700;">6,500</td>
+              <td><i class="ph ph-shield-check" style="color:var(--jade);font-size:16px;"></i></td>
               <td><a href="#" style="color:var(--gold);font-size:13px;text-decoration:none;">View</a></td>
             </tr>
-            <tr>
-              <td style="font-size:13px;">10/06/2025</td>
-              <td style="font-size:12px;color:var(--muted);">#91449/02</td>
-              <td>
-                <div style="font-weight:600;">Proton VPN</div>
-                <div style="font-size:11px;color:var(--muted);">PROTON AG · $15.38 @ 130</div>
-              </td>
-              <td></td>
-              <td style="font-weight:600;">2,000</td>
-              <td>1,239,951</td>
-              <td><i class="ph ph-warning-circle" style="color:var(--gold);"></i></td>
-              <td></td>
+            <tr class="tx-row-expand"><td colspan="9">Team plan renewal · 14 seats · Approved by S. Ochieng on 13 Jun · Policy: IT Spend Policy</td></tr>
+
+            <tr class="tx-row" onclick="toggleRow(this)">
+              <td><i class="ph ph-caret-right" style="color:var(--muted);font-size:12px;"></i></td>
+              <td style="font-size:13px;white-space:nowrap;">13 Jun 2025</td>
+              <td style="font-size:12px;color:var(--muted);">#91620</td>
+              <td><div style="display:flex;align-items:center;gap:10px;"><div class="merchant-icon" style="background:#1E1E2E;color:#A259FF;">Fi</div><div><div style="font-weight:600;">Figma</div><div style="font-size:11px;color:var(--muted);">FIGMA MONTHLY · $9.00 @ 130</div></div></div></td>
+              <td><span class="cat-tag saas">SaaS</span></td>
+              <td><div style="display:flex;align-items:center;gap:6px;"><div class="avatar-sm">NK</div><span style="font-size:13px;">Njeri Kamau</span></div></td>
+              <td style="font-weight:700;">1,200</td>
+              <td><i class="ph ph-shield-check" style="color:var(--jade);font-size:16px;"></i></td>
+              <td><a href="#" style="color:var(--gold);font-size:13px;text-decoration:none;">View</a></td>
             </tr>
-            <tr>
-              <td style="font-size:13px;">05/06/2025</td>
-              <td style="font-size:12px;color:var(--muted);">#91100/01</td>
-              <td>
-                <div style="font-weight:600;">Top up balance</div>
-                <div style="font-size:11px;color:var(--jade);">Credit line drawdown</div>
-              </td>
-              <td style="font-weight:600;color:var(--jade);">50,000</td>
-              <td></td>
-              <td>1,241,951</td>
-              <td><i class="ph ph-bank" style="color:var(--gold);"></i></td>
-              <td></td>
+            <tr class="tx-row-expand"><td colspan="9">Design tool · Monthly renewal · Receipt auto-matched · Policy: IT Spend Policy</td></div></tr>
+
+            <tr class="tx-row" onclick="toggleRow(this)">
+              <td><i class="ph ph-caret-right" style="color:var(--muted);font-size:12px;"></i></td>
+              <td style="font-size:13px;white-space:nowrap;">12 Jun 2025</td>
+              <td style="font-size:12px;color:var(--muted);">#91580</td>
+              <td><div style="display:flex;align-items:center;gap:10px;"><div class="merchant-icon" style="background:#2C3E50;color:#ECF0F1;">Ak</div><div><div style="font-weight:600;">Akinyi Kitchen</div><div style="font-size:11px;color:var(--muted);">RESTAURANT · NAIROBI</div></div></div></td>
+              <td><span class="cat-tag meals">Meals</span></td>
+              <td><div style="display:flex;align-items:center;gap:6px;"><div class="avatar-sm">NK</div><span style="font-size:13px;">Njeri Kamau</span></div></td>
+              <td style="font-weight:700;">12,400</td>
+              <td><i class="ph ph-warning-circle" style="color:var(--gold);font-size:16px;"></i></td>
+              <td><span style="font-size:12px;color:var(--muted);">Missing</span></td>
             </tr>
+            <tr class="tx-row-expand"><td colspan="9">Client dinner — receipt not yet attached. Please upload to complete reconciliation. Policy: T&E Policy · Awaiting receipt within 5 business days.</td></tr>
+
+            <tr class="tx-row" onclick="toggleRow(this)">
+              <td><i class="ph ph-caret-right" style="color:var(--muted);font-size:12px;"></i></td>
+              <td style="font-size:13px;white-space:nowrap;">10 Jun 2025</td>
+              <td style="font-size:12px;color:var(--muted);">#91450</td>
+              <td><div style="display:flex;align-items:center;gap:10px;"><div class="merchant-icon" style="background:#D83B01;color:#fff;">M</div><div><div style="font-weight:600;">Microsoft 365 Business</div><div style="font-size:11px;color:var(--muted);">MICROSOFT · $11.54 @ 130</div></div></div></td>
+              <td><span class="cat-tag saas">SaaS</span></td>
+              <td><div style="display:flex;align-items:center;gap:6px;"><div class="avatar-sm">NK</div><span style="font-size:13px;">Njeri Kamau</span></div></td>
+              <td style="font-weight:700;">1,500</td>
+              <td><i class="ph ph-shield-check" style="color:var(--jade);font-size:16px;"></i></td>
+              <td><a href="#" style="color:var(--gold);font-size:13px;text-decoration:none;">View</a></td>
+            </tr>
+            <tr class="tx-row-expand"><td colspan="9">Microsoft 365 Business Standard · 8 seats · Auto-renewed · Policy: IT Spend Policy</td></tr>
+
+            <tr class="tx-row" onclick="toggleRow(this)">
+              <td><i class="ph ph-caret-right" style="color:var(--muted);font-size:12px;"></i></td>
+              <td style="font-size:13px;white-space:nowrap;">08 Jun 2025</td>
+              <td style="font-size:12px;color:var(--muted);">#91310</td>
+              <td><div style="display:flex;align-items:center;gap:10px;"><div class="merchant-icon" style="background:#006CE4;color:#fff;">Bk</div><div><div style="font-weight:600;">Kenya Airways</div><div style="font-size:11px;color:var(--muted);">KQ · NBO–MBA</div></div></div></td>
+              <td><span class="cat-tag travel">Travel</span></td>
+              <td><div style="display:flex;align-items:center;gap:6px;"><div class="avatar-sm">NK</div><span style="font-size:13px;">Njeri Kamau</span></div></td>
+              <td style="font-weight:700;">19,400</td>
+              <td><i class="ph ph-shield-check" style="color:var(--jade);font-size:16px;"></i></td>
+              <td><a href="#" style="color:var(--gold);font-size:13px;text-decoration:none;">View</a></td>
+            </tr>
+            <tr class="tx-row-expand"><td colspan="9">Mombasa field visit · Approved by M. Abubakar on 05 Jun · Booking ref KQ-204-NBO · Policy: T&E Policy</td></tr>
+
+            <tr class="tx-row" onclick="toggleRow(this)">
+              <td><i class="ph ph-caret-right" style="color:var(--muted);font-size:12px;"></i></td>
+              <td style="font-size:13px;white-space:nowrap;">05 Jun 2025</td>
+              <td style="font-size:12px;color:var(--muted);">#91100</td>
+              <td><div style="display:flex;align-items:center;gap:10px;"><div class="merchant-icon" style="background:#6D4AFF;color:#fff;">Pn</div><div><div style="font-weight:600;">Proton VPN</div><div style="font-size:11px;color:var(--muted);">PROTON AG · $15.38 @ 130</div></div></div></td>
+              <td><span class="cat-tag saas">SaaS</span></td>
+              <td><div style="display:flex;align-items:center;gap:6px;"><div class="avatar-sm">NK</div><span style="font-size:13px;">Njeri Kamau</span></div></td>
+              <td style="font-weight:700;">2,000</td>
+              <td><i class="ph ph-warning-circle" style="color:var(--gold);font-size:16px;"></i></td>
+              <td><span style="font-size:12px;color:var(--muted);">Missing</span></td>
+            </tr>
+            <tr class="tx-row-expand"><td colspan="9">Security subscription — requires manager approval per policy (over KES 1,500). Awaiting S. Ochieng sign-off. Policy: IT Spend Policy</td></tr>
+
           </tbody>
         </table>
       </div>
 
       <div class="table-footer">
-        <span>Showing 8 of 24 transactions · Total out: KES 12,778</span>
+        <div>
+          <strong>10 of 24 transactions shown</strong> &nbsp;·&nbsp;
+          <span style="color:var(--jade);">KES 95,400 total spend</span> &nbsp;·&nbsp;
+          <span style="color:var(--gold);">2 receipts missing</span>
+        </div>
         <div class="pagination">
           <button class="pg-btn"><i class="ph ph-caret-left"></i></button>
           <button class="pg-btn active">1</button>
@@ -273,12 +370,50 @@
           <button class="pg-btn"><i class="ph ph-caret-right"></i></button>
         </div>
       </div>
-    </div>
+    </div><!-- /table-shell -->
+
   </main>
 
   <footer class="footer page-shell">
     <p>F8 — Confidential visual concept for pilot exploration.</p>
   </footer>
+
   <script src="script.js"></script>
+  <script>
+    // Card data for switcher
+    const cards = {
+      card1: { name:'Njeri Kamau — Card ••4821', spent:'KES 95,400', limit:'of KES 140,000 limit', avail:'KES 44,600', txCount:'24', cardClass:'' },
+      card2: { name:'Kofi Mensah — Card ••7293', spent:'KES 31,200', limit:'of KES 80,000 limit',  avail:'KES 48,800', txCount:'12', cardClass:'jade-card' },
+      card3: { name:'Amara Osei — Card ••5504', spent:'KES 18,750', limit:'of KES 60,000 limit',  avail:'KES 41,250', txCount:'9',  cardClass:'gold-card' }
+    };
+    function selectCard(el, key) {
+      document.querySelectorAll('.vcard-thumb').forEach(c => c.classList.remove('active'));
+      el.classList.add('active');
+      const c = cards[key];
+      document.getElementById('cardName').textContent   = c.name;
+      document.getElementById('cardSpent').textContent  = c.spent;
+      document.getElementById('cardLimit').textContent  = c.limit;
+      document.getElementById('cardAvail').textContent  = c.avail;
+      document.getElementById('cardTxCount').textContent= c.txCount;
+      const v = document.getElementById('cardVisual');
+      v.className = 'card-full ' + c.cardClass;
+    }
+
+    // Row expand/collapse
+    function toggleRow(row) {
+      const wasOpen = row.classList.contains('open');
+      document.querySelectorAll('.tx-row.open').forEach(r => r.classList.remove('open'));
+      if (!wasOpen) row.classList.add('open');
+    }
+
+    // Filter
+    function filterTx() {
+      const q = document.getElementById('txSearch').value.toLowerCase();
+      document.querySelectorAll('#txBody .tx-row').forEach(row => {
+        const txt = row.textContent.toLowerCase();
+        row.style.display = txt.includes(q) ? '' : 'none';
+      });
+    }
+  </script>
 </body>
 </html>

@@ -1144,3 +1144,254 @@ body.light .kyc-item { background: var(--canvas-mid); }
   .form-grid    { grid-template-columns: 1fr; }
   .tx-summary   { grid-template-columns: 1fr 1fr; }
 }
+
+/* ══════════════════════════════════════════════════════════
+   VIRTUAL CARD COMPONENT
+   ══════════════════════════════════════════════════════════ */
+.card-selector-row {
+  display: flex; gap: 14px; flex-wrap: wrap;
+  margin-bottom: 24px; align-items: stretch;
+}
+.vcard-thumb {
+  width: 220px; flex-shrink: 0; border-radius: 16px; padding: 18px 20px;
+  cursor: pointer; position: relative; overflow: hidden;
+  border: 2px solid transparent;
+  transition: border-color .2s, transform .2s, box-shadow .2s;
+  background: linear-gradient(135deg, #163320 0%, #0B1F14 100%);
+  color: #fff;
+}
+.vcard-thumb.active {
+  border-color: var(--gold);
+  box-shadow: 0 0 0 1px rgba(224,120,51,.25), 0 8px 32px rgba(0,0,0,.35);
+  transform: translateY(-2px);
+}
+.vcard-thumb:hover:not(.active) { transform: translateY(-2px); }
+.vcard-thumb.jade-card { background: linear-gradient(135deg, #003D2A 0%, #001A12 100%); }
+.vcard-thumb.gold-card { background: linear-gradient(135deg, #3D1F00 0%, #1A0D00 100%); }
+body.light .vcard-thumb { background: linear-gradient(135deg, #2C4A35 0%, #163320 100%); }
+body.light .vcard-thumb.jade-card { background: linear-gradient(135deg, #005C40 0%, #00331F 100%); }
+body.light .vcard-thumb.gold-card { background: linear-gradient(135deg, #6B3500 0%, #3D1F00 100%); }
+
+.vcard-chip {
+  width: 30px; height: 22px; border-radius: 4px;
+  background: linear-gradient(135deg, #F0C05A, #C88F2A);
+  margin-bottom: 28px;
+}
+.vcard-number { font-size: 13px; letter-spacing: .18em; opacity: .7; margin-bottom: 8px; }
+.vcard-holder { font-size: 12px; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; opacity: .9; }
+.vcard-network {
+  position: absolute; right: 14px; top: 16px;
+  font-size: 11px; font-weight: 800; letter-spacing: .06em; opacity: .6;
+}
+.vcard-balance { font-size: 18px; font-weight: 800; margin: 4px 0 2px; }
+.vcard-label   { font-size: 10px; text-transform: uppercase; letter-spacing: .1em; opacity: .55; }
+.vcard-status-dot {
+  width: 8px; height: 8px; border-radius: 50%;
+  background: var(--jade); display: inline-block; margin-right: 4px;
+}
+
+/* Full card detail hero */
+.card-hero {
+  display: grid; grid-template-columns: 340px 1fr; gap: 20px;
+  margin-bottom: 24px; align-items: start;
+}
+.card-full {
+  border-radius: 20px; padding: 28px; position: relative; overflow: hidden;
+  background: linear-gradient(135deg, #163320 0%, #0B1F14 100%);
+  color: #fff; min-height: 200px;
+  box-shadow: 0 20px 60px rgba(0,0,0,.45), 0 4px 16px rgba(0,0,0,.3);
+}
+.card-full.jade-card { background: linear-gradient(135deg, #003D2A 0%, #001A12 100%); }
+.card-full.gold-card { background: linear-gradient(135deg, #3D1F00 0%, #1A0D00 100%); }
+.card-full::before {
+  content: ""; position: absolute; top: -40px; right: -40px;
+  width: 200px; height: 200px; border-radius: 50%;
+  background: rgba(255,255,255,.04);
+}
+.card-full::after {
+  content: ""; position: absolute; bottom: -30px; left: 60px;
+  width: 160px; height: 160px; border-radius: 50%;
+  background: rgba(255,255,255,.03);
+}
+.card-full-chip {
+  width: 38px; height: 28px; border-radius: 5px;
+  background: linear-gradient(135deg, #F0C05A, #C88F2A);
+  margin-bottom: 32px;
+}
+.card-full-number { font-size: 16px; letter-spacing: .22em; opacity: .8; margin-bottom: 16px; }
+.card-full-row { display: flex; justify-content: space-between; align-items: flex-end; }
+.card-full-holder { font-size: 13px; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; }
+.card-full-expiry { font-size: 11px; opacity: .6; margin-top: 2px; }
+.card-full-network {
+  position: absolute; right: 24px; top: 24px;
+  font-size: 14px; font-weight: 800; letter-spacing: .04em; opacity: .55;
+}
+.card-stats-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+.card-stat {
+  background: var(--surface); border: 1px solid var(--border);
+  border-radius: var(--radius); padding: 16px 18px; box-shadow: var(--shadow-sm);
+}
+body.light .card-stat { background: #fff; }
+.card-stat-label { font-size: 11px; text-transform: uppercase; letter-spacing: .08em; color: var(--muted); margin-bottom: 6px; }
+.card-stat-value { font-size: 20px; font-weight: 800; }
+.card-stat-sub   { font-size: 12px; color: var(--text-2); margin-top: 4px; }
+
+/* Spend donut (CSS only) */
+.spend-ring {
+  width: 80px; height: 80px; border-radius: 50%;
+  background: conic-gradient(var(--gold) 0 68%, var(--track) 68% 100%);
+  position: relative; margin: 0 auto 8px;
+}
+.spend-ring::before {
+  content: ""; position: absolute; inset: 12px; border-radius: 50%; background: var(--surface);
+}
+body.light .spend-ring::before { background: #fff; }
+.spend-ring-label {
+  position: absolute; inset: 0; display: grid; place-items: center;
+  font-size: 13px; font-weight: 800; z-index: 1;
+}
+
+/* ══════════════════════════════════════════════════════════
+   APPROVAL POLICIES PAGE
+   ══════════════════════════════════════════════════════════ */
+.policy-grid { display: grid; grid-template-columns: repeat(2, minmax(0,1fr)); gap: 16px; margin-top: 20px; }
+.policy-card {
+  background: var(--surface); border: 1px solid var(--border);
+  border-radius: var(--radius); box-shadow: var(--shadow-card);
+  overflow: hidden; transition: border-color .2s, box-shadow .2s;
+}
+.policy-card:hover { border-color: rgba(224,120,51,.4); }
+body.light .policy-card { background: #fff; }
+.policy-header {
+  padding: 16px 20px; border-bottom: 1px solid var(--border);
+  display: flex; justify-content: space-between; align-items: flex-start; gap: 12px;
+  background: var(--surface-hi);
+}
+body.light .policy-header { background: var(--canvas-mid); }
+.policy-name { font-weight: 700; font-size: 16px; }
+.policy-scope { font-size: 12px; color: var(--muted); margin-top: 3px; }
+.policy-body { padding: 18px 20px; }
+.policy-manager {
+  display: flex; align-items: center; gap: 10px;
+  padding: 10px 14px; border-radius: 10px;
+  background: var(--surface-hi); border: 1px solid var(--border);
+  margin-bottom: 14px;
+}
+body.light .policy-manager { background: var(--canvas-mid); }
+.policy-manager-label { font-size: 11px; text-transform: uppercase; letter-spacing: .08em; color: var(--muted); }
+.policy-manager-name  { font-size: 14px; font-weight: 700; }
+.policy-manager-role  { font-size: 12px; color: var(--text-2); }
+.policy-rules { display: grid; gap: 8px; }
+.policy-rule {
+  display: flex; align-items: flex-start; gap: 10px;
+  font-size: 13px; color: var(--text-2); padding: 9px 0;
+  border-bottom: 1px solid var(--border-dim);
+}
+.policy-rule:last-child { border-bottom: none; padding-bottom: 0; }
+.policy-rule i { font-size: 15px; flex-shrink: 0; margin-top: 1px; }
+.policy-rule .rule-val { font-weight: 700; color: var(--text); margin-left: auto; white-space: nowrap; }
+.policy-tiers { display: grid; gap: 6px; margin-top: 10px; }
+.policy-tier {
+  display: flex; align-items: center; gap: 10px; font-size: 13px;
+  padding: 8px 12px; border-radius: 8px; background: var(--surface-hi);
+  border: 1px solid var(--border-dim);
+}
+body.light .policy-tier { background: var(--canvas-mid); }
+.tier-range { color: var(--muted); flex:1; }
+.tier-approver { font-weight: 600; }
+.tier-arrow { color: var(--gold); font-size: 12px; }
+
+.policy-stats {
+  display: grid; grid-template-columns: repeat(3,1fr); gap: 8px; margin-top: 14px;
+  padding-top: 14px; border-top: 1px solid var(--border);
+}
+.policy-stat { text-align: center; }
+.policy-stat-val { font-size: 18px; font-weight: 800; }
+.policy-stat-lbl { font-size: 11px; color: var(--muted); text-transform: uppercase; letter-spacing: .06em; }
+
+/* Policies summary strip */
+.policy-summary-strip {
+  display: grid; grid-template-columns: repeat(4,1fr); gap: 12px; margin-bottom: 24px;
+}
+
+/* ══════════════════════════════════════════════════════════
+   ENHANCED EXPENSE REQUESTS (dashboard panel)
+   ══════════════════════════════════════════════════════════ */
+.expense-tabs { display: flex; gap: 0; margin-bottom: 14px; border-bottom: 1px solid var(--border); }
+.expense-tab {
+  padding: 9px 16px; font-size: 13px; font-weight: 700;
+  color: var(--muted); border-bottom: 2px solid transparent;
+  cursor: pointer; transition: color .15s, border-color .15s;
+  background: none; border-top: none; border-left: none; border-right: none;
+  font-family: Inter, sans-serif; white-space: nowrap;
+}
+.expense-tab:hover  { color: var(--text); }
+.expense-tab.active { color: var(--gold); border-bottom-color: var(--gold); }
+.expense-item {
+  display: flex; align-items: center; gap: 12px;
+  padding: 12px 14px; border-radius: 12px;
+  border: 1px solid var(--border); background: var(--surface-hi);
+  margin-bottom: 8px; transition: border-color .15s;
+}
+.expense-item:last-child { margin-bottom: 0; }
+.expense-item:hover { border-color: rgba(224,120,51,.3); }
+body.light .expense-item { background: var(--canvas-mid); }
+.expense-icon {
+  width: 36px; height: 36px; border-radius: 10px;
+  display: grid; place-items: center; font-size: 16px; flex-shrink: 0;
+}
+.expense-icon.pending  { background: rgba(240,192,90,.15); color: var(--harvest); }
+.expense-icon.approved { background: rgba(0,150,106,.15);  color: var(--jade); }
+.expense-icon.rejected { background: rgba(184,92,56,.15);  color: var(--terracotta); }
+.expense-title  { font-size: 14px; font-weight: 600; }
+.expense-meta   { font-size: 11px; color: var(--muted); margin-top: 2px; }
+.expense-amount { font-weight: 800; font-size: 15px; white-space: nowrap; }
+.expense-date   { font-size: 11px; color: var(--muted); text-align: right; margin-top: 2px; }
+
+/* ══════════════════════════════════════════════════════════
+   DUAL PRODUCT CREDIT SECTION (dashboard)
+   ══════════════════════════════════════════════════════════ */
+.product-selector { display: flex; gap: 0; margin-bottom: 16px; background: var(--surface-hi); border: 1px solid var(--border); border-radius: 10px; padding: 4px; width: fit-content; }
+.product-tab {
+  padding: 8px 18px; border-radius: 8px; font-size: 13px; font-weight: 700;
+  cursor: pointer; transition: background .15s, color .15s;
+  color: var(--muted); background: none; border: none;
+  font-family: Inter, sans-serif;
+}
+.product-tab.active { background: var(--gold); color: var(--earth); }
+.credit-product-card {
+  background: var(--surface); border: 1px solid var(--border);
+  border-radius: var(--radius); box-shadow: var(--shadow-card); padding: 22px;
+}
+body.light .credit-product-card { background: #fff; }
+.product-header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 16px; }
+.product-badge {
+  display: inline-flex; align-items: center; gap: 6px;
+  padding: 5px 12px; border-radius: 999px;
+  font-size: 11px; font-weight: 700; letter-spacing: .06em;
+}
+.product-badge.revolving { background: rgba(0,150,106,.12); color: var(--jade); border: 1px solid rgba(0,150,106,.25); }
+.product-badge.term      { background: rgba(224,120,51,.1);  color: var(--gold); border: 1px solid rgba(224,120,51,.22); }
+.product-badge.card      { background: rgba(240,192,90,.12); color: var(--harvest); border: 1px solid rgba(240,192,90,.28); }
+.credit-meters { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin: 14px 0; }
+.credit-meter-item { }
+.credit-meter-labels { display: flex; justify-content: space-between; font-size: 12px; color: var(--muted); margin-bottom: 5px; }
+.credit-meter-labels strong { color: var(--text); }
+.dual-product-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+
+/* ══════════════════════════════════════════════════════════
+   RESPONSIVE
+   ══════════════════════════════════════════════════════════ */
+@media (max-width: 1100px) {
+  .card-hero { grid-template-columns: 1fr; }
+  .card-stats-grid { grid-template-columns: repeat(4,1fr); }
+  .policy-grid { grid-template-columns: 1fr; }
+  .dual-product-grid { grid-template-columns: 1fr; }
+  .policy-summary-strip { grid-template-columns: 1fr 1fr; }
+}
+@media (max-width: 760px) {
+  .card-selector-row { flex-direction: column; }
+  .vcard-thumb { width: 100%; }
+  .card-stats-grid { grid-template-columns: 1fr 1fr; }
+  .policy-summary-strip { grid-template-columns: 1fr 1fr; }
+}

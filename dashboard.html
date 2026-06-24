@@ -9,6 +9,49 @@
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Cormorant+Garamond:wght@300;400;500&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/phosphor-icons@1.4.2/src/css/icons.css">
   <link rel="stylesheet" href="styles.css" />
+  <style>
+    /* Greeting strip */
+    .greeting-strip {
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 18px 0 0; flex-wrap: wrap; gap: 12px;
+    }
+    .greeting-user { display: flex; align-items: center; gap: 12px; }
+    .greeting-avatar {
+      width: 46px; height: 46px; border-radius: 50%;
+      background: linear-gradient(135deg, var(--gold), var(--gold-dk));
+      display: grid; place-items: center; font-weight: 800; font-size: 16px; color: var(--earth);
+    }
+    .greeting-name { font-size: 18px; font-weight: 700; }
+    .greeting-date { font-size: 13px; color: var(--muted); }
+    .greeting-actions { display: flex; gap: 10px; }
+
+    /* product panel section */
+    .section-label {
+      font-size: 11px; font-weight: 700; text-transform: uppercase;
+      letter-spacing: .1em; color: var(--muted);
+      margin-bottom: 12px; margin-top: 2px;
+    }
+    /* hidden panel toggling */
+    .product-panel { display: none; }
+    .product-panel.active { display: block; }
+    .expense-list { display: none; }
+    .expense-list.active { display: block; }
+
+    /* card spend ring */
+    .card-spend-ring {
+      width: 72px; height: 72px; border-radius: 50%;
+      background: conic-gradient(var(--gold) 0 68%, var(--track) 68% 100%);
+      position: relative; flex-shrink: 0;
+    }
+    .card-spend-ring::before {
+      content:""; position:absolute; inset:10px; border-radius:50%; background:var(--surface);
+    }
+    body.light .card-spend-ring::before { background:#fff; }
+    .card-spend-ring-val {
+      position:absolute; inset:0; display:grid; place-items:center;
+      font-size:12px; font-weight:800; z-index:1;
+    }
+  </style>
 </head>
 <body>
   <div class="scroll-progress"><span id="scrollBar"></span></div>
@@ -16,10 +59,7 @@
   <header class="topbar">
     <div class="brand">
       <div class="mark">8</div>
-      <div>
-        <div class="brand-name">F8</div>
-        <div class="brand-tag">Dashboard</div>
-      </div>
+      <div><div class="brand-name">F8</div><div class="brand-tag">Dashboard</div></div>
     </div>
     <nav class="nav">
       <a href="index.html">Home</a>
@@ -27,139 +67,337 @@
       <a href="applications.html">Applications</a>
       <a href="transactions.html">Transactions</a>
       <a href="members.html">Members</a>
+      <a href="approval-policies.html">Policies</a>
       <a href="credit-application.html">Credit</a>
       <a href="onboarding.html">Onboarding</a>
+      <a href="design-system.html">Style Guide</a>
     </nav>
     <button class="ghost-btn" id="toggleTheme">Toggle Mode</button>
   </header>
 
   <main class="page-shell">
-    <a href="index.html" class="back-link reveal"><i class="ph ph-arrow-left"></i> Control Centre</a>
+    <a href="index.html" class="back-link"><i class="ph ph-arrow-left"></i> Control Centre</a>
 
-    <!-- Hero KPIs -->
-    <section class="dashboard-hero reveal">
-      <div>
-        <p class="eyebrow">Finance manager view</p>
-        <h1>See liquidity, approvals, and credit at a glance.</h1>
-      </div>
-      <div class="dashboard-kpis">
-        <div class="metric-card reveal">
-          <i class="ph ph-bank"></i>
-          <span class="metric-label">Cash position</span>
-          <span class="metric-value">KES 1.24M</span>
-        </div>
-        <div class="metric-card reveal">
-          <i class="ph ph-credit-card"></i>
-          <span class="metric-label">Available credit</span>
-          <span class="metric-value">KES 95,000</span>
-        </div>
-        <div class="metric-card reveal">
-          <i class="ph ph-clock-countdown"></i>
-          <span class="metric-label">Pending approvals</span>
-          <span class="metric-value">4</span>
-        </div>
-        <div class="metric-card reveal">
-          <i class="ph ph-check-circle"></i>
-          <span class="metric-label">Reconciled</span>
-          <span class="metric-value">91%</span>
+    <!-- Greeting -->
+    <div class="greeting-strip reveal">
+      <div class="greeting-user">
+        <div class="greeting-avatar">NK</div>
+        <div>
+          <div class="greeting-name">Hello, Njeri Kamau</div>
+          <div class="greeting-date">Tuesday, 23 June 2025 &nbsp;·&nbsp; Finance Manager</div>
         </div>
       </div>
-    </section>
+      <div class="greeting-actions">
+        <button class="secondary-btn" style="font-size:13px;padding:9px 16px;"><i class="ph ph-bell"></i> 3 alerts</button>
+        <button class="primary-btn" style="font-size:13px;padding:9px 16px;"><i class="ph ph-plus"></i> New request</button>
+      </div>
+    </div>
 
-    <!-- Dashboard grid (panels) -->
-    <section class="dashboard-grid">
+    <!-- KPI strip -->
+    <div class="dashboard-kpis reveal" style="margin:20px 0 28px;">
+      <div class="metric-card">
+        <i class="ph ph-bank"></i>
+        <span class="metric-label">Cash position</span>
+        <span class="metric-value">KES 1.24M</span>
+      </div>
+      <div class="metric-card">
+        <i class="ph ph-credit-card"></i>
+        <span class="metric-label">Total credit available</span>
+        <span class="metric-value">KES 345,000</span>
+      </div>
+      <div class="metric-card">
+        <i class="ph ph-clock-countdown"></i>
+        <span class="metric-label">My pending requests</span>
+        <span class="metric-value">3</span>
+      </div>
+      <div class="metric-card">
+        <i class="ph ph-check-circle"></i>
+        <span class="metric-label">Reconciled this month</span>
+        <span class="metric-value">91%</span>
+      </div>
+    </div>
 
-      <!-- Credit limit -->
-      <article class="panel reveal">
-        <div class="panel-head">
-          <h2>Credit limit</h2>
-          <span class="status-pill success">Healthy</span>
-        </div>
-        <div class="credit-display">
+    <!-- ═══════════════════════════════════════════
+         ROW 1 — Dual Credit Products (full width)
+         ═══════════════════════════════════════════ -->
+    <div class="reveal" style="margin-bottom:14px;">
+      <p class="eyebrow">Credit products</p>
+    </div>
+    <div class="dual-product-grid reveal" style="margin-bottom:28px;">
+
+      <!-- Product A: Revolving Working Capital Line -->
+      <div class="credit-product-card">
+        <div class="product-header">
           <div>
-            <p class="card-label">Available</p>
-            <h2>KES 95,000</h2>
-            <p class="muted">of KES 150,000 total</p>
+            <span class="product-badge revolving"><i class="ph ph-arrows-clockwise"></i> Revolving Credit Line</span>
+            <div style="font-size:16px;font-weight:700;margin-top:10px;">Working Capital Line</div>
+            <div style="font-size:12px;color:var(--muted);margin-top:2px;">Ref: F8-CR-2025-0847 · Approved 15 Jun 2025</div>
           </div>
-          <div class="circle-meter">
-            <div class="circle-fill"></div>
-            <div class="circle-center">37%</div>
+          <span class="status-pill success" style="flex-shrink:0;">Active</span>
+        </div>
+
+        <!-- Utilisation meter -->
+        <div class="credit-meters">
+          <div class="credit-meter-item">
+            <div class="credit-meter-labels"><span>Utilised</span><strong>KES 155,000</strong></div>
+            <div class="progress" style="margin:0 0 4px;">
+              <div class="progress-fill" style="width:43.1%;background:linear-gradient(90deg,var(--gold),var(--harvest));"></div>
+            </div>
+            <div style="font-size:11px;color:var(--muted);">43% of KES 360,000</div>
+          </div>
+          <div class="credit-meter-item">
+            <div class="credit-meter-labels"><span>Available</span><strong style="color:var(--jade);">KES 205,000</strong></div>
+            <div class="progress" style="margin:0 0 4px;">
+              <div class="progress-fill" style="width:56.9%;background:linear-gradient(90deg,var(--jade),#00C686);"></div>
+            </div>
+            <div style="font-size:11px;color:var(--muted);">57% of KES 360,000</div>
           </div>
         </div>
-        <div class="next-step"><i class="ph ph-trend-up"></i> KES 20,000 to your next limit tier →</div>
+
+        <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:6px;">
+          <div style="text-align:center;padding:10px;background:var(--surface-hi);border-radius:10px;border:1px solid var(--border);">
+            <div style="font-size:13px;font-weight:800;color:var(--gold);">KES 360K</div>
+            <div style="font-size:10px;color:var(--muted);text-transform:uppercase;letter-spacing:.06em;margin-top:2px;">Total limit</div>
+          </div>
+          <div style="text-align:center;padding:10px;background:var(--surface-hi);border-radius:10px;border:1px solid var(--border);">
+            <div style="font-size:13px;font-weight:800;">1.8% / mo</div>
+            <div style="font-size:10px;color:var(--muted);text-transform:uppercase;letter-spacing:.06em;margin-top:2px;">Interest rate</div>
+          </div>
+          <div style="text-align:center;padding:10px;background:var(--surface-hi);border-radius:10px;border:1px solid var(--border);">
+            <div style="font-size:13px;font-weight:800;color:var(--terracotta);">Jul 15</div>
+            <div style="font-size:10px;color:var(--muted);text-transform:uppercase;letter-spacing:.06em;margin-top:2px;">Next payment</div>
+          </div>
+        </div>
+        <div class="next-step" style="margin-top:14px;">
+          <i class="ph ph-trend-up"></i> KES 40,000 to next limit tier (KES 400K) → <a href="credit-application.html" style="color:var(--gold);text-decoration:none;">Grow credit</a>
+        </div>
+      </div>
+
+      <!-- Product B: Corporate Credit Card -->
+      <div class="credit-product-card">
+        <div class="product-header">
+          <div>
+            <span class="product-badge card"><i class="ph ph-credit-card"></i> Corporate Card</span>
+            <div style="font-size:16px;font-weight:700;margin-top:10px;">F8 Visa Business Card</div>
+            <div style="font-size:12px;color:var(--muted);margin-top:2px;">Card •••• •••• •••• 4821 · Njeri Kamau</div>
+          </div>
+          <span class="status-pill success" style="flex-shrink:0;">Active</span>
+        </div>
+
+        <div class="credit-meters">
+          <div class="credit-meter-item">
+            <div class="credit-meter-labels"><span>Spent this cycle</span><strong>KES 95,400</strong></div>
+            <div class="progress" style="margin:0 0 4px;">
+              <div class="progress-fill" style="width:67.8%;background:linear-gradient(90deg,var(--harvest),var(--gold));"></div>
+            </div>
+            <div style="font-size:11px;color:var(--muted);">68% of KES 140,000 limit</div>
+          </div>
+          <div class="credit-meter-item">
+            <div class="credit-meter-labels"><span>Available</span><strong style="color:var(--jade);">KES 44,600</strong></div>
+            <div class="progress" style="margin:0 0 4px;">
+              <div class="progress-fill" style="width:31.9%;background:linear-gradient(90deg,var(--jade),#00C686);"></div>
+            </div>
+            <div style="font-size:11px;color:var(--muted);">32% of KES 140,000 limit</div>
+          </div>
+        </div>
+
+        <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:6px;">
+          <div style="text-align:center;padding:10px;background:var(--surface-hi);border-radius:10px;border:1px solid var(--border);">
+            <div style="font-size:13px;font-weight:800;color:var(--harvest);">KES 140K</div>
+            <div style="font-size:10px;color:var(--muted);text-transform:uppercase;letter-spacing:.06em;margin-top:2px;">Card limit</div>
+          </div>
+          <div style="text-align:center;padding:10px;background:var(--surface-hi);border-radius:10px;border:1px solid var(--border);">
+            <div style="font-size:13px;font-weight:800;">0% / 30d</div>
+            <div style="font-size:10px;color:var(--muted);text-transform:uppercase;letter-spacing:.06em;margin-top:2px;">Grace period</div>
+          </div>
+          <div style="text-align:center;padding:10px;background:var(--surface-hi);border-radius:10px;border:1px solid var(--border);">
+            <div style="font-size:13px;font-weight:800;color:var(--terracotta);">Jul 01</div>
+            <div style="font-size:10px;color:var(--muted);text-transform:uppercase;letter-spacing:.06em;margin-top:2px;">Statement due</div>
+          </div>
+        </div>
+        <div class="next-step" style="margin-top:14px;">
+          <i class="ph ph-receipt"></i> KES 95,400 billed this cycle · <a href="transactions.html" style="color:var(--gold);text-decoration:none;">View card statement →</a>
+        </div>
+      </div>
+
+    </div><!-- /dual product -->
+
+    <!-- ═══════════════════════════════════════════
+         ROW 2 — Three panel columns
+         ═══════════════════════════════════════════ -->
+    <section class="dashboard-grid" style="grid-template-columns: 1fr 1fr 1fr;">
+
+      <!-- Panel: My Expense Requests (tabbed: All / Pending / Approved / Rejected) -->
+      <article class="panel reveal" style="grid-column: span 2;">
+        <div class="panel-head" style="margin-bottom:14px;">
+          <div>
+            <h2 style="margin:0;">My expense requests</h2>
+            <p class="muted" style="font-size:12px;margin:4px 0 0;">All requests submitted by Njeri Kamau</p>
+          </div>
+          <div style="display:flex;gap:8px;align-items:center;">
+            <a href="approval-policies.html" style="color:var(--gold);font-size:12px;text-decoration:none;font-weight:700;">View policies →</a>
+            <button class="primary-btn" style="font-size:12px;padding:8px 14px;"><i class="ph ph-plus"></i> New</button>
+          </div>
+        </div>
+
+        <!-- Tabs -->
+        <div class="expense-tabs">
+          <button class="expense-tab active" onclick="switchExpTab(event,'all')">All <span style="background:rgba(224,120,51,.18);color:var(--gold);border-radius:999px;padding:1px 7px;font-size:11px;margin-left:4px;">8</span></button>
+          <button class="expense-tab" onclick="switchExpTab(event,'pending')">Pending <span style="background:rgba(240,192,90,.18);color:var(--harvest);border-radius:999px;padding:1px 7px;font-size:11px;margin-left:4px;">3</span></button>
+          <button class="expense-tab" onclick="switchExpTab(event,'approved')">Approved <span style="background:rgba(0,150,106,.15);color:var(--jade);border-radius:999px;padding:1px 7px;font-size:11px;margin-left:4px;">3</span></button>
+          <button class="expense-tab" onclick="switchExpTab(event,'rejected')">Rejected <span style="background:rgba(184,92,56,.15);color:var(--terracotta);border-radius:999px;padding:1px 7px;font-size:11px;margin-left:4px;">2</span></button>
+        </div>
+
+        <!-- ALL list -->
+        <div class="expense-list active" id="exp-all">
+          <div class="expense-item">
+            <div class="expense-icon pending"><i class="ph ph-clock"></i></div>
+            <div style="flex:1;">
+              <div class="expense-title">Office supplies — Q3</div>
+              <div class="expense-meta">Operations · Submitted 20 Jun · Policy: Ops Standard</div>
+            </div>
+            <div style="text-align:right;">
+              <div class="expense-amount">KES 8,500</div>
+              <div class="expense-date"><span class="pill-pending" style="font-size:10px;padding:2px 8px;">Pending</span></div>
+            </div>
+          </div>
+          <div class="expense-item">
+            <div class="expense-icon pending"><i class="ph ph-clock"></i></div>
+            <div style="flex:1;">
+              <div class="expense-title">AWS infrastructure top-up</div>
+              <div class="expense-meta">IT Corporate · Submitted 18 Jun · Policy: IT Spend</div>
+            </div>
+            <div style="text-align:right;">
+              <div class="expense-amount">KES 32,000</div>
+              <div class="expense-date"><span class="pill-pending" style="font-size:10px;padding:2px 8px;">Pending</span></div>
+            </div>
+          </div>
+          <div class="expense-item">
+            <div class="expense-icon pending"><i class="ph ph-clock"></i></div>
+            <div style="flex:1;">
+              <div class="expense-title">Nairobi client dinner</div>
+              <div class="expense-meta">Sales · Submitted 17 Jun · Policy: T&E Policy</div>
+            </div>
+            <div style="text-align:right;">
+              <div class="expense-amount">KES 14,200</div>
+              <div class="expense-date"><span class="pill-pending" style="font-size:10px;padding:2px 8px;">Pending</span></div>
+            </div>
+          </div>
+          <div class="expense-item">
+            <div class="expense-icon approved"><i class="ph ph-check-circle"></i></div>
+            <div style="flex:1;">
+              <div class="expense-title">Figma annual plan upgrade</div>
+              <div class="expense-meta">Product Design · Approved 15 Jun by S. Ochieng</div>
+            </div>
+            <div style="text-align:right;">
+              <div class="expense-amount">KES 18,400</div>
+              <div class="expense-date"><span class="pill-approved" style="font-size:10px;padding:2px 8px;">Approved</span></div>
+            </div>
+          </div>
+          <div class="expense-item">
+            <div class="expense-icon approved"><i class="ph ph-check-circle"></i></div>
+            <div style="flex:1;">
+              <div class="expense-title">Mombasa field trip transport</div>
+              <div class="expense-meta">Delivery · Approved 10 Jun by M. Abubakar</div>
+            </div>
+            <div style="text-align:right;">
+              <div class="expense-amount">KES 6,200</div>
+              <div class="expense-date"><span class="pill-approved" style="font-size:10px;padding:2px 8px;">Approved</span></div>
+            </div>
+          </div>
+          <div class="expense-item">
+            <div class="expense-icon approved"><i class="ph ph-check-circle"></i></div>
+            <div style="flex:1;">
+              <div class="expense-title">Security audit — external</div>
+              <div class="expense-meta">IT Corporate · Approved 05 Jun by D. Waweru</div>
+            </div>
+            <div style="text-align:right;">
+              <div class="expense-amount">KES 55,000</div>
+              <div class="expense-date"><span class="pill-approved" style="font-size:10px;padding:2px 8px;">Approved</span></div>
+            </div>
+          </div>
+          <div class="expense-item">
+            <div class="expense-icon rejected"><i class="ph ph-x-circle"></i></div>
+            <div style="flex:1;">
+              <div class="expense-title">Team building weekend — Naivasha</div>
+              <div class="expense-meta">People & Culture · Rejected 02 Jun · Budget exceeded</div>
+            </div>
+            <div style="text-align:right;">
+              <div class="expense-amount">KES 120,000</div>
+              <div class="expense-date"><span class="pill-review" style="font-size:10px;padding:2px 8px;">Rejected</span></div>
+            </div>
+          </div>
+          <div class="expense-item">
+            <div class="expense-icon rejected"><i class="ph ph-x-circle"></i></div>
+            <div style="flex:1;">
+              <div class="expense-title">Marketing influencer campaign</div>
+              <div class="expense-meta">Marketing · Rejected 28 May · Missing brief</div>
+            </div>
+            <div style="text-align:right;">
+              <div class="expense-amount">KES 45,000</div>
+              <div class="expense-date"><span class="pill-review" style="font-size:10px;padding:2px 8px;">Rejected</span></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- PENDING list -->
+        <div class="expense-list" id="exp-pending">
+          <div class="expense-item">
+            <div class="expense-icon pending"><i class="ph ph-clock"></i></div>
+            <div style="flex:1;"><div class="expense-title">Office supplies — Q3</div><div class="expense-meta">Operations · Submitted 20 Jun · Awaiting D. Waweru</div></div>
+            <div style="text-align:right;"><div class="expense-amount">KES 8,500</div><div class="expense-date"><span class="pill-pending" style="font-size:10px;padding:2px 8px;">Pending</span></div></div>
+          </div>
+          <div class="expense-item">
+            <div class="expense-icon pending"><i class="ph ph-clock"></i></div>
+            <div style="flex:1;"><div class="expense-title">AWS infrastructure top-up</div><div class="expense-meta">IT Corporate · Submitted 18 Jun · Awaiting S. Ochieng</div></div>
+            <div style="text-align:right;"><div class="expense-amount">KES 32,000</div><div class="expense-date"><span class="pill-pending" style="font-size:10px;padding:2px 8px;">Pending</span></div></div>
+          </div>
+          <div class="expense-item">
+            <div class="expense-icon pending"><i class="ph ph-clock"></i></div>
+            <div style="flex:1;"><div class="expense-title">Nairobi client dinner</div><div class="expense-meta">Sales · Submitted 17 Jun · Awaiting M. Abubakar</div></div>
+            <div style="text-align:right;"><div class="expense-amount">KES 14,200</div><div class="expense-date"><span class="pill-pending" style="font-size:10px;padding:2px 8px;">Pending</span></div></div>
+          </div>
+        </div>
+
+        <!-- APPROVED list -->
+        <div class="expense-list" id="exp-approved">
+          <div class="expense-item">
+            <div class="expense-icon approved"><i class="ph ph-check-circle"></i></div>
+            <div style="flex:1;"><div class="expense-title">Figma annual plan upgrade</div><div class="expense-meta">Product Design · Approved 15 Jun by S. Ochieng</div></div>
+            <div style="text-align:right;"><div class="expense-amount">KES 18,400</div><div class="expense-date"><span class="pill-approved" style="font-size:10px;padding:2px 8px;">Approved</span></div></div>
+          </div>
+          <div class="expense-item">
+            <div class="expense-icon approved"><i class="ph ph-check-circle"></i></div>
+            <div style="flex:1;"><div class="expense-title">Mombasa field trip transport</div><div class="expense-meta">Delivery · Approved 10 Jun by M. Abubakar</div></div>
+            <div style="text-align:right;"><div class="expense-amount">KES 6,200</div><div class="expense-date"><span class="pill-approved" style="font-size:10px;padding:2px 8px;">Approved</span></div></div>
+          </div>
+          <div class="expense-item">
+            <div class="expense-icon approved"><i class="ph ph-check-circle"></i></div>
+            <div style="flex:1;"><div class="expense-title">Security audit — external</div><div class="expense-meta">IT Corporate · Approved 05 Jun by D. Waweru</div></div>
+            <div style="text-align:right;"><div class="expense-amount">KES 55,000</div><div class="expense-date"><span class="pill-approved" style="font-size:10px;padding:2px 8px;">Approved</span></div></div>
+          </div>
+        </div>
+
+        <!-- REJECTED list -->
+        <div class="expense-list" id="exp-rejected">
+          <div class="expense-item">
+            <div class="expense-icon rejected"><i class="ph ph-x-circle"></i></div>
+            <div style="flex:1;"><div class="expense-title">Team building weekend — Naivasha</div><div class="expense-meta">People & Culture · Rejected 02 Jun · Reason: Q3 budget exceeded by 40%</div></div>
+            <div style="text-align:right;"><div class="expense-amount">KES 120,000</div><div class="expense-date"><span class="pill-review" style="font-size:10px;padding:2px 8px;">Rejected</span></div></div>
+          </div>
+          <div class="expense-item">
+            <div class="expense-icon rejected"><i class="ph ph-x-circle"></i></div>
+            <div style="flex:1;"><div class="expense-title">Marketing influencer campaign</div><div class="expense-meta">Marketing · Rejected 28 May · Reason: Brief not attached per policy</div></div>
+            <div style="text-align:right;"><div class="expense-amount">KES 45,000</div><div class="expense-date"><span class="pill-review" style="font-size:10px;padding:2px 8px;">Rejected</span></div></div>
+          </div>
+        </div>
+
+        <div style="margin-top:14px;text-align:right;">
+          <a href="approval-policies.html" class="portal-card-link" style="font-size:13px;">All policies <i class="ph ph-arrow-right"></i></a>
+        </div>
       </article>
 
-      <!-- Transactions -->
-      <article class="panel reveal">
-        <div class="panel-head">
-          <h2>Recent transactions</h2>
-          <i class="ph ph-receipt"></i>
-        </div>
-        <div class="transaction-list">
-          <div class="tx">
-            <div style="display:flex;align-items:center;gap:8px;">
-              <div class="tx-type-icon credit"><i class="ph ph-check"></i></div>
-              <div><div style="font-weight:600;font-size:14px;">Cloud & Tech</div><div style="font-size:11px;color:var(--muted);">10 Jun 2025</div></div>
-            </div>
-            <div style="text-align:right;"><strong>KES 24,000</strong><div><i class="ph ph-check-circle" style="color:var(--jade);font-size:14px;"></i></div></div>
-          </div>
-          <div class="tx">
-            <div style="display:flex;align-items:center;gap:8px;">
-              <div class="tx-type-icon warn"><i class="ph ph-warning"></i></div>
-              <div><div style="font-weight:600;font-size:14px;">Marketing</div><div style="font-size:11px;color:var(--muted);">08 Jun 2025</div></div>
-            </div>
-            <div style="text-align:right;"><strong>KES 12,400</strong><div><i class="ph ph-warning-circle" style="color:var(--gold);font-size:14px;"></i></div></div>
-          </div>
-          <div class="tx">
-            <div style="display:flex;align-items:center;gap:8px;">
-              <div class="tx-type-icon debit"><i class="ph ph-clock"></i></div>
-              <div><div style="font-weight:600;font-size:14px;">Payroll support</div><div style="font-size:11px;color:var(--muted);">05 Jun 2025</div></div>
-            </div>
-            <div style="text-align:right;"><strong>KES 48,000</strong><div><i class="ph ph-clock-countdown" style="color:var(--muted);font-size:14px;"></i></div></div>
-          </div>
-        </div>
-        <a href="transactions.html" class="portal-card-link" style="margin-top:14px;font-size:13px;">View all transactions <i class="ph ph-arrow-right"></i></a>
-      </article>
-
-      <!-- Approvals -->
-      <article class="panel reveal">
-        <div class="panel-head">
-          <h2>Approvals queue</h2>
-          <i class="ph ph-funnel"></i>
-        </div>
-        <div class="approval-stack">
-          <div class="approval-item">
-            <div>
-              <div style="font-weight:600;font-size:14px;">Office equipment request</div>
-              <div style="font-size:11px;color:var(--muted);">Operations · KES 18,500</div>
-            </div>
-            <span class="pill-pending">Pending</span>
-          </div>
-          <div class="approval-item">
-            <div>
-              <div style="font-weight:600;font-size:14px;">Travel reimbursement</div>
-              <div style="font-size:11px;color:var(--muted);">Sales · KES 6,200</div>
-            </div>
-            <span class="pill-approved">Approved</span>
-          </div>
-          <div class="approval-item">
-            <div>
-              <div style="font-weight:600;font-size:14px;">Subscription renewal</div>
-              <div style="font-size:11px;color:var(--muted);">IT Corporate · KES 4,700</div>
-            </div>
-            <span class="pill-review">Review</span>
-          </div>
-          <div class="approval-item">
-            <div>
-              <div style="font-weight:600;font-size:14px;">Logistics vendor payment</div>
-              <div style="font-size:11px;color:var(--muted);">Delivery · KES 31,000</div>
-            </div>
-            <span class="pill-pending">Pending</span>
-          </div>
-        </div>
-      </article>
-
-      <!-- Cash forecast -->
+      <!-- Panel: Cash forecast -->
       <article class="panel reveal">
         <div class="panel-head">
           <h2>Cash forecast</h2>
@@ -172,92 +410,101 @@
           <div><span style="height:76%"></span><label>Thu</label></div>
           <div><span style="height:44%"></span><label>Fri</label></div>
         </div>
-        <p class="muted" style="font-size:12px;margin-top:12px;">Projected end-of-week balance <strong style="color:var(--jade);">KES 1.19M</strong></p>
+        <p class="muted" style="font-size:12px;margin-top:12px;">End-of-week projection <strong style="color:var(--jade);">KES 1.19M</strong></p>
+
+        <!-- Card spend ring quick view -->
+        <div style="margin-top:16px;padding-top:14px;border-top:1px solid var(--border);">
+          <div style="font-size:12px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.08em;margin-bottom:10px;">Card cycle spend</div>
+          <div style="display:flex;align-items:center;gap:14px;">
+            <div class="card-spend-ring">
+              <div class="card-spend-ring-val">68%</div>
+            </div>
+            <div>
+              <div style="font-weight:800;font-size:18px;">KES 95,400</div>
+              <div style="font-size:12px;color:var(--muted);">of KES 140,000 limit</div>
+              <div style="font-size:12px;color:var(--jade);margin-top:4px;font-weight:600;">KES 44,600 remaining</div>
+            </div>
+          </div>
+        </div>
       </article>
 
-      <!-- ── NEW: Software Subscriptions Panel ── -->
-      <article class="panel reveal" style="grid-column: span 2;">
+    </section><!-- /row 2 -->
+
+    <!-- ═══════════════════════════════════════════
+         ROW 3 — Recent tx + subscriptions
+         ═══════════════════════════════════════════ -->
+    <section class="dashboard-grid" style="grid-template-columns:1fr 1fr;margin-top:14px;">
+
+      <!-- Recent transactions -->
+      <article class="panel reveal">
+        <div class="panel-head">
+          <h2>Recent transactions</h2>
+          <i class="ph ph-receipt"></i>
+        </div>
+        <div class="transaction-list">
+          <div class="tx">
+            <div style="display:flex;align-items:center;gap:8px;">
+              <div class="tx-type-icon credit"><i class="ph ph-check"></i></div>
+              <div><div style="font-weight:600;font-size:14px;">Google Cloud</div><div style="font-size:11px;color:var(--muted);">18 Jun · Card ••4821</div></div>
+            </div>
+            <div style="text-align:right;"><strong>KES 1,300</strong><div><i class="ph ph-shield-check" style="color:var(--jade);font-size:13px;"></i></div></div>
+          </div>
+          <div class="tx">
+            <div style="display:flex;align-items:center;gap:8px;">
+              <div class="tx-type-icon debit"><i class="ph ph-receipt"></i></div>
+              <div><div style="font-weight:600;font-size:14px;">Slack Business+</div><div style="font-size:11px;color:var(--muted);">14 Jun · Card ••4821</div></div>
+            </div>
+            <div style="text-align:right;"><strong>KES 6,500</strong><div><i class="ph ph-shield-check" style="color:var(--jade);font-size:13px;"></i></div></div>
+          </div>
+          <div class="tx">
+            <div style="display:flex;align-items:center;gap:8px;">
+              <div class="tx-type-icon warn"><i class="ph ph-warning"></i></div>
+              <div><div style="font-weight:600;font-size:14px;">Proton VPN</div><div style="font-size:11px;color:var(--muted);">10 Jun · Pending reconcile</div></div>
+            </div>
+            <div style="text-align:right;"><strong>KES 2,000</strong><div><i class="ph ph-warning-circle" style="color:var(--gold);font-size:13px;"></i></div></div>
+          </div>
+        </div>
+        <a href="transactions.html" class="portal-card-link" style="margin-top:14px;font-size:13px;">Full statement <i class="ph ph-arrow-right"></i></a>
+      </article>
+
+      <!-- Subscriptions -->
+      <article class="panel reveal">
         <div class="panel-head">
           <div>
             <h2>Software subscriptions</h2>
-            <p class="muted" style="font-size:13px;margin:4px 0 0;">Monthly SaaS commitments charged against available credit line</p>
+            <p class="muted" style="font-size:12px;margin:3px 0 0;">Due this week · Charged to credit line</p>
           </div>
-          <span class="status-pill">This week</span>
+          <span class="status-pill">3 due</span>
         </div>
-
-        <!-- Credit line context bar -->
-        <div style="margin:16px 0 12px;">
-          <div style="display:flex;justify-content:space-between;font-size:12px;color:var(--muted);margin-bottom:6px;">
-            <span>Credit line utilised</span>
-            <span>KES 55,000 / KES 150,000</span>
-          </div>
-          <div class="progress" style="margin:0;">
-            <div class="progress-fill" style="width:36.7%;"></div>
-          </div>
-        </div>
-
-        <!-- Subscription list -->
-        <div class="sub-list">
-          <!-- Figma -->
+        <div class="sub-list" style="margin-top:12px;">
           <div class="sub-item">
-            <div class="sub-icon figma" style="background:#1E1E2E;color:#A259FF;">Fi</div>
-            <div>
-              <div class="sub-name">Figma</div>
-              <div class="sub-due"><i class="ph ph-calendar"></i> Due 28 Jun 2025 · Design · Product Team</div>
-            </div>
-            <div style="margin-left:auto;text-align:right;">
-              <div class="sub-amount">KES 1,200</div>
-              <span class="pill-approved" style="font-size:10px;padding:3px 8px;">Approved</span>
-            </div>
+            <div class="sub-icon" style="background:#1E1E2E;color:#A259FF;font-weight:800;font-size:13px;border-radius:10px;width:34px;height:34px;display:grid;place-items:center;flex-shrink:0;">Fi</div>
+            <div><div class="sub-name">Figma</div><div class="sub-due">Due 28 Jun · Product Design</div></div>
+            <div style="margin-left:auto;text-align:right;"><div class="sub-amount">KES 1,200</div><span class="pill-approved" style="font-size:10px;padding:2px 8px;">Approved</span></div>
           </div>
-
-          <!-- Microsoft 365 -->
           <div class="sub-item">
-            <div class="sub-icon ms365" style="background:#D83B01;color:#fff;">M</div>
-            <div>
-              <div class="sub-name">Microsoft 365</div>
-              <div class="sub-due"><i class="ph ph-calendar"></i> Due 30 Jun 2025 · IT Corporate</div>
-            </div>
-            <div style="margin-left:auto;text-align:right;">
-              <div class="sub-amount">KES 1,500</div>
-              <span class="pill-approved" style="font-size:10px;padding:3px 8px;">Approved</span>
-            </div>
+            <div class="sub-icon" style="background:#D83B01;color:#fff;font-weight:800;font-size:13px;border-radius:10px;width:34px;height:34px;display:grid;place-items:center;flex-shrink:0;">M</div>
+            <div><div class="sub-name">Microsoft 365</div><div class="sub-due">Due 30 Jun · IT Corporate</div></div>
+            <div style="margin-left:auto;text-align:right;"><div class="sub-amount">KES 1,500</div><span class="pill-approved" style="font-size:10px;padding:2px 8px;">Approved</span></div>
           </div>
-
-          <!-- Proton VPN -->
           <div class="sub-item">
-            <div class="sub-icon proton" style="background:#6D4AFF;color:#fff;">Pn</div>
-            <div>
-              <div class="sub-name">Proton VPN</div>
-              <div class="sub-due"><i class="ph ph-calendar"></i> Due 02 Jul 2025 · Security · IT Corporate</div>
-            </div>
-            <div style="margin-left:auto;text-align:right;">
-              <div class="sub-amount">KES 2,000</div>
-              <span class="pill-review" style="font-size:10px;padding:3px 8px;">Review</span>
-            </div>
+            <div class="sub-icon" style="background:#6D4AFF;color:#fff;font-weight:800;font-size:13px;border-radius:10px;width:34px;height:34px;display:grid;place-items:center;flex-shrink:0;">Pn</div>
+            <div><div class="sub-name">Proton VPN</div><div class="sub-due">Due 02 Jul · Security</div></div>
+            <div style="margin-left:auto;text-align:right;"><div class="sub-amount">KES 2,000</div><span class="pill-review" style="font-size:10px;padding:2px 8px;">Review</span></div>
           </div>
         </div>
-
-        <!-- Sub total & week balance -->
-        <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:16px;">
-          <div style="background:rgba(224,120,51,.08);border:1px solid rgba(224,120,51,.2);border-radius:12px;padding:14px 16px;">
-            <div style="font-size:11px;text-transform:uppercase;letter-spacing:.08em;color:var(--muted);margin-bottom:6px;">Total subscriptions this week</div>
-            <div style="font-size:22px;font-weight:800;color:var(--gold);">KES 4,700</div>
-            <div style="font-size:12px;color:var(--text-2);margin-top:4px;">3 active tools · <a href="applications.html" style="color:var(--gold);text-decoration:none;">Manage all →</a></div>
+        <div class="week-balance" style="margin-top:14px;">
+          <div>
+            <div class="wb-label">Projected end-of-week balance</div>
+            <div class="wb-amount">KES 1,186,300</div>
+            <div style="font-size:12px;color:var(--text-2);margin-top:3px;">After KES 4,700 deductions</div>
           </div>
-          <div class="week-balance">
-            <div>
-              <div class="wb-label">Projected end-of-week balance</div>
-              <div class="wb-amount">KES 1,186,300</div>
-              <div style="font-size:12px;color:var(--text-2);margin-top:4px;">After KES 4,700 subscription deductions</div>
-            </div>
-            <i class="ph ph-trend-up" style="font-size:28px;color:var(--jade);opacity:.6;"></i>
-          </div>
+          <i class="ph ph-trend-up" style="font-size:26px;color:var(--jade);opacity:.6;"></i>
         </div>
       </article>
-      <!-- /subscriptions panel -->
 
     </section>
+
   </main>
 
   <footer class="footer page-shell">
@@ -265,5 +512,13 @@
   </footer>
 
   <script src="script.js"></script>
+  <script>
+    function switchExpTab(e, tab) {
+      document.querySelectorAll('.expense-tab').forEach(t => t.classList.remove('active'));
+      e.target.classList.add('active');
+      document.querySelectorAll('.expense-list').forEach(l => l.classList.remove('active'));
+      document.getElementById('exp-' + tab).classList.add('active');
+    }
+  </script>
 </body>
 </html>
