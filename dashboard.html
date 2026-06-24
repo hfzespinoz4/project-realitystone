@@ -72,6 +72,7 @@
       <a href="onboarding.html">Onboarding</a>
       <a href="design-system.html">Style Guide</a>
     </nav>
+    <button class="nav-toggle" id="navToggle" aria-label="Open menu"><i class="ph ph-list"></i></button>
     <button class="ghost-btn" id="toggleTheme">Toggle Mode</button>
   </header>
 
@@ -154,7 +155,7 @@
           </div>
         </div>
 
-        <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:6px;">
+        <div class="product-mini-stats">
           <div style="text-align:center;padding:10px;background:var(--surface-hi);border-radius:10px;border:1px solid var(--border);">
             <div style="font-size:13px;font-weight:800;color:var(--gold);">KES 360K</div>
             <div style="font-size:10px;color:var(--muted);text-transform:uppercase;letter-spacing:.06em;margin-top:2px;">Total limit</div>
@@ -201,7 +202,7 @@
           </div>
         </div>
 
-        <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:6px;">
+        <div class="product-mini-stats">
           <div style="text-align:center;padding:10px;background:var(--surface-hi);border-radius:10px;border:1px solid var(--border);">
             <div style="font-size:13px;font-weight:800;color:var(--harvest);">KES 140K</div>
             <div style="font-size:10px;color:var(--muted);text-transform:uppercase;letter-spacing:.06em;margin-top:2px;">Card limit</div>
@@ -225,10 +226,10 @@
     <!-- ═══════════════════════════════════════════
          ROW 2 — Three panel columns
          ═══════════════════════════════════════════ -->
-    <section class="dashboard-grid" style="grid-template-columns: 1fr 1fr 1fr;">
+    <section class="dashboard-grid dashboard-grid--3col">
 
       <!-- Panel: My Expense Requests (tabbed: All / Pending / Approved / Rejected) -->
-      <article class="panel reveal" style="grid-column: span 2;">
+      <article class="panel reveal dash-span-2">
         <div class="panel-head" style="margin-bottom:14px;">
           <div>
             <h2 style="margin:0;">My expense requests</h2>
@@ -433,7 +434,7 @@
     <!-- ═══════════════════════════════════════════
          ROW 3 — Recent tx + subscriptions
          ═══════════════════════════════════════════ -->
-    <section class="dashboard-grid" style="grid-template-columns:1fr 1fr;margin-top:14px;">
+    <section class="dashboard-grid dashboard-grid--2col" style="margin-top:14px;">
 
       <!-- Recent transactions -->
       <article class="panel reveal">
@@ -519,6 +520,30 @@
       document.querySelectorAll('.expense-list').forEach(l => l.classList.remove('active'));
       document.getElementById('exp-' + tab).classList.add('active');
     }
+  </script>
+
+  <script>
+    // Hamburger nav toggle
+    (function() {
+      var btn = document.getElementById('navToggle');
+      var nav = document.querySelector('.nav');
+      if (!btn || !nav) return;
+      btn.addEventListener('click', function() {
+        var open = nav.classList.toggle('open');
+        btn.innerHTML = open
+          ? '<i class="ph ph-x"></i>'
+          : '<i class="ph ph-list"></i>';
+        btn.setAttribute('aria-label', open ? 'Close menu' : 'Open menu');
+      });
+      // Close on link click (SPA feel)
+      nav.querySelectorAll('a').forEach(function(a) {
+        a.addEventListener('click', function() {
+          nav.classList.remove('open');
+          btn.innerHTML = '<i class="ph ph-list"></i>';
+          btn.setAttribute('aria-label', 'Open menu');
+        });
+      });
+    })();
   </script>
 </body>
 </html>

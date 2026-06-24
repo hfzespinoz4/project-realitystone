@@ -1395,3 +1395,296 @@ body.light .credit-product-card { background: #fff; }
   .card-stats-grid { grid-template-columns: 1fr 1fr; }
   .policy-summary-strip { grid-template-columns: 1fr 1fr; }
 }
+
+/* ══════════════════════════════════════════════════════════
+   MOBILE-FIRST RESPONSIVE SYSTEM v2
+   Strategy: mobile base → tablet (600px) → desktop (900px+)
+   All multi-column grids default to 1-col on mobile.
+   Hamburger nav replaces the link row below 760px.
+   ══════════════════════════════════════════════════════════ */
+
+/* ── Hamburger button (hidden on desktop) ─────────────── */
+.nav-toggle {
+  display: none;
+  background: transparent;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 8px 10px;
+  cursor: pointer;
+  color: var(--text-2);
+  font-size: 20px;
+  line-height: 1;
+  transition: border-color .15s, color .15s;
+  flex-shrink: 0;
+}
+.nav-toggle:hover { border-color: var(--gold); color: var(--gold); }
+
+/* ── Mobile nav drawer ────────────────────────────────── */
+@media (max-width: 759px) {
+
+  /* Topbar: brand left, hamburger+toggle right, nav below */
+  .topbar {
+    flex-wrap: wrap;
+    gap: 0;
+    padding: 12px clamp(14px,4vw,20px);
+    row-gap: 0;
+  }
+  .brand { flex: 1; }
+
+  /* Hide theme toggle text, show icon only */
+  #toggleTheme { font-size: 0; padding: 9px 11px; border-radius: 10px; }
+  #toggleTheme i { font-size: 18px; }
+
+  /* Show hamburger */
+  .nav-toggle { display: flex; align-items: center; margin-left: 8px; }
+
+  /* Nav: hidden by default, revealed when .open */
+  .nav {
+    display: none;
+    flex-direction: column;
+    width: 100%;
+    gap: 0;
+    padding: 8px 0 12px;
+    border-top: 1px solid var(--border);
+    margin-top: 12px;
+    order: 10;
+  }
+  .nav.open { display: flex; }
+  .nav a {
+    font-size: 15px;
+    padding: 11px 4px;
+    border-bottom: 1px solid var(--border-dim);
+    display: block;
+  }
+  .nav a:last-child { border-bottom: none; }
+
+  /* ── Page shell tighter on mobile ── */
+  .page-shell { padding: 14px; }
+
+  /* ── Typography scale down ── */
+  h1 { font-size: clamp(32px, 8vw, 48px) !important; }
+  h2 { font-size: clamp(20px, 5vw, 28px); }
+
+  /* ── KPI strips: 2 col on mobile ── */
+  .dashboard-kpis          { grid-template-columns: 1fr 1fr; gap: 10px; }
+  .tx-summary              { grid-template-columns: 1fr 1fr; gap: 10px; }
+  .policy-summary-strip    { grid-template-columns: 1fr 1fr; gap: 10px; }
+
+  /* ── All dashboard grids → 1 col ── */
+  .dashboard-grid,
+  .dual-product-grid,
+  .reports-grid            { grid-template-columns: 1fr !important; gap: 12px; }
+
+  /* Remove span overrides — everything is 1 col */
+  .panel[style*="grid-column"],
+  article[style*="grid-column"] { grid-column: unset !important; }
+
+  /* ── Credit product mini-stats: 3→1 col on mobile ── */
+  [style*="grid-template-columns:repeat(3,1fr)"],
+  [style*="grid-template-columns: repeat(3, 1fr)"] {
+    grid-template-columns: 1fr !important;
+  }
+  .credit-meters { grid-template-columns: 1fr; }
+
+  /* ── Portal index grid ── */
+  .portal-grid { grid-template-columns: 1fr; gap: 14px; }
+
+  /* ── Feature catalog & pillar grid ── */
+  .feature-catalog,
+  .pillar-grid,
+  .flow-grid,
+  .compliance-grid,
+  .token-grid              { grid-template-columns: 1fr !important; }
+
+  /* ── Hero: stack ── */
+  .hero                    { grid-template-columns: 1fr !important; }
+  .hero-metrics            { grid-template-columns: 1fr 1fr; }
+  .hero-actions            { flex-direction: column; }
+  .hero-actions a,
+  .hero-actions button     { width: 100%; text-align: center; }
+
+  /* ── Tables: horizontal scroll ── */
+  .table-shell { overflow-x: hidden; }
+  .data-table { font-size: 12px; }
+  .data-table th,
+  .data-table td { padding: 10px 10px; white-space: nowrap; }
+
+  /* ── Toolbar: stack ── */
+  .table-toolbar { flex-direction: column; align-items: stretch; gap: 8px; }
+  .table-search  { min-width: unset; width: 100%; }
+  .filter-btn    { width: 100%; justify-content: center; }
+
+  /* ── Table footer: stack ── */
+  .table-footer { flex-direction: column; gap: 12px; align-items: flex-start; }
+
+  /* ── Card selector: horizontal scroll, don't stack ── */
+  .card-selector-row {
+    flex-direction: row;
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    padding-bottom: 8px;
+    gap: 10px;
+  }
+  .vcard-thumb { width: 200px; flex-shrink: 0; }
+
+  /* ── Card hero: stack ── */
+  .card-hero { grid-template-columns: 1fr; }
+  .card-full { min-height: 160px; padding: 20px; }
+  .card-full-number { font-size: 13px; letter-spacing: .15em; }
+  .card-stats-grid { grid-template-columns: 1fr 1fr; }
+
+  /* ── Approval policies ── */
+  .policy-grid { grid-template-columns: 1fr; }
+
+  /* ── Stage cards / credit timeline ── */
+  .stage-cards { grid-template-columns: 1fr; }
+  .credit-app-layout { grid-template-columns: 1fr; }
+  .credit-summary-card { position: static; }
+  .timeline-status-bar { overflow-x: auto; }
+  .tl-step { min-width: 100px; }
+
+  /* ── Onboarding ── */
+  .onboarding-layout { grid-template-columns: 1fr; }
+  .onboarding-nav    { position: static; }
+  .form-grid         { grid-template-columns: 1fr; }
+
+  /* ── Teams grid ── */
+  .teams-grid { grid-template-columns: 1fr 1fr; gap: 10px; }
+
+  /* ── Greeting strip: stack ── */
+  .greeting-strip  { flex-direction: column; align-items: flex-start; gap: 14px; padding-top: 12px; }
+  .greeting-actions { width: 100%; }
+  .greeting-actions button { flex: 1; }
+
+  /* ── Expense tabs: scrollable ── */
+  .expense-tabs { overflow-x: auto; -webkit-overflow-scrolling: touch; }
+  .expense-tab  { padding: 9px 12px; font-size: 12px; }
+  .expense-item { flex-wrap: wrap; gap: 8px; }
+  .expense-amount { margin-left: auto; }
+
+  /* ── Product header flex: stack ── */
+  .product-header { flex-direction: column; gap: 10px; }
+
+  /* ── Week balance: stack ── */
+  .week-balance { flex-direction: column; gap: 6px; }
+
+  /* ── Sub-items on mobile ── */
+  .sub-item { flex-wrap: wrap; }
+
+  /* ── Swatch grid ── */
+  .swatch-grid { grid-template-columns: 1fr 1fr; }
+
+  /* ── Back link ── */
+  .back-link { margin-bottom: 4px; }
+
+  /* ── Form actions ── */
+  .form-actions { flex-direction: column; gap: 10px; }
+  .form-actions > * { width: 100%; justify-content: center; }
+  .form-actions div { display: flex; flex-direction: column; gap: 8px; width: 100%; }
+  .form-actions div button { width: 100%; justify-content: center; }
+
+  /* ── Policy tier row ── */
+  .policy-tier { flex-wrap: wrap; gap: 6px; }
+
+  /* ── Summary rows on credit sidebar ── */
+  .summary-cta button,
+  .summary-cta a { justify-content: center; }
+
+  /* ── Portal card previews: shorter on mobile ── */
+  .portal-preview { aspect-ratio: 16/7; }
+
+  /* ── Design-system token grid ── */
+  .token-grid { grid-template-columns: 1fr 1fr !important; }
+}
+
+/* ── Tablet: 600–899px ──────────────────────────────── */
+@media (min-width: 600px) and (max-width: 899px) {
+  .dashboard-kpis       { grid-template-columns: repeat(2,1fr); }
+  .dual-product-grid    { grid-template-columns: 1fr 1fr; }
+  .portal-grid          { grid-template-columns: 1fr 1fr; }
+  .feature-catalog      { grid-template-columns: 1fr 1fr; }
+  .pillar-grid          { grid-template-columns: 1fr 1fr; }
+  .teams-grid           { grid-template-columns: 1fr 1fr 1fr; }
+  .stage-cards          { grid-template-columns: 1fr 1fr; }
+  .policy-grid          { grid-template-columns: 1fr; }
+  .card-stats-grid      { grid-template-columns: repeat(4,1fr); }
+  .tx-summary           { grid-template-columns: repeat(4,1fr); }
+  .policy-summary-strip { grid-template-columns: repeat(4,1fr); }
+  .card-hero            { grid-template-columns: 1fr; }
+  .reports-grid         { grid-template-columns: 1fr 1fr; }
+  .credit-meters        { grid-template-columns: 1fr 1fr; }
+  [style*="grid-template-columns:repeat(3,1fr)"] {
+    grid-template-columns: 1fr 1fr 1fr !important;
+  }
+}
+
+/* ── Desktop: 900px+ ────────────────────────────────── */
+@media (min-width: 900px) {
+  .nav-toggle { display: none; }
+  .nav        { display: flex !important; flex-direction: row; gap: 18px; width: auto; border-top: none; margin-top: 0; padding: 0; }
+  .nav a      { padding: 0; border-bottom: none; font-size: 14px; }
+  #toggleTheme { font-size: 13px; padding: 9px 16px; border-radius: 999px; }
+  #toggleTheme i { font-size: 15px; }
+  .dashboard-kpis    { grid-template-columns: repeat(4,1fr); }
+  .dual-product-grid { grid-template-columns: 1fr 1fr; }
+  .dashboard-grid    { grid-template-columns: repeat(3,1fr); }
+  .portal-grid       { grid-template-columns: repeat(3,1fr); }
+  .pillar-grid       { grid-template-columns: repeat(4,1fr); }
+  .teams-grid        { grid-template-columns: repeat(3,1fr); }
+  .stage-cards       { grid-template-columns: repeat(3,1fr); }
+  .policy-grid       { grid-template-columns: 1fr 1fr; }
+  .credit-app-layout { grid-template-columns: 1fr 320px; }
+  .credit-summary-card { position: sticky; top: 90px; }
+  .onboarding-layout { grid-template-columns: 260px 1fr; }
+  .onboarding-nav    { position: sticky; top: 90px; }
+  .card-hero         { grid-template-columns: 340px 1fr; }
+  .reports-grid      { grid-template-columns: 1fr 1fr; }
+  .tx-summary        { grid-template-columns: repeat(4,1fr); }
+  .policy-summary-strip { grid-template-columns: repeat(4,1fr); }
+  .card-stats-grid   { grid-template-columns: 1fr 1fr; }
+  .greeting-strip    { flex-direction: row; align-items: center; padding-top: 18px; }
+  .greeting-actions  { width: auto; }
+  .greeting-actions button { flex: unset; }
+}
+
+/* ── Very small phones: 400px and below ─────────────── */
+@media (max-width: 400px) {
+  .dashboard-kpis   { grid-template-columns: 1fr; }
+  .tx-summary       { grid-template-columns: 1fr; }
+  .hero-metrics     { grid-template-columns: 1fr; }
+  .teams-grid       { grid-template-columns: 1fr; }
+  .swatch-grid      { grid-template-columns: 1fr; }
+  .vcard-thumb      { width: 180px; }
+  .expense-tab      { padding: 8px 8px; font-size: 11px; }
+}
+
+/* ── Dashboard grid variants (replace inline overrides) ── */
+.dashboard-grid--3col { grid-template-columns: repeat(3, minmax(0,1fr)); }
+.dashboard-grid--2col { grid-template-columns: 1fr 1fr; }
+.dash-span-2          { grid-column: span 2; }
+
+/* ── Product mini-stat row (3 cols desktop, 1 col mobile) ── */
+.product-mini-stats {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0,1fr));
+  gap: 10px;
+  margin-top: 6px;
+}
+
+@media (max-width: 759px) {
+  .dashboard-grid--3col { grid-template-columns: 1fr !important; }
+  .dashboard-grid--2col { grid-template-columns: 1fr !important; }
+  .dash-span-2          { grid-column: unset !important; }
+  .product-mini-stats   { grid-template-columns: 1fr 1fr 1fr; }
+}
+
+@media (max-width: 400px) {
+  .product-mini-stats { grid-template-columns: 1fr; }
+}
+
+@media (min-width: 600px) and (max-width: 899px) {
+  .dashboard-grid--3col { grid-template-columns: 1fr 1fr !important; }
+  .dash-span-2          { grid-column: unset; }
+  .dashboard-grid--2col { grid-template-columns: 1fr 1fr; }
+}
